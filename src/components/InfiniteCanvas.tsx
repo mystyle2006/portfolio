@@ -11,16 +11,15 @@ const GRID_BASE_SIZE = 40;
 
 /* ── helpers ────────────────────────────────────────────────────────── */
 
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max);
-}
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
 
-function adaptiveGridStep(scale: number, minPixels = 20, maxPixels = 140): number {
+const adaptiveGridStep = (scale: number, minPixels = 20, maxPixels = 140): number => {
   let step = GRID_BASE_SIZE;
   while (step * scale < minPixels) step *= 4;
   while (step * scale > maxPixels) step /= 4;
   return step;
-}
+};
 
 /* ── CanvasNode ─────────────────────────────────────────────────────── */
 
@@ -28,7 +27,7 @@ function adaptiveGridStep(scale: number, minPixels = 20, maxPixels = 140): numbe
  * 캔버스 좌표계의 특정 위치에 콘텐츠를 배치합니다.
  * x, y는 캔버스 원점(0, 0) 기준 픽셀 좌표입니다.
  */
-export function CanvasNode({
+export const CanvasNode = ({
   x = 0,
   y = 0,
   children,
@@ -36,28 +35,26 @@ export function CanvasNode({
   x?: number;
   y?: number;
   children: React.ReactNode;
-}) {
-  return (
-    <div className="absolute" style={{ left: x, top: y }}>
-      {children}
-    </div>
-  );
-}
+}) => (
+  <div className="absolute" style={{ left: x, top: y }}>
+    {children}
+  </div>
+);
 
 /* ── InfiniteCanvas ─────────────────────────────────────────────────── */
 
-export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
-  const containerRef   = useRef<HTMLDivElement>(null);
-  const canvasLayerRef = useRef<HTMLDivElement>(null);
-  const gridRef        = useRef<HTMLDivElement>(null);
+export const InfiniteCanvas = ({ children }: { children?: React.ReactNode }) => {
+  const containerRef     = useRef<HTMLDivElement>(null);
+  const canvasLayerRef   = useRef<HTMLDivElement>(null);
+  const gridRef          = useRef<HTMLDivElement>(null);
   const animationFrameId = useRef(0);
-  const isDragging     = useRef(false);
-  const lastPointer    = useRef({ x: 0, y: 0 });
-  const camera         = useRef({ x: 0, y: 0, scale: 1 });
+  const isDragging       = useRef(false);
+  const lastPointer      = useRef({ x: 0, y: 0 });
+  const camera           = useRef({ x: 0, y: 0, scale: 1 });
 
-  const [scale100, setScale100]     = useState(100);
+  const [scale100, setScale100]       = useState(100);
   const [isSpaceDown, setIsSpaceDown] = useState(false);
-  const [isPanning, setIsPanning]   = useState(false);
+  const [isPanning, setIsPanning]     = useState(false);
 
   /* flush: camera ref → DOM (one rAF per frame) */
   const flush = useCallback(() => {
@@ -99,8 +96,8 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
 
   /* zoom centred on a screen point */
   const zoomAt = useCallback((screenX: number, screenY: number, factor: number) => {
-    const prevScale = camera.current.scale;
-    const newScale  = clamp(prevScale * factor, MIN_SCALE, MAX_SCALE);
+    const prevScale   = camera.current.scale;
+    const newScale    = clamp(prevScale * factor, MIN_SCALE, MAX_SCALE);
     const scaleFactor = newScale / prevScale;
     camera.current = {
       scale: newScale,
@@ -169,8 +166,8 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
   const handlePointerDown = useCallback((event: React.PointerEvent) => {
     if (event.button === 0 || event.button === 1) {
       event.preventDefault();
-      isDragging.current   = true;
-      lastPointer.current  = { x: event.clientX, y: event.clientY };
+      isDragging.current  = true;
+      lastPointer.current = { x: event.clientX, y: event.clientY };
       setIsPanning(true);
       (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
     }
@@ -251,4 +248,4 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
       </div>
     </div>
   );
-}
+};
