@@ -7,18 +7,18 @@ import { ZoomControls } from "./ZoomControls";
 
 const MIN_SCALE = 0.02;
 const MAX_SCALE = 20;
-const GRID_BASE = 40;
+const GRID_BASE_SIZE = 40;
 
 /* ── helpers ────────────────────────────────────────────────────────── */
 
-function clamp(v: number, lo: number, hi: number) {
-  return Math.min(Math.max(v, lo), hi);
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
 }
 
-function adaptiveGridStep(scale: number, minPx = 20, maxPx = 140): number {
-  let step = GRID_BASE;
-  while (step * scale < minPx) step *= 4;
-  while (step * scale > maxPx) step /= 4;
+function adaptiveGridStep(scale: number, minPixels = 20, maxPixels = 140): number {
+  let step = GRID_BASE_SIZE;
+  while (step * scale < minPixels) step *= 4;
+  while (step * scale > maxPixels) step /= 4;
   return step;
 }
 
@@ -38,10 +38,7 @@ export function CanvasNode({
   children: React.ReactNode;
 }) {
   return (
-    <div
-      className="absolute"
-      style={{ left: x, top: y }}
-    >
+    <div className="absolute" style={{ left: x, top: y }}>
       {children}
     </div>
   );
@@ -53,20 +50,20 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
   const containerRef   = useRef<HTMLDivElement>(null);
   const canvasLayerRef = useRef<HTMLDivElement>(null);
   const gridRef        = useRef<HTMLDivElement>(null);
-  const rafId          = useRef(0);
+  const animationFrameId = useRef(0);
   const isDragging     = useRef(false);
-  const lastPtr        = useRef({ x: 0, y: 0 });
-  const cam            = useRef({ x: 0, y: 0, scale: 1 });
+  const lastPointer    = useRef({ x: 0, y: 0 });
+  const camera         = useRef({ x: 0, y: 0, scale: 1 });
 
-  const [scale100, setScale100] = useState(100);
-  const [spaceDown, setSpaceDown] = useState(false);
-  const [panning, setPanning]     = useState(false);
+  const [scale100, setScale100]     = useState(100);
+  const [isSpaceDown, setIsSpaceDown] = useState(false);
+  const [isPanning, setIsPanning]   = useState(false);
 
-  /* flush: cam ref → DOM (one rAF per frame) */
+  /* flush: camera ref → DOM (one rAF per frame) */
   const flush = useCallback(() => {
-    cancelAnimationFrame(rafId.current);
-    rafId.current = requestAnimationFrame(() => {
-      const { x, y, scale } = cam.current;
+    cancelAnimationFrame(animationFrameId.current);
+    animationFrameId.current = requestAnimationFrame(() => {
+      const { x, y, scale } = camera.current;
 
       if (canvasLayerRef.current) {
         canvasLayerRef.current.style.transform =
@@ -74,16 +71,16 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
       }
 
       if (gridRef.current) {
-        const step = adaptiveGridStep(scale);
-        const gPx  = step * scale;
-        const gx   = ((x % gPx) + gPx) % gPx;
-        const gy   = ((y % gPx) + gPx) % gPx;
-        const dotR = clamp(gPx * 0.038, 0.6, 2.4);
-        const el   = gridRef.current;
-        el.style.backgroundSize     = `${gPx}px ${gPx}px`;
-        el.style.backgroundPosition = `${gx}px ${gy}px`;
-        el.style.backgroundImage    =
-          `radial-gradient(circle,#3a3a3a ${dotR}px,transparent ${dotR}px)`;
+        const step          = adaptiveGridStep(scale);
+        const gridPixelSize = step * scale;
+        const gridOffsetX   = ((x % gridPixelSize) + gridPixelSize) % gridPixelSize;
+        const gridOffsetY   = ((y % gridPixelSize) + gridPixelSize) % gridPixelSize;
+        const dotRadius     = clamp(gridPixelSize * 0.038, 0.6, 2.4);
+
+        gridRef.current.style.backgroundSize     = `${gridPixelSize}px ${gridPixelSize}px`;
+        gridRef.current.style.backgroundPosition = `${gridOffsetX}px ${gridOffsetY}px`;
+        gridRef.current.style.backgroundImage    =
+          `radial-gradient(circle,#3a3a3a ${dotRadius}px,transparent ${dotRadius}px)`;
       }
 
       setScale100(Math.round(scale * 100));
@@ -92,7 +89,7 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
 
   /* init: centre origin on screen */
   useEffect(() => {
-    cam.current = {
+    camera.current = {
       x: window.innerWidth  / 2,
       y: window.innerHeight / 2,
       scale: 1,
@@ -101,21 +98,21 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
   }, [flush]);
 
   /* zoom centred on a screen point */
-  const zoomAt = useCallback((sx: number, sy: number, factor: number) => {
-    const prev     = cam.current.scale;
-    const newScale = clamp(prev * factor, MIN_SCALE, MAX_SCALE);
-    const sf       = newScale / prev;
-    cam.current = {
+  const zoomAt = useCallback((screenX: number, screenY: number, factor: number) => {
+    const prevScale = camera.current.scale;
+    const newScale  = clamp(prevScale * factor, MIN_SCALE, MAX_SCALE);
+    const scaleFactor = newScale / prevScale;
+    camera.current = {
       scale: newScale,
-      x: sx - (sx - cam.current.x) * sf,
-      y: sy - (sy - cam.current.y) * sf,
+      x: screenX - (screenX - camera.current.x) * scaleFactor,
+      y: screenY - (screenY - camera.current.y) * scaleFactor,
     };
     flush();
   }, [flush]);
 
   /* reset to 100% centred */
   const resetView = useCallback(() => {
-    cam.current = {
+    camera.current = {
       x: window.innerWidth  / 2,
       y: window.innerHeight / 2,
       scale: 1,
@@ -125,78 +122,82 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
 
   /* wheel: scroll → pan, ctrl+scroll/pinch → zoom */
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      if (e.ctrlKey) {
-        zoomAt(e.clientX, e.clientY, 1 - e.deltaY * 0.004);
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      if (event.ctrlKey) {
+        zoomAt(event.clientX, event.clientY, 1 - event.deltaY * 0.004);
       } else {
-        cam.current.x -= e.deltaX;
-        cam.current.y -= e.deltaY;
+        camera.current.x -= event.deltaX;
+        camera.current.y -= event.deltaY;
         flush();
       }
     };
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => container.removeEventListener("wheel", handleWheel);
   }, [zoomAt, flush]);
 
   /* keyboard: Space = pan cursor, Ctrl/Cmd+0 = reset */
   useEffect(() => {
-    const dn = (e: KeyboardEvent) => {
-      if (e.code === "Space" && !e.repeat) {
-        e.preventDefault();
-        setSpaceDown(true);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code === "Space" && !event.repeat) {
+        event.preventDefault();
+        setIsSpaceDown(true);
       }
-      if ((e.metaKey || e.ctrlKey) && e.key === "0") {
-        e.preventDefault();
+      if ((event.metaKey || event.ctrlKey) && event.key === "0") {
+        event.preventDefault();
         resetView();
       }
     };
-    const up = (e: KeyboardEvent) => {
-      if (e.code === "Space") setSpaceDown(false);
+
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.code === "Space") setIsSpaceDown(false);
     };
-    window.addEventListener("keydown", dn);
-    window.addEventListener("keyup",   up);
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup",   handleKeyUp);
     return () => {
-      window.removeEventListener("keydown", dn);
-      window.removeEventListener("keyup",   up);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup",   handleKeyUp);
     };
   }, [resetView]);
 
   /* pointer drag to pan */
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
-    if (e.button === 0 || e.button === 1) {
-      e.preventDefault();
-      isDragging.current = true;
-      lastPtr.current    = { x: e.clientX, y: e.clientY };
-      setPanning(true);
-      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  const handlePointerDown = useCallback((event: React.PointerEvent) => {
+    if (event.button === 0 || event.button === 1) {
+      event.preventDefault();
+      isDragging.current   = true;
+      lastPointer.current  = { x: event.clientX, y: event.clientY };
+      setIsPanning(true);
+      (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
     }
   }, []);
 
-  const onPointerMove = useCallback((e: React.PointerEvent) => {
+  const handlePointerMove = useCallback((event: React.PointerEvent) => {
     if (!isDragging.current) return;
-    cam.current.x += e.clientX - lastPtr.current.x;
-    cam.current.y += e.clientY - lastPtr.current.y;
-    lastPtr.current = { x: e.clientX, y: e.clientY };
+    camera.current.x += event.clientX - lastPointer.current.x;
+    camera.current.y += event.clientY - lastPointer.current.y;
+    lastPointer.current = { x: event.clientX, y: event.clientY };
     flush();
   }, [flush]);
 
-  const onPointerUp = useCallback(() => {
+  const handlePointerUp = useCallback(() => {
     isDragging.current = false;
-    setPanning(false);
+    setIsPanning(false);
   }, []);
 
-  const cursor = panning ? "grabbing" : spaceDown ? "grab" : "default";
+  const cursor = isPanning ? "grabbing" : isSpaceDown ? "grab" : "default";
 
   return (
     <div
       ref={containerRef}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
       className="fixed inset-0 overflow-hidden bg-[#1e1e1e] select-none touch-none"
       style={{ cursor }}
     >
@@ -235,17 +236,18 @@ export function InfiniteCanvas({ children }: { children?: React.ReactNode }) {
 
       {/* keyboard shortcuts hint */}
       <div className="fixed bottom-5 right-5 flex flex-col items-end gap-1.5 pointer-events-none">
-        {(["Scroll/Pan", "Ctrl+Scroll/Zoom", "Pinch/Zoom"] as const).map((hint) => {
-          const [key, label] = hint.split("/");
-          return (
-            <div key={hint} className="flex items-center gap-2">
-              <kbd className="text-[10px] text-[#52525b] font-mono bg-[#262626] border border-[#3f3f3f] rounded px-1.5 py-px">
-                {key}
-              </kbd>
-              <span className="text-[10px] text-[#52525b]">{label}</span>
-            </div>
-          );
-        })}
+        {[
+          { key: "Scroll",        label: "Pan"  },
+          { key: "Ctrl + Scroll", label: "Zoom" },
+          { key: "Pinch",         label: "Zoom" },
+        ].map(({ key, label }) => (
+          <div key={key} className="flex items-center gap-2">
+            <kbd className="text-[10px] text-[#52525b] font-mono bg-[#262626] border border-[#3f3f3f] rounded px-1.5 py-px">
+              {key}
+            </kbd>
+            <span className="text-[10px] text-[#52525b]">{label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
