@@ -26,6 +26,13 @@ body {
   100% { opacity: 1; transform: scale(1); }
 }
 
+@keyframes orbFloat {
+  0%, 75%, 100% { transform: translateY(0) scale(1); }
+  82%           { transform: translateY(-10px) scale(1.05); }
+  90%           { transform: translateY(4px)  scale(0.96); }
+  95%           { transform: translateY(-4px) scale(1.02); }
+}
+
 @theme inline {
   --font-heading: ui-sans-serif, system-ui, sans-serif;
   --font-sans: ui-sans-serif, system-ui, sans-serif;
