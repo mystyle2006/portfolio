@@ -136,27 +136,30 @@ export const ProfileSection = () => {
           </p>
         </div>
 
-        {/* Bio — fade in after typing */}
-        <p
-          className="text-[15px] text-zinc-400 leading-[1.8]"
-          style={{
-            opacity: bioVisible ? 1 : 0,
-            transform: bioVisible ? "translateY(0)" : "translateY(6px)",
-            transition: "opacity 0.6s ease, transform 0.6s ease",
-          }}
-        >
-          Building scalable business systems across{" "}
-          <Keyword>web, mobile, backend, and cloud</Keyword>.{" "}
-          <Keyword>7 years of experience</Keyword> delivering{" "}
-          <Keyword>payment platforms</Keyword>,{" "}
-          <Keyword>settlement automation</Keyword>,{" "}
-          <Keyword>logistics services</Keyword>, and{" "}
-          <Keyword>high-performance applications</Keyword>—from{" "}
-          architecture design to production deployment.
-        </p>
+        {/* Bio + Social wrapper */}
+        <div className="flex flex-col gap-8">
 
-        {/* Social links — appear one by one after bio */}
-        <div className="flex items-center gap-3 mt-8">
+          {/* Bio — fade in after typing */}
+          <p
+            className="text-[15px] text-zinc-400 leading-[1.8]"
+            style={{
+              opacity: bioVisible ? 1 : 0,
+              transform: bioVisible ? "translateY(0)" : "translateY(6px)",
+              transition: "opacity 0.6s ease, transform 0.6s ease",
+            }}
+          >
+            Building scalable business systems across{" "}
+            <Keyword>web, mobile, backend, and cloud</Keyword>.{" "}
+            <Keyword>7 years of experience</Keyword> delivering{" "}
+            <Keyword>payment platforms</Keyword>,{" "}
+            <Keyword>settlement automation</Keyword>,{" "}
+            <Keyword>logistics services</Keyword>, and{" "}
+            <Keyword>high-performance applications</Keyword>—from{" "}
+            architecture design to production deployment.
+          </p>
+
+          {/* Social links — appear one by one after bio */}
+          <div className="flex items-center gap-3">
           {SOCIAL_LINKS.map(({ label, href, icon }, index) => (
             <a
               key={label}
@@ -174,7 +177,9 @@ export const ProfileSection = () => {
               {icon}
             </a>
           ))}
-        </div>
+          </div>
+
+        </div>{/* end bio+social wrapper */}
 
       </div>
     </div>
