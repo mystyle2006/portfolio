@@ -137,7 +137,7 @@ export const ProfileSection = () => {
         </div>
 
         {/* Bio + Social wrapper */}
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6">
 
           {/* Bio — fade in after typing */}
           <p
