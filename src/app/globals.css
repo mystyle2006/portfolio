@@ -27,10 +27,9 @@ body {
 }
 
 @keyframes orbFloat {
-  0%, 75%, 100% { transform: translateY(0) scale(1); }
-  82%           { transform: translateY(-10px) scale(1.05); }
-  90%           { transform: translateY(4px)  scale(0.96); }
-  95%           { transform: translateY(-4px) scale(1.02); }
+  0%, 70%, 100% { transform: translateY(0) scale(1); }
+  80%           { transform: translateY(-5px) scale(1.02); }
+  90%           { transform: translateY(2px)  scale(0.99); }
 }
 
 @theme inline {
