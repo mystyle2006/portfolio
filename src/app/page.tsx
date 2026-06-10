@@ -3,7 +3,7 @@ import { ProfileSection } from "@/components/ProfileSection";
 
 const Portfolio = () => (
   <InfiniteCanvas>
-    <CanvasNode x={-260} y={-180}>
+    <CanvasNode x={-300} y={-100}>
       <ProfileSection />
     </CanvasNode>
   </InfiniteCanvas>
