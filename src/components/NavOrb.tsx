@@ -40,8 +40,8 @@ export const NavOrb = ({
   return (
     <div
       className="w-[140px] h-[140px] rounded-full flex items-center justify-center cursor-pointer select-none
-        shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:scale-105
-        transition-[box-shadow,transform] duration-200"
+        shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:scale-110
+        transition-[box-shadow,transform] duration-300 ease-out"
       style={{ background: bg, opacity: visible ? 1 : 0, animation }}
     >
       <span className="text-[28px] text-zinc-900 font-bold tracking-wide text-center leading-tight px-4">
