@@ -1,131 +1,96 @@
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, MapPin, GraduationCap } from "lucide-react";
 
 const LinkedinIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
     <rect x="2" y="9" width="4" height="12" />
     <circle cx="4" cy="4" r="2" />
   </svg>
 );
 
-const SKILLS: Record<string, string[]> = {
-  Backend:  ["Node.js", "NestJS", "Spring Boot", "TypeScript", "Prisma"],
-  Frontend: ["React.js", "Next.js", "React Query", "Tailwind CSS"],
-  Infra:    ["AWS", "Docker", "MySQL", "Redis", "MongoDB"],
-  DevOps:   ["CI/CD", "Jest", "Puppeteer"],
-};
-
-const Highlight = ({ children }: { children: React.ReactNode }) => (
-  <span className="text-indigo-400 font-semibold">{children}</span>
+const MailIcon = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect width="20" height="16" x="2" y="4" rx="2" />
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+  </svg>
 );
 
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-600 mb-2.5">
-    {children}
-  </p>
-);
+const SKILLS = [
+  "TypeScript", "Node.js", "NestJS", "Spring Boot",
+  "React.js", "Next.js", "AWS", "Docker", "Redis", "MySQL",
+];
 
-const Divider = () => <div className="h-px bg-white/[0.06]" />;
+const Keyword = ({ children }: { children: React.ReactNode }) => (
+  <span className="text-white font-medium">{children}</span>
+);
 
 export const ProfileCard = () => (
-  <Card className="w-[360px] bg-[#1c1c1e] border-white/[0.08] text-white shadow-[0_24px_64px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden">
+  <Card className="w-[340px] bg-[#141414] border-white/[0.07] text-white rounded-2xl shadow-[0_32px_80px_rgba(0,0,0,0.7)]">
+    <div className="p-6 space-y-5">
 
-    {/* ── Header: photo + name ── */}
-    <div className="flex items-center gap-4 px-6 pt-6 pb-5">
-      <div className="relative shrink-0">
+      {/* ── Identity ── */}
+      <div className="flex items-center gap-4">
         <Image
           src="/me.jpeg"
           alt="Inho Lee"
-          width={72}
-          height={72}
-          className="rounded-full object-cover object-top ring-2 ring-indigo-500/30"
+          width={64}
+          height={64}
+          className="rounded-full object-cover object-top shrink-0"
         />
-        <span className="absolute bottom-0.5 right-0.5 w-3 h-3 bg-emerald-400 rounded-full ring-2 ring-[#1c1c1e]" />
+        <div className="min-w-0">
+          <h2 className="text-[16px] font-semibold tracking-tight leading-snug">
+            Inho Lee
+          </h2>
+          <p className="text-[13px] text-zinc-400 mt-0.5">Full-Stack Engineer</p>
+          <p className="text-[11px] text-zinc-600 mt-1">
+            Toronto, ON · 7 yrs exp
+          </p>
+        </div>
       </div>
-      <div>
-        <h2 className="text-[17px] font-bold leading-tight tracking-tight">Inho Lee</h2>
-        <p className="text-sm text-zinc-400 mt-0.5">Full-Stack Engineer</p>
-        <p className="text-xs text-zinc-600 mt-1.5">7 Years Experience</p>
-      </div>
-    </div>
-
-    <div className="px-6 space-y-5 pb-6">
-      <Divider />
 
       {/* ── Bio ── */}
-      <div>
-        <SectionLabel>About</SectionLabel>
-        <p className="text-[13px] text-zinc-400 leading-relaxed">
-          <Highlight>Full-stack engineer</Highlight> with{" "}
-          <Highlight>7 years of experience</Highlight> building{" "}
-          <Highlight>scalable web applications</Highlight> and{" "}
-          <Highlight>backend services</Highlight> across e-commerce, SaaS,
-          and consumer platforms. Track record of improving{" "}
-          <Highlight>system performance</Highlight>, leading cross-functional
-          teams, and driving <Highlight>CI/CD</Highlight>,{" "}
-          <Highlight>test automation</Highlight>, and{" "}
-          <Highlight>cloud-native AWS</Highlight> adoption.
-        </p>
-      </div>
-
-      <Divider />
+      <p className="text-[13px] text-zinc-500 leading-[1.7]">
+        <Keyword>Full-stack engineer</Keyword> with <Keyword>7 years</Keyword> building
+        scalable services across e-commerce, SaaS, and consumer apps.
+        Focused on <Keyword>system performance</Keyword>,{" "}
+        <Keyword>cloud-native AWS</Keyword> architectures, and{" "}
+        <Keyword>CI/CD</Keyword> delivery.
+      </p>
 
       {/* ── Skills ── */}
-      <div>
-        <SectionLabel>Skills</SectionLabel>
-        <div className="space-y-2.5">
-          {Object.entries(SKILLS).map(([category, skills]) => (
-            <div key={category} className="flex gap-2 items-start flex-wrap">
-              <span className="text-[11px] text-zinc-600 w-16 shrink-0 pt-0.5">
-                {category}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {skills.map((skill) => (
-                  <Badge
-                    key={skill}
-                    className="text-[11px] bg-white/[0.05] border border-white/[0.08] text-zinc-300 hover:bg-white/[0.1] transition-colors px-2 py-0 rounded-md font-normal"
-                  >
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-1.5">
+        {SKILLS.map((skill) => (
+          <Badge
+            key={skill}
+            className="text-[11px] font-normal bg-white/[0.05] border-white/[0.08] text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.08] transition-colors px-2.5 py-0.5 rounded-lg"
+          >
+            {skill}
+          </Badge>
+        ))}
       </div>
 
-      <Divider />
-
-      {/* ── Info ── */}
-      <div className="space-y-2.5">
-        <div className="flex items-center gap-2 text-[12px] text-zinc-500">
-          <MapPin className="w-3.5 h-3.5 shrink-0" />
-          <span>Toronto, ON, Canada</span>
-        </div>
+      {/* ── Contact ── */}
+      <div className="flex items-center gap-4 pt-1">
         <a
           href="mailto:sayyou0918@gmail.com"
-          className="flex items-center gap-2 text-[12px] text-zinc-500 hover:text-indigo-400 transition-colors"
+          className="flex items-center gap-1.5 text-[11px] text-zinc-600 hover:text-zinc-300 transition-colors"
         >
-          <Mail className="w-3.5 h-3.5 shrink-0" />
+          <MailIcon />
           sayyou0918@gmail.com
         </a>
         <a
           href="https://linkedin.com/in/inho-lee"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-[12px] text-zinc-500 hover:text-indigo-400 transition-colors"
+          className="flex items-center gap-1.5 text-[11px] text-zinc-600 hover:text-zinc-300 transition-colors"
         >
           <LinkedinIcon />
-          linkedin.com/in/inho-lee
+          LinkedIn
         </a>
-        <div className="flex items-center gap-2 text-[12px] text-zinc-500">
-          <GraduationCap className="w-3.5 h-3.5 shrink-0" />
-          <span>B.Eng. Computer Engineering · KOREATECH</span>
-        </div>
       </div>
+
     </div>
   </Card>
 );
