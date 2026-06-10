@@ -38,11 +38,10 @@ export const PortfolioCanvas = () => {
         <ProfileSection />
       </CanvasNode>
 
-      {NAV_ORBS.map(({ title, subtitle, x, y, bg, floatDuration, floatDelay }, index) => (
+      {NAV_ORBS.map(({ title, x, y, bg, floatDuration, floatDelay }, index) => (
         <CanvasNode key={title} x={x} y={y}>
           <NavOrb
             title={title}
-            subtitle={subtitle}
             bg={bg}
             floatDuration={floatDuration}
             floatDelay={floatDelay}
