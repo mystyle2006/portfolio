@@ -59,8 +59,9 @@ export const ProfileSection = () => {
   const [nameText, setNameText]           = useState("");
   const [subtitleText, setSubtitleText]   = useState("");
   const [phase, setPhase]                 = useState<"name" | "subtitle" | "done">("name");
-  const [cursorVisible, setCursorVisible] = useState(true);
-  const [bioVisible, setBioVisible]       = useState(false);
+  const [cursorVisible, setCursorVisible]   = useState(true);
+  const [bioVisible, setBioVisible]         = useState(false);
+  const [visibleIconCount, setVisibleIconCount] = useState(0);
 
   /* cursor blink */
   useEffect(() => {
@@ -92,7 +93,13 @@ export const ProfileSection = () => {
           clearInterval(timer);
           setTimeout(() => {
             setPhase("done");
-            setTimeout(() => setBioVisible(true), 100);
+            setTimeout(() => {
+              setBioVisible(true);
+              // 아이콘을 바이오 페이드인(600ms) 이후 하나씩 등장
+              SOCIAL_LINKS.forEach((_, index) => {
+                setTimeout(() => setVisibleIconCount(index + 1), 700 + index * 180);
+              });
+            }, 100);
           }, 280);
         }
       }, 40);
@@ -129,41 +136,44 @@ export const ProfileSection = () => {
           </p>
         </div>
 
-        {/* Bio + Social — fade in after typing */}
-        <div
+        {/* Bio — fade in after typing */}
+        <p
+          className="text-[15px] text-zinc-400 leading-[1.8]"
           style={{
             opacity: bioVisible ? 1 : 0,
             transform: bioVisible ? "translateY(0)" : "translateY(6px)",
             transition: "opacity 0.6s ease, transform 0.6s ease",
           }}
-          className="space-y-5"
         >
-          <p className="text-[15px] text-zinc-400 leading-[1.8]">
-            Building scalable business systems across{" "}
-            <Keyword>web, mobile, backend, and cloud</Keyword>.{" "}
-            <Keyword>7 years of experience</Keyword> delivering{" "}
-            <Keyword>payment platforms</Keyword>,{" "}
-            <Keyword>settlement automation</Keyword>,{" "}
-            <Keyword>logistics services</Keyword>, and{" "}
-            <Keyword>high-performance applications</Keyword>—from{" "}
-            architecture design to production deployment.
-          </p>
+          Building scalable business systems across{" "}
+          <Keyword>web, mobile, backend, and cloud</Keyword>.{" "}
+          <Keyword>7 years of experience</Keyword> delivering{" "}
+          <Keyword>payment platforms</Keyword>,{" "}
+          <Keyword>settlement automation</Keyword>,{" "}
+          <Keyword>logistics services</Keyword>, and{" "}
+          <Keyword>high-performance applications</Keyword>—from{" "}
+          architecture design to production deployment.
+        </p>
 
-          {/* Social links */}
-          <div className="flex items-center gap-3">
-            {SOCIAL_LINKS.map(({ label, href, icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={label}
-                className="w-9 h-9 rounded-full border border-white/[0.1] bg-white/[0.04] flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/25 hover:bg-white/[0.08] transition-all duration-200"
-              >
-                {icon}
-              </a>
-            ))}
-          </div>
+        {/* Social links — appear one by one after bio */}
+        <div className="flex items-center gap-3 mt-8">
+          {SOCIAL_LINKS.map(({ label, href, icon }, index) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={label}
+              className="w-9 h-9 rounded-full border border-white/[0.1] bg-white/[0.04] flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/25 hover:bg-white/[0.08] transition-all duration-200"
+              style={{
+                opacity: visibleIconCount > index ? 1 : 0,
+                transform: visibleIconCount > index ? "scale(1)" : "scale(0.5)",
+                transition: "opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+            >
+              {icon}
+            </a>
+          ))}
         </div>
 
       </div>
