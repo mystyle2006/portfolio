@@ -226,8 +226,16 @@ export const InfiniteCanvas = ({ children }: { children?: React.ReactNode }) => 
       {/* zoom HUD */}
       <ZoomControls
         scale={scale100}
-        onZoomIn={() => zoomAt(window.innerWidth / 2, window.innerHeight / 2, 1.25)}
-        onZoomOut={() => zoomAt(window.innerWidth / 2, window.innerHeight / 2, 0.8)}
+        onZoomIn={() => zoomAt(
+          window.innerWidth / 2,
+          window.innerHeight / 2,
+          clamp(camera.current.scale + 0.05, MIN_SCALE, MAX_SCALE) / camera.current.scale,
+        )}
+        onZoomOut={() => zoomAt(
+          window.innerWidth / 2,
+          window.innerHeight / 2,
+          clamp(camera.current.scale - 0.05, MIN_SCALE, MAX_SCALE) / camera.current.scale,
+        )}
         onReset={resetView}
       />
 
