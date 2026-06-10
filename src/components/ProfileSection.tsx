@@ -25,8 +25,8 @@ export const ProfileSection = () => (
       <Image
         src="/me.jpeg"
         alt="Inho Lee"
-        width={100}
-        height={100}
+        width={160}
+        height={160}
         className="rounded-2xl object-cover object-top shrink-0"
       />
       <div className="pb-1">
