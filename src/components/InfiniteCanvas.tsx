@@ -55,6 +55,7 @@ export const InfiniteCanvas = ({ children }: { children?: React.ReactNode }) => 
   const [scale100, setScale100]       = useState(100);
   const [isSpaceDown, setIsSpaceDown] = useState(false);
   const [isPanning, setIsPanning]     = useState(false);
+  const [canvasCoords, setCanvasCoords] = useState({ x: 0, y: 0 });
 
   /* flush: camera ref → DOM (one rAF per frame) */
   const flush = useCallback(() => {
@@ -81,6 +82,10 @@ export const InfiniteCanvas = ({ children }: { children?: React.ReactNode }) => 
       }
 
       setScale100(Math.round(scale * 100));
+
+      const centerX = Math.round((window.innerWidth  / 2 - x) / scale);
+      const centerY = Math.round((window.innerHeight / 2 - y) / scale);
+      setCanvasCoords({ x: centerX, y: centerY });
     });
   }, []);
 
@@ -238,6 +243,13 @@ export const InfiniteCanvas = ({ children }: { children?: React.ReactNode }) => 
         )}
         onReset={resetView}
       />
+
+      {/* canvas coordinates — top right */}
+      <div className="fixed top-4 right-4 pointer-events-none">
+        <span className="text-[11px] font-mono text-[#52525b]">
+          {canvasCoords.x}, {canvasCoords.y}
+        </span>
+      </div>
 
       {/* keyboard shortcuts hint */}
       <div className="fixed bottom-5 right-5 flex flex-col items-end gap-1.5 pointer-events-none">
