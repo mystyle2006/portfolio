@@ -1,20 +1,12 @@
 import { InfiniteCanvas, CanvasNode } from "@/components/InfiniteCanvas";
+import { ProfileCard } from "@/components/ProfileCard";
 
 const Portfolio = () => (
   <InfiniteCanvas>
-    {/*
-      CanvasNode로 캔버스 좌표(px)에 원하는 컴포넌트를 배치합니다.
-      x, y는 캔버스 원점(0,0) 기준입니다.
-
-      예시:
-      <CanvasNode x={-400} y={-200}>
-        <HeroCard />
-      </CanvasNode>
-
-      <CanvasNode x={200} y={100}>
-        <ProjectCard />
-      </CanvasNode>
-    */}
+    {/* 카드 너비 360px, 대략적인 높이 460px 기준으로 원점 중앙 배치 */}
+    <CanvasNode x={-180} y={-240}>
+      <ProfileCard />
+    </CanvasNode>
   </InfiniteCanvas>
 );
 
