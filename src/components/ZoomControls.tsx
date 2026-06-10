@@ -13,7 +13,10 @@ export const ZoomControls = ({
   onZoomOut: () => void;
   onReset: () => void;
 }) => (
-  <div className="fixed bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-[#2c2c2c] border border-[#3f3f3f] rounded-[10px] px-1.5 py-1 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-50">
+  <div
+    className="fixed bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-[#2c2c2c] border border-[#3f3f3f] rounded-[10px] px-1.5 py-1 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-50"
+    onPointerDown={(event) => event.stopPropagation()}
+  >
     <HudButton label="Zoom out" onClick={onZoomOut}>
       <MinusIcon />
     </HudButton>
