@@ -33,14 +33,14 @@ export const ProfileSection = () => (
         <h1 className="text-[38px] font-bold tracking-tight leading-none text-white">
           Inho Lee
         </h1>
-        <p className="text-[16px] text-zinc-500 mt-2">
+        <p className="text-[16px] text-zinc-400 mt-2">
           Full-Stack Engineer &nbsp;·&nbsp; Toronto, ON
         </p>
       </div>
     </div>
 
     {/* ── Bio ── */}
-    <p className="text-[15px] text-zinc-500 leading-[1.8]">
+    <p className="text-[15px] text-zinc-300 leading-[1.8]">
       <Keyword>Full-stack engineer</Keyword> with <Keyword>7 years of experience</Keyword>{" "}
       building scalable services across e-commerce, SaaS, and consumer platforms.
       Focused on <Keyword>system performance</Keyword>,{" "}
@@ -53,7 +53,7 @@ export const ProfileSection = () => (
       {SKILLS.map((skill) => (
         <span
           key={skill}
-          className="text-[13px] text-zinc-500 border border-white/[0.08] rounded-lg px-3 py-1 hover:text-zinc-200 hover:border-white/20 transition-colors"
+          className="text-[13px] text-zinc-300 border border-white/[0.12] rounded-lg px-3 py-1 hover:text-white hover:border-white/30 transition-colors"
         >
           {skill}
         </span>
@@ -64,7 +64,7 @@ export const ProfileSection = () => (
     <div className="flex items-center gap-6">
       <a
         href="mailto:sayyou0918@gmail.com"
-        className="text-[13px] text-zinc-600 hover:text-zinc-300 transition-colors"
+        className="text-[13px] text-zinc-400 hover:text-white transition-colors"
       >
         sayyou0918@gmail.com
       </a>
@@ -72,7 +72,7 @@ export const ProfileSection = () => (
         href="https://linkedin.com/in/inho-lee"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-1.5 text-[13px] text-zinc-600 hover:text-zinc-300 transition-colors"
+        className="flex items-center gap-1.5 text-[13px] text-zinc-400 hover:text-white transition-colors"
       >
         <LinkedinIcon />
         LinkedIn
