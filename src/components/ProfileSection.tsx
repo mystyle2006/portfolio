@@ -96,27 +96,24 @@ export const ProfileSection = () => {
           </p>
         </div>
 
-        {/* Achievements — fade in after typing */}
-        <ul
-          className="space-y-3"
+        {/* Bio — fade in after typing */}
+        <p
+          className="text-[15px] text-zinc-400 leading-[1.8]"
           style={{
             opacity: bioVisible ? 1 : 0,
             transform: bioVisible ? "translateY(0)" : "translateY(6px)",
             transition: "opacity 0.6s ease, transform 0.6s ease",
           }}
         >
-          {[
-            <>Designed and implemented an <Keyword>automated settlement platform</Keyword> that reduced reconciliation time from <Keyword>15 days to 2 days</Keyword> and improved operational efficiency by <Keyword>80%</Keyword>.</>,
-            <>Designed a highly available <Keyword>event-driven notification system</Keyword> using <Keyword>AWS SQS and Lambda</Keyword>, reliably delivering messages to <Keyword>5,000+ recipients</Keyword>.</>,
-            <>Redesigned a legacy payment platform by unifying <Keyword>three separate payment services</Keyword> into a single scalable architecture, reducing production issues and improving maintainability.</>,
-            <>Optimized critical backend services by redesigning data access patterns and database architecture, reducing <Keyword>API response times from 5s to under 500ms</Keyword>.</>,
-          ].map((item, index) => (
-            <li key={index} className="flex items-start gap-3 text-[14px] text-zinc-400 leading-[1.75]">
-              <span className="mt-[7px] w-1 h-1 rounded-full bg-indigo-400 shrink-0" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
+          Building scalable business systems across{" "}
+          <Keyword>web, mobile, backend, and cloud</Keyword>.{" "}
+          <Keyword>7 years of experience</Keyword> delivering{" "}
+          <Keyword>payment platforms</Keyword>,{" "}
+          <Keyword>settlement automation</Keyword>,{" "}
+          <Keyword>logistics services</Keyword>, and{" "}
+          <Keyword>high-performance applications</Keyword>—from{" "}
+          architecture design to production deployment.
+        </p>
 
       </div>
     </div>
