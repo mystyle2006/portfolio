@@ -9,7 +9,7 @@ export const NAV_ORBS: {
   floatDuration: string;
   floatDelay: string;
 }[] = [
-  { title: "Jelpala", subtitle: "Freight Matching Platform", x: -490, y: -310, bg: "#DBEAFE", floatDuration: "3.8s", floatDelay: "0.0s" },
+  { title: "Jelpala", subtitle: "2026", x: -490, y: -310, bg: "#DBEAFE", floatDuration: "3.8s", floatDelay: "0.0s" },
   { title: "Projects",   x:   60, y: -360, bg: "#FCE7F3", floatDuration: "4.5s", floatDelay: "0.6s" },
   { title: "Skills",     x:  460, y: -280, bg: "#D1FAE5", floatDuration: "3.3s", floatDelay: "1.3s" },
   { title: "Experience", x:  530, y:   60, bg: "#EDE9FE", floatDuration: "5.0s", floatDelay: "0.3s" },
