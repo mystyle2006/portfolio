@@ -5,7 +5,7 @@ const Keyword = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const ProfileSection = () => (
-  <div className="flex items-start gap-8">
+  <div className="flex items-start gap-8 w-[760px]">
 
     {/* ── Photo ── */}
     <Image
@@ -27,7 +27,7 @@ export const ProfileSection = () => (
         </p>
       </div>
 
-      <p className="text-[15px] text-zinc-300 leading-[1.8] max-w-[560px]">
+      <p className="text-[15px] text-zinc-300 leading-[1.8]">
         <Keyword>Full-stack engineer</Keyword> with <Keyword>7 years of experience</Keyword>{" "}
         building scalable services across e-commerce, SaaS, and consumer platforms.
         Focused on <Keyword>system performance</Keyword>,{" "}
