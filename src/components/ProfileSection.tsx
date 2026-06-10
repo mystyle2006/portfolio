@@ -159,7 +159,7 @@ export const ProfileSection = () => {
           </p>
 
           {/* Social links — appear one by one after bio */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3" onPointerDown={(e) => e.stopPropagation()}>
           {SOCIAL_LINKS.map(({ label, href, icon }, index) => (
             <a
               key={label}
