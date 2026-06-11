@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, CSSProperties } from "react";
+import { useEffect, useRef, useState, CSSProperties } from "react";
 import { MapBackground } from "./MapBackground";
 import { useCanvas } from "./InfiniteCanvas";
 
@@ -34,6 +34,8 @@ export const JelpalaSection = ({
   const [phase,         setPhase]         = useState<"title" | "subtitle" | "done">(skipAnimation ? "done" : "title");
   const [cursorVisible, setCursorVisible] = useState(true);
   const [statsVisible,  setStatsVisible]  = useState(skipAnimation);
+  const [mapDone,       setMapDone]       = useState(skipAnimation);
+  const notifiedRef = useRef(false);
 
   /* cursor blink */
   useEffect(() => {
@@ -66,16 +68,31 @@ export const JelpalaSection = ({
           clearInterval(timer);
           setTimeout(() => {
             setPhase("done");
-            setTimeout(() => {
-              setStatsVisible(true);
-              onAnimationComplete?.();
-            }, 100);
+            setTimeout(() => setStatsVisible(true), 100);
           }, 200);
         }
       }, 35);
       return () => clearInterval(timer);
     }
   }, [phase, skipAnimation]);
+
+  /* stats fadeUp 최장 딜레이(200ms) + 트랜지션(600ms) 이후 완료 */
+  useEffect(() => {
+    if (!statsVisible) return;
+    const timer = setTimeout(() => {
+      if (notifiedRef.current || !mapDone) return;
+      notifiedRef.current = true;
+      onAnimationComplete?.();
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [statsVisible, mapDone]);
+
+  useEffect(() => {
+    if (!mapDone || !statsVisible) return;
+    if (notifiedRef.current) return;
+    notifiedRef.current = true;
+    onAnimationComplete?.();
+  }, [mapDone, statsVisible]);
 
   const fadeUp = (delay: number): CSSProperties => ({
     opacity:    statsVisible ? 1 : 0,
@@ -150,7 +167,7 @@ export const JelpalaSection = ({
 
       {/* ── 우측 지도 영역 (pan 허용) ── */}
       <div className="flex-1 relative">
-        <MapBackground active={statsVisible} skipAnimation={skipAnimation} />
+        <MapBackground active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
       </div>
 
       {/* ── 프로필로 돌아가기 버튼 ── */}
