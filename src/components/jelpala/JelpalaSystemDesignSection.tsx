@@ -109,6 +109,9 @@ export const JelpalaSystemDesignSection = ({
       onPointerDown={(e) => e.stopPropagation()}
     >
 
+      {/* 콘텐츠 래퍼 (버튼 제외, 50px 위로) */}
+      <div style={{ position: "absolute", inset: 0, transform: "translateY(-50px)" }}>
+
       {/* 제목 */}
       <div style={{ position: "absolute", left: 40, top: 30, ...fade(0) }}>
         <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>
@@ -272,6 +275,8 @@ export const JelpalaSystemDesignSection = ({
         <div style={{ fontSize: 12, color: "#ffffff", whiteSpace: "nowrap" }}>GEO (Geospatial Index)</div>
         <div style={{ fontSize: 12, color: "#ffffff", whiteSpace: "nowrap", marginTop: 3 }}>Pub/Sub (Real-time)</div>
       </div>
+
+      </div>{/* 콘텐츠 래퍼 끝 */}
 
       {/* 뒤로가기 버튼 (Jelpala 섹션으로) */}
       <button
