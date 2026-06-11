@@ -144,15 +144,6 @@ export const JelpalaMessagingSection = ({
         </p>
       </div>
 
-      {/* AFTER 레이블 */}
-      <div style={{ position: "absolute", left: 40, top: 162, ...fade(1) }}>
-        <span style={{ fontSize: 11, fontWeight: 700, background: "rgba(99,179,237,0.15)", border: "1px solid rgba(99,179,237,0.3)", borderRadius: 4, padding: "2px 8px", color: "rgba(99,179,237,0.9)" }}>
-          AFTER
-        </span>
-        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginLeft: 10 }}>
-          With Redis Pub/Sub (Distributed Real-Time Messaging)
-        </span>
-      </div>
 
       {/* 클라이언트 아이콘 */}
       {CLIENT_NODES.map(({ cy, label, sub }) => (
