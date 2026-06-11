@@ -7,6 +7,7 @@ import { NavOrb, NAV_ORBS } from "./NavOrb";
 import { JelpalaSection } from "./jelpala/JelpalaSection";
 import { JelpalaSystemDesignSection } from "./jelpala/JelpalaSystemDesignSection";
 import { JelpalaMessagingSection } from "./jelpala/JelpalaMessagingSection";
+import { JelpalaMatchingSection } from "./jelpala/JelpalaMatchingSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -90,7 +91,7 @@ const SECTION_NAV_BUTTONS = {
     // 좌측 상단 모서리
     { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: -3410, y: -1909 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 하단 모서리
-    { x: -2360, y: -700,  label: "Matching Architecture",        destination: { x: 80, y: 10 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
+    { x: -2360, y: -700,  label: "Matching Architecture",        destination: { x: -2575, y: -174 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
   ],
 
   // projects: [],
@@ -111,6 +112,7 @@ export const PortfolioCanvas = () => {
   const [jelpalaReady, setJelpalaReady]           = useState(false);
   const [sysDesignReady, setSysDesignReady]         = useState(false);
   const [messagingReady, setMessagingReady]         = useState(false);
+  const [matchingReady, setMatchingReady]           = useState(false);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -177,6 +179,14 @@ export const PortfolioCanvas = () => {
         <JelpalaMessagingSection
           skipAnimation={messagingReady}
           onAnimationComplete={() => setMessagingReady(true)}
+        />
+      </CanvasNode>
+
+      {/* ── Jelpala Matching Architecture ──────────────────────────── */}
+      <CanvasNode x={-3375} y={-1374} width={1600} height={2400}>
+        <JelpalaMatchingSection
+          skipAnimation={matchingReady}
+          onAnimationComplete={() => setMatchingReady(true)}
         />
       </CanvasNode>
 
