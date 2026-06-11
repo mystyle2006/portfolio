@@ -43,25 +43,25 @@ export const JelpalaMatchingSection = ({
     {
       color: "99,179,237",
       title: "Driver Location Update",
-      desc: "드라이버 앱이 백그라운드에서 300초마다 현재 위치를 Redis GEO에 저장합니다.",
+      desc: "The driver app updates its location to Redis GEO every 300ms in the background.",
       points: ["Background Location Update every 300ms", "Redis GEOADD stores driver coordinates", "Real-time geospatial index maintained"],
     },
     {
       color: "52,211,153",
       title: "User Matching Request",
-      desc: "사용자 요청 시 GEORADIUS로 반경 내 드라이버를 검색합니다. 결과가 없으면 반경을 확장합니다.",
+      desc: "When a user requests a match, GEORADIUS searches nearby drivers. If no results are found, the search radius automatically expands.",
       points: ["GEORADIUS searches within initial radius", "No results → radius expands automatically", "Returns nearest available drivers sorted"],
     },
     {
       color: "251,146,60",
       title: "Notify Drivers",
-      desc: "Redis Pub/Sub으로 이벤트를 브로드캐스트하고 ECS 인스턴스가 Socket.IO로 드라이버에게 전달합니다.",
+      desc: "Events are broadcast via Redis Pub/Sub, and each ECS instance delivers real-time notifications to drivers through Socket.IO.",
       points: ["API publishes event to Redis channel", "All ECS instances receive via Pub/Sub", "Socket.IO emits to connected driver apps"],
     },
     {
       color: "167,139,250",
       title: "Matching Confirmation",
-      desc: "드라이버가 수락하면 매칭이 확정되고 사용자에게 드라이버 배정 알림이 전달됩니다.",
+      desc: "Once a driver accepts, the match is confirmed and the user receives a driver assignment notification instantly.",
       points: ["First accepting driver wins the match", "Match status updated in RDS atomically", "User receives Driver Assigned notification"],
     },
   ] as const;
@@ -73,7 +73,7 @@ export const JelpalaMatchingSection = ({
       <div style={{ position: "absolute", left: 40, top: 40, ...fade(0) }}>
         <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>Matching Architecture</h2>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 6, marginBottom: 0, maxWidth: 900, lineHeight: 1.55 }}>
-          Redis GEO 기반 실시간 드라이버 매칭 — 위치 업데이트부터 매칭 확정까지의 전체 플로우
+          Redis GEO-based real-time driver matching — the full flow from location updates to match confirmation.
         </p>
       </div>
 
