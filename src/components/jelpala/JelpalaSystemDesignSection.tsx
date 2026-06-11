@@ -278,18 +278,18 @@ export const JelpalaSystemDesignSection = ({
         onClick={() => panTo(-1544, -1071)}
         onPointerDown={(e) => e.stopPropagation()}
         style={{
-          position: "absolute", bottom: 24, right: 24,
+          position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
           width: 48, height: 48, borderRadius: "50%",
           background: "#ffffff", border: "none", cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center",
           boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
           transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = "translateX(-50%) scale(1.1)")}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = "translateX(-50%) scale(1)")}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M4 4L14 14M14 14V6M14 14H6" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M9 3V15M9 15L3 9M9 15L15 9" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
     </div>
