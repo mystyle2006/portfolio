@@ -66,7 +66,7 @@ const ARROWS: Arrow[] = [
   // Lambda → External Services
   { x1: 677, y1: 648, x2: 1033, y2: 325, phase: 5 },
   { x1: 677, y1: 660, x2: 1033, y2: 455, phase: 5 },
-  { x1: 650, y1: 558, x2: 1033, y2: 578, phase: 5 },
+  { x1: 650, y1: 535, x2: 1033, y2: 578, customPath: "M 650 535 C 700 580, 980 578, 1033 578", phase: 5 },
   // API Servers → Push Notification (RDS 위로 우회)
   { x1: 500, y1: 200, x2: 1033, y2: 195, customPath: "M 500 200 C 500 105, 1033 105, 1033 195", phase: 5 },
 ];
