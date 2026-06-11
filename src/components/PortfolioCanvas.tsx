@@ -5,6 +5,7 @@ import { InfiniteCanvas, CanvasNode, useCanvas } from "./InfiniteCanvas";
 import { ProfileSection } from "./profile/ProfileSection";
 import { NavOrb, NAV_ORBS } from "./NavOrb";
 import { JelpalaSection } from "./jelpala/JelpalaSection";
+import { JelpalaSystemDesignSection } from "./jelpala/JelpalaSystemDesignSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -84,7 +85,7 @@ const SECTION_NAV_BUTTONS = {
 
   jelpala: [
     // 상단 중앙
-    { x: -1635, y: -1457, label: "View System Design",           destination: { x: 80, y: 10 }, arrow: "up"      as ArrowDir, labelSide: "right" as LabelSide },
+    { x: -1635, y: -1457, label: "View System Design",           destination: { x: -733, y: -1635 }, arrow: "up"      as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 상단 모서리
     { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: 80, y: 10 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 하단 모서리
@@ -106,7 +107,8 @@ const IDLE_START_MS   = PROFILE_DONE_MS + NAV_ORBS.length * ORB_STAGGER_MS + ORB
 export const PortfolioCanvas = () => {
   const [visibleOrbCount, setVisibleOrbCount] = useState(0);
   const [orbsIdle, setOrbsIdle]               = useState(false);
-  const [jelpalaReady, setJelpalaReady]       = useState(false);
+  const [jelpalaReady, setJelpalaReady]           = useState(false);
+  const [sysDesignReady, setSysDesignReady]       = useState(false);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -159,6 +161,14 @@ export const PortfolioCanvas = () => {
           <CanvasNavButton label={label} destination={destination} arrow={arrow} labelSide={labelSide} visible={jelpalaReady} />
         </CanvasNode>
       ))}
+
+      {/* ── Jelpala System Design ────────────────────────────────────── */}
+      <CanvasNode x={-1533} y={-2045} width={1600} height={820}>
+        <JelpalaSystemDesignSection
+          skipAnimation={sysDesignReady}
+          onAnimationComplete={() => setSysDesignReady(true)}
+        />
+      </CanvasNode>
 
     </InfiniteCanvas>
   );
