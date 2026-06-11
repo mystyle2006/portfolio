@@ -108,13 +108,6 @@ export const JelpalaSystemDesignSection = ({
       style={{ width: W, height: H, position: "relative", color: "#fff", borderRadius: 20, overflow: "hidden" }}
       onPointerDown={(e) => e.stopPropagation()}
     >
-      {/* 배경 */}
-      <div style={{
-        position: "absolute", inset: 0,
-        background: "linear-gradient(135deg, #0f1117 0%, #161b27 100%)",
-        border: "1px solid rgba(255,255,255,0.07)",
-        borderRadius: 20,
-      }} />
 
       {/* 제목 */}
       <div style={{ position: "absolute", left: 40, top: 30, ...fade(0) }}>
