@@ -84,16 +84,17 @@ function ArcPaths({ step }: { step: number }) {
   );
 }
 
-export const MapBackground = ({ active = false }: { active?: boolean }) => {
-  const [step, setStep] = useState(0);
+export const MapBackground = ({ active = false, skipAnimation = false }: { active?: boolean; skipAnimation?: boolean }) => {
+  const [step, setStep] = useState(skipAnimation ? ROUTES.length : 0);
 
   useEffect(() => {
+    if (skipAnimation) return;
     if (!active) { setStep(0); return; }
     const timers = ROUTES.map((r, i) =>
       setTimeout(() => setStep(i + 1), (r.delay + 0.5) * 1000),
     );
     return () => timers.forEach(clearTimeout);
-  }, [active]);
+  }, [active, skipAnimation]);
 
   return (
     <div className="absolute inset-0 pointer-events-none">
