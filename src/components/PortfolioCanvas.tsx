@@ -88,7 +88,7 @@ const SECTION_NAV_BUTTONS = {
     // 좌측 상단 모서리
     { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: 80, y: 10 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 하단 모서리
-    { x: -2360, y: -640,  label: "Matching Architecture",        destination: { x: 80, y: 10 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
+    { x: -2360, y: -700,  label: "Matching Architecture",        destination: { x: 80, y: 10 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
   ],
 
   // projects: [],
