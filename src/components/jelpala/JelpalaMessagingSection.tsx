@@ -295,7 +295,7 @@ export const JelpalaMessagingSection = ({
         onClick={() => panTo(-1544, -1071)}
         onPointerDown={(e) => e.stopPropagation()}
         style={{
-          position: "absolute", bottom: 24, right: 24,
+          position: "absolute", bottom: 24, left: 1060,
           width: 48, height: 48, borderRadius: "50%",
           background: "#ffffff", border: "none", cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center",
