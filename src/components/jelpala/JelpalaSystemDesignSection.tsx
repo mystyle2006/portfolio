@@ -67,8 +67,8 @@ const ARROWS: Arrow[] = [
   { x1: 677, y1: 648, x2: 1033, y2: 325, phase: 5 },
   { x1: 677, y1: 660, x2: 1033, y2: 455, phase: 5 },
   { x1: 677, y1: 672, x2: 1033, y2: 578, phase: 5 },
-  // ElastiCache → Push (Pub/Sub Real-time)
-  { x1: 807, y1: 318, x2: 1033, y2: 195, phase: 5 },
+  // API Servers → Push Notification
+  { x1: 532, y1: 215, x2: 1033, y2: 195, phase: 5 },
 ];
 
 function bezier(a: Arrow): string {
