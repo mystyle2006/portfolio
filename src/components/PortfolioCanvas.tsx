@@ -8,13 +8,18 @@ import { JelpalaSection } from "./JelpalaSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
-type ArrowDir = "up" | "down" | "left" | "right";
+type ArrowDir   = "up" | "down" | "left" | "right" | "up-left" | "up-right" | "down-left" | "down-right";
+type LabelSide  = "left" | "right";
 
 const ARROW_PATH: Record<ArrowDir, string> = {
-  up:    "M8 13V3M8 3L3 8M8 3L13 8",
-  down:  "M8 3V13M8 13L3 8M8 13L13 8",
-  left:  "M13 8H3M3 8L8 3M3 8L8 13",
-  right: "M3 8H13M13 8L8 3M13 8L8 13",
+  up:         "M8 13V3M8 3L3 8M8 3L13 8",
+  down:       "M8 3V13M8 13L3 8M8 13L13 8",
+  left:       "M13 8H3M3 8L8 3M3 8L8 13",
+  right:      "M3 8H13M13 8L8 3M13 8L8 13",
+  "up-left":  "M13 13L3 3M3 3H9M3 3V9",
+  "up-right": "M3 13L13 3M13 3H7M13 3V9",
+  "down-left":  "M13 3L3 13M3 13H9M3 13V7",
+  "down-right": "M3 3L13 13M13 13H7M13 13V7",
 };
 
 const CanvasNavButton = ({
@@ -22,13 +27,40 @@ const CanvasNavButton = ({
   destination,
   arrow = "up",
   visible = true,
+  labelSide = "right",
 }: {
   label: string;
   destination: { x: number; y: number };
   arrow?: ArrowDir;
   visible?: boolean;
+  labelSide?: LabelSide;
 }) => {
   const { panTo } = useCanvas();
+
+  const btn = (
+    <button
+      onClick={() => panTo(destination.x, destination.y)}
+      onPointerDown={(e) => e.stopPropagation()}
+      className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+      style={{
+        background: "#ffffff",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+        transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d={ARROW_PATH[arrow]} stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
+  );
+
+  const lbl = (
+    <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)", fontWeight: 500, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
+      {label}
+    </span>
+  );
 
   return (
     <div
@@ -41,25 +73,7 @@ const CanvasNavButton = ({
         pointerEvents: visible ? "auto" : "none",
       }}
     >
-      <button
-        onClick={() => panTo(destination.x, destination.y)}
-        onPointerDown={(e) => e.stopPropagation()}
-        className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-        style={{
-          background: "#ffffff",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-          transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d={ARROW_PATH[arrow]} stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-      <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)", fontWeight: 500, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
-        {label}
-      </span>
+      {labelSide === "left" ? <>{lbl}{btn}</> : <>{btn}{lbl}</>}
     </div>
   );
 };
@@ -69,13 +83,18 @@ const CanvasNavButton = ({
 const SECTION_NAV_BUTTONS = {
 
   jelpala: [
-    { x: -1635, y: -1457, label: "View System Design", destination: { x: 80, y: 10 }, arrow: "up" as ArrowDir },
+    // 상단 중앙
+    { x: -1635, y: -1457, label: "View System Design",           destination: { x: 80, y: 10 }, arrow: "up"      as ArrowDir, labelSide: "right" as LabelSide },
+    // 좌측 상단 모서리
+    { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: 80, y: 10 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
+    // 좌측
+    { x: -2530, y: -1001, label: "Matching Architecture",        destination: { x: 80, y: 10 }, arrow: "left"    as ArrowDir, labelSide: "left"  as LabelSide },
   ],
 
   // projects: [],
   // skills: [],
 
-} satisfies Record<string, { x: number; y: number; label: string; destination: { x: number; y: number }; arrow: ArrowDir }[]>;
+} satisfies Record<string, { x: number; y: number; label: string; destination: { x: number; y: number }; arrow: ArrowDir; labelSide: LabelSide }[]>;
 
 /* ── PortfolioCanvas ─────────────────────────────────────────────────── */
 
@@ -135,9 +154,9 @@ export const PortfolioCanvas = () => {
         />
       </CanvasNode>
 
-      {SECTION_NAV_BUTTONS.jelpala.map(({ x, y, label, destination, arrow }) => (
+      {SECTION_NAV_BUTTONS.jelpala.map(({ x, y, label, destination, arrow, labelSide }) => (
         <CanvasNode key={label} x={x} y={y}>
-          <CanvasNavButton label={label} destination={destination} arrow={arrow} visible={jelpalaReady} />
+          <CanvasNavButton label={label} destination={destination} arrow={arrow} labelSide={labelSide} visible={jelpalaReady} />
         </CanvasNode>
       ))}
 
