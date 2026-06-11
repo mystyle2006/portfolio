@@ -6,6 +6,7 @@ import { ProfileSection } from "./profile/ProfileSection";
 import { NavOrb, NAV_ORBS } from "./NavOrb";
 import { JelpalaSection } from "./jelpala/JelpalaSection";
 import { JelpalaSystemDesignSection } from "./jelpala/JelpalaSystemDesignSection";
+import { JelpalaMessagingSection } from "./jelpala/JelpalaMessagingSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -87,7 +88,7 @@ const SECTION_NAV_BUTTONS = {
     // 상단 중앙
     { x: -1635, y: -1457, label: "View System Design",           destination: { x: -1435, y: -2178 }, arrow: "up"      as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 상단 모서리
-    { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: 80, y: 10 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
+    { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: -3410, y: -1909 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 하단 모서리
     { x: -2360, y: -700,  label: "Matching Architecture",        destination: { x: 80, y: 10 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
   ],
@@ -108,7 +109,8 @@ export const PortfolioCanvas = () => {
   const [visibleOrbCount, setVisibleOrbCount] = useState(0);
   const [orbsIdle, setOrbsIdle]               = useState(false);
   const [jelpalaReady, setJelpalaReady]           = useState(false);
-  const [sysDesignReady, setSysDesignReady]       = useState(false);
+  const [sysDesignReady, setSysDesignReady]         = useState(false);
+  const [messagingReady, setMessagingReady]         = useState(false);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -167,6 +169,14 @@ export const PortfolioCanvas = () => {
         <JelpalaSystemDesignSection
           skipAnimation={sysDesignReady}
           onAnimationComplete={() => setSysDesignReady(true)}
+        />
+      </CanvasNode>
+
+      {/* ── Distributed Real-Time Messaging ─────────────────────────── */}
+      <CanvasNode x={-4310} y={-2359} width={1800} height={900}>
+        <JelpalaMessagingSection
+          skipAnimation={messagingReady}
+          onAnimationComplete={() => setMessagingReady(true)}
         />
       </CanvasNode>
 
