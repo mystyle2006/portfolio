@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
 import { MapBackground } from "./MapBackground";
-import { useCanvas } from "./InfiniteCanvas";
+import { useCanvas } from "../InfiniteCanvas";
 
 const TITLE    = "Jelpala";
 const SUBTITLE = "Real-Time Freight Matching Platform";

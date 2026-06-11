@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { InfiniteCanvas, CanvasNode, useCanvas } from "./InfiniteCanvas";
-import { ProfileSection } from "./ProfileSection";
+import { ProfileSection } from "./profile/ProfileSection";
 import { NavOrb, NAV_ORBS } from "./NavOrb";
-import { JelpalaSection } from "./JelpalaSection";
+import { JelpalaSection } from "./jelpala/JelpalaSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
