@@ -103,14 +103,14 @@ export const JelpalaMessagingSection = ({
   /* ECS 박스 x 위치 (4개) */
   const ECS_TOP = 200;
   const ECS_BOXES = [
-    { left: 185, num: "1" },
-    { left: 335, num: "2" },
-    { left: 485, num: "3" },
-    { left: 650, num: "N" },
+    { left: 265, num: "1" },
+    { left: 415, num: "2" },
+    { left: 565, num: "3" },
+    { left: 730, num: "N" },
   ];
 
   /* Redis 박스 */
-  const REDIS_LEFT = 185;
+  const REDIS_LEFT = 265;
   const REDIS_TOP  = 408;
   const REDIS_W    = 600;
   const REDIS_H    = 115;
@@ -167,7 +167,7 @@ export const JelpalaMessagingSection = ({
       ))}
 
       {/* "..." 구분자 */}
-      <div style={{ position: "absolute", left: 626, top: ECS_TOP + 72, fontSize: 24, fontWeight: 700, color: "rgba(255,255,255,0.3)", ...fade(2) }}>
+      <div style={{ position: "absolute", left: 706, top: ECS_TOP + 72, fontSize: 24, fontWeight: 700, color: "rgba(255,255,255,0.3)", ...fade(2) }}>
         ···
       </div>
 
@@ -230,7 +230,7 @@ export const JelpalaMessagingSection = ({
         {/* 클라이언트 → ECS1 */}
         {CLIENT_NODES.map(({ cy }, i) => (
           <path key={i}
-            d={`M 135 ${cy} C 160 ${cy}, 170 289, 185 289`}
+            d={`M 135 ${cy} C 175 ${cy}, 220 289, 265 289`}
             stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" fill="none"
             markerEnd="url(#msg-ah)"
             style={{ opacity: phase >= 1 ? 1 : 0, transition: "opacity 0.5s ease" }}
