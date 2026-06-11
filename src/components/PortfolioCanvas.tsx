@@ -69,7 +69,7 @@ const CanvasNavButton = ({
 const SECTION_NAV_BUTTONS = {
 
   jelpala: [
-    { x: -1635, y: -1357, label: "View System Design", destination: { x: 80, y: 10 }, arrow: "up" as ArrowDir },
+    { x: -1635, y: -1457, label: "View System Design", destination: { x: 80, y: 10 }, arrow: "up" as ArrowDir },
   ],
 
   // projects: [],
