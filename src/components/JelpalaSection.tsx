@@ -120,7 +120,7 @@ export const JelpalaSection = ({
             <>Built a <K>location-based matching system</K> using <K>Redis GEO</K> to connect drivers with nearby shipments in real time.</>,
             <>Integrated <K>Stripe</K> payments, <K>Mailgun</K> notifications, and <K>CI/CD pipelines</K> for production.</>,
           ].map((item, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-zinc-400">
+            <li key={i} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-zinc-400">
               <span style={{ marginTop: "9px", width: "4px", height: "4px", borderRadius: "50%", background: "#52525b", flexShrink: 0, display: "inline-block" }} />
               <span>{item}</span>
             </li>
