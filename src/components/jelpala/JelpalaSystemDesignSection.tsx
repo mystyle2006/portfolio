@@ -235,11 +235,11 @@ export const JelpalaSystemDesignSection = ({
             alt={node.label}
             style={{ objectFit: "contain" }}
           />
-          <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", marginTop: 6 }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", marginTop: 6 }}>
             {node.label}
           </span>
           {node.sub && (
-            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.38)", whiteSpace: "nowrap", marginTop: 2 }}>
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", whiteSpace: "nowrap", marginTop: 2 }}>
               {node.sub}
             </span>
           )}
