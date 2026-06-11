@@ -12,26 +12,26 @@ const MAX_PHASE = 4;
 /* ── ECS 인스턴스 박스 ── */
 const EcsBox = ({ num, visible }: { num: string; visible: boolean }) => (
   <div style={{
-    width: 110, minHeight: 148,
+    width: 135, minHeight: 178,
     border: "1px solid rgba(255,153,0,0.3)", borderRadius: 8,
     background: "rgba(255,153,0,0.04)",
     display: "flex", flexDirection: "column", alignItems: "center",
-    padding: "10px 8px", gap: 6,
+    padding: "12px 10px", gap: 7,
     opacity: visible ? 1 : 0, transition: "opacity 0.5s ease",
   }}>
-    <span style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,153,0,0.85)", textAlign: "center", lineHeight: 1.3 }}>
+    <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,153,0,0.85)", textAlign: "center", lineHeight: 1.3 }}>
       ECS Instance {num}
     </span>
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, flex: 1, justifyContent: "center" }}>
-      <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <Zap size={15} color="rgba(255,255,255,0.7)" />
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5, flex: 1, justifyContent: "center" }}>
+      <div style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Zap size={18} color="rgba(255,255,255,0.7)" />
       </div>
-      <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.75)", textAlign: "center" }}>Socket.IO</span>
-      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.45)", textAlign: "center" }}>Server</span>
+      <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", textAlign: "center" }}>Socket.IO</span>
+      <span style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", textAlign: "center" }}>Server</span>
     </div>
-    <div style={{ display: "flex", gap: 5 }}>
-      <span style={{ fontSize: 9, color: "rgba(99,179,237,0.85)", border: "1px solid rgba(99,179,237,0.3)", borderRadius: 3, padding: "1px 5px" }}>Sub</span>
-      <span style={{ fontSize: 9, color: "rgba(251,191,36,0.85)", border: "1px solid rgba(251,191,36,0.3)", borderRadius: 3, padding: "1px 5px" }}>Pub</span>
+    <div style={{ display: "flex", gap: 6 }}>
+      <span style={{ fontSize: 11, color: "rgba(99,179,237,0.85)", border: "1px solid rgba(99,179,237,0.3)", borderRadius: 3, padding: "2px 6px" }}>Sub</span>
+      <span style={{ fontSize: 11, color: "rgba(251,191,36,0.85)", border: "1px solid rgba(251,191,36,0.3)", borderRadius: 3, padding: "2px 6px" }}>Pub</span>
     </div>
   </div>
 );
@@ -61,17 +61,17 @@ const WhyItem = ({
 /* ── How it works 스텝 ── */
 const HowStep = ({ num, label, desc, visible }: { num: number; label: string; desc: string; visible: boolean }) => (
   <div style={{
-    display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: 145,
+    display: "flex", flexDirection: "column", alignItems: "center", gap: 7, width: 170,
     opacity: visible ? 1 : 0, transition: "opacity 0.5s ease",
   }}>
     <div style={{
-      width: 28, height: 28, borderRadius: "50%", flexShrink: 0,
+      width: 33, height: 33, borderRadius: "50%", flexShrink: 0,
       background: "rgba(99,179,237,0.15)", border: "1px solid rgba(99,179,237,0.3)",
       display: "flex", alignItems: "center", justifyContent: "center",
-      fontSize: 12, fontWeight: 700, color: "rgba(99,179,237,0.9)",
+      fontSize: 14, fontWeight: 700, color: "rgba(99,179,237,0.9)",
     }}>{num}</div>
-    <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.85)", textAlign: "center" }}>{label}</span>
-    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", textAlign: "center", lineHeight: 1.4 }}>{desc}</span>
+    <span style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.85)", textAlign: "center" }}>{label}</span>
+    <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", textAlign: "center", lineHeight: 1.4 }}>{desc}</span>
   </div>
 );
 
@@ -104,26 +104,26 @@ export const JelpalaMessagingSection = ({
   const ECS_TOP = 200;
   const ECS_BOXES = [
     { left: 185, num: "1" },
-    { left: 310, num: "2" },
-    { left: 435, num: "3" },
-    { left: 595, num: "N" },
+    { left: 335, num: "2" },
+    { left: 485, num: "3" },
+    { left: 650, num: "N" },
   ];
 
   /* Redis 박스 */
   const REDIS_LEFT = 185;
-  const REDIS_TOP  = 405;
-  const REDIS_W    = 520;
-  const REDIS_H    = 90;
+  const REDIS_TOP  = 408;
+  const REDIS_W    = 600;
+  const REDIS_H    = 115;
 
   /* 클라이언트 노드 */
   const CLIENT_NODES = [
-    { cy: 240, label: "Driver App",    sub: "iOS / Android" },
-    { cy: 340, label: "Customer App",  sub: "iOS / Android" },
-    { cy: 440, label: "Web Client",    sub: "Web / Mobile"  },
+    { cy: 250, label: "Driver App",    sub: "iOS / Android" },
+    { cy: 360, label: "Customer App",  sub: "iOS / Android" },
+    { cy: 470, label: "Web Client",    sub: "Web / Mobile"  },
   ];
 
   /* SVG 화살표 경로 */
-  const ecsBottomY = ECS_TOP + 148;
+  const ecsBottomY = ECS_TOP + 178;
   const redisCenterX = REDIS_LEFT + REDIS_W / 2;
 
   return (
@@ -147,16 +147,16 @@ export const JelpalaMessagingSection = ({
 
       {/* 클라이언트 아이콘 */}
       {CLIENT_NODES.map(({ cy, label, sub }) => (
-        <div key={label} style={{ position: "absolute", left: 40, top: cy - 24, display: "flex", flexDirection: "column", alignItems: "center", width: 80, ...fade(1) }}>
-          <Image src="/icons/client_icon.png" width={48} height={48} alt={label} style={{ objectFit: "contain" }} />
-          <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 4 }}>{label}</span>
-          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>{sub}</span>
+        <div key={label} style={{ position: "absolute", left: 40, top: cy - 31, display: "flex", flexDirection: "column", alignItems: "center", width: 95, ...fade(1) }}>
+          <Image src="/icons/client_icon.png" width={62} height={62} alt={label} style={{ objectFit: "contain" }} />
+          <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>{label}</span>
+          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>{sub}</span>
         </div>
       ))}
 
       {/* Clients 레이블 */}
       <div style={{ position: "absolute", left: 46, top: 185, ...fade(1) }}>
-        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.3)" }}>Clients</span>
+        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.3)" }}>Clients</span>
       </div>
 
       {/* ECS 인스턴스 박스 */}
@@ -167,7 +167,7 @@ export const JelpalaMessagingSection = ({
       ))}
 
       {/* "..." 구분자 */}
-      <div style={{ position: "absolute", left: 556, top: ECS_TOP + 60, fontSize: 20, fontWeight: 700, color: "rgba(255,255,255,0.3)", ...fade(2) }}>
+      <div style={{ position: "absolute", left: 626, top: ECS_TOP + 72, fontSize: 24, fontWeight: 700, color: "rgba(255,255,255,0.3)", ...fade(2) }}>
         ···
       </div>
 
@@ -179,29 +179,29 @@ export const JelpalaMessagingSection = ({
         display: "flex", alignItems: "center", gap: 16, padding: "0 20px",
         ...fade(2),
       }}>
-        <Image src="/icons/redis_icon.png" width={48} height={48} alt="Redis" style={{ objectFit: "contain", flexShrink: 0 }} />
+        <Image src="/icons/redis_icon.png" width={60} height={60} alt="Redis" style={{ objectFit: "contain", flexShrink: 0 }} />
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Amazon ElastiCache for Redis</div>
-          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3 }}>Redis Pub/Sub Message Broker</div>
-          <div style={{ display: "flex", gap: 12, marginTop: 5 }}>
-            <span style={{ fontSize: 10, color: "rgba(239,68,68,0.7)" }}>Channels match events</span>
-            <span style={{ fontSize: 10, color: "rgba(239,68,68,0.7)" }}>Channel-driven status</span>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Amazon ElastiCache for Redis</div>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 4 }}>Redis Pub/Sub Message Broker</div>
+          <div style={{ display: "flex", gap: 14, marginTop: 6 }}>
+            <span style={{ fontSize: 12, color: "rgba(239,68,68,0.7)" }}>Channels match events</span>
+            <span style={{ fontSize: 12, color: "rgba(239,68,68,0.7)" }}>Channel-driven status</span>
           </div>
         </div>
       </div>
 
       {/* RDS */}
-      <div style={{ position: "absolute", left: 770, top: 210, display: "flex", flexDirection: "column", alignItems: "center", width: 80, ...fade(3) }}>
-        <Image src="/icons/aws_rds_icon.webp" width={52} height={52} alt="RDS" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>Amazon RDS</span>
-        <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>MySQL</span>
+      <div style={{ position: "absolute", left: 840, top: 220, display: "flex", flexDirection: "column", alignItems: "center", width: 90, ...fade(3) }}>
+        <Image src="/icons/aws_rds_icon.webp" width={66} height={66} alt="RDS" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 6 }}>Amazon RDS</span>
+        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>MySQL</span>
       </div>
 
       {/* S3 */}
-      <div style={{ position: "absolute", left: 770, top: 370, display: "flex", flexDirection: "column", alignItems: "center", width: 80, ...fade(3) }}>
-        <Image src="/icons/aws_s3_icon.webp" width={52} height={52} alt="S3" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>Amazon S3</span>
-        <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>File Storage</span>
+      <div style={{ position: "absolute", left: 840, top: 390, display: "flex", flexDirection: "column", alignItems: "center", width: 90, ...fade(3) }}>
+        <Image src="/icons/aws_s3_icon.webp" width={66} height={66} alt="S3" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 6 }}>Amazon S3</span>
+        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>File Storage</span>
       </div>
 
       {/* How it works */}
@@ -243,7 +243,7 @@ export const JelpalaMessagingSection = ({
         {/* 클라이언트 → ECS1 */}
         {CLIENT_NODES.map(({ cy }, i) => (
           <path key={i}
-            d={`M 120 ${cy} C 150 ${cy}, 165 267, 185 267`}
+            d={`M 135 ${cy} C 160 ${cy}, 170 289, 185 289`}
             stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" fill="none"
             markerEnd="url(#msg-ah)"
             style={{ opacity: phase >= 1 ? 1 : 0, transition: "opacity 0.5s ease" }}
@@ -252,7 +252,7 @@ export const JelpalaMessagingSection = ({
 
         {/* ECS → Redis (수직 아래) */}
         {ECS_BOXES.map(({ left }) => {
-          const cx = left + 55;
+          const cx = left + 67;
           return (
             <path key={left}
               d={`M ${cx} ${ecsBottomY} L ${cx} ${REDIS_TOP}`}
@@ -266,7 +266,7 @@ export const JelpalaMessagingSection = ({
 
         {/* Redis → RDS */}
         <path
-          d={`M ${REDIS_LEFT + REDIS_W} ${REDIS_TOP + 25} C 760 ${REDIS_TOP + 25}, 760 236, 770 236`}
+          d={`M ${REDIS_LEFT + REDIS_W} ${REDIS_TOP + 30} C 830 ${REDIS_TOP + 30}, 830 253, 840 253`}
           stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" fill="none"
           markerEnd="url(#msg-ah)"
           style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}
@@ -274,7 +274,7 @@ export const JelpalaMessagingSection = ({
 
         {/* Redis → S3 */}
         <path
-          d={`M ${REDIS_LEFT + REDIS_W} ${REDIS_TOP + 65} C 760 ${REDIS_TOP + 65}, 760 396, 770 396`}
+          d={`M ${REDIS_LEFT + REDIS_W} ${REDIS_TOP + 85} C 830 ${REDIS_TOP + 85}, 830 423, 840 423`}
           stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" fill="none"
           markerEnd="url(#msg-ah)"
           style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}
