@@ -128,7 +128,7 @@ export const JelpalaSection = ({
         </ul>
 
         {/* stats */}
-        <div className="flex items-center gap-8" style={{ ...fadeUp(200), marginTop: "32px" }}>
+        <div className="flex items-center gap-6" style={{ ...fadeUp(200), marginTop: "32px", flexWrap: "nowrap" }}>
           {[
             { value: "Redis GEO", label: "Based Matching" },
             { value: "Real-time", label: "Message Processing" },
@@ -136,11 +136,11 @@ export const JelpalaSection = ({
           ].map(({ value, label }, i) => (
             <>
               {i > 0 && (
-                <span key={`sep-${i}`} style={{ color: "rgba(255,255,255,0.1)", fontSize: "40px", userSelect: "none" }}>|</span>
+                <span key={`sep-${i}`} style={{ color: "rgba(255,255,255,0.1)", fontSize: "30px", userSelect: "none", flexShrink: 0 }}>|</span>
               )}
-              <div key={label} className="flex flex-col gap-1">
-                <span className="font-black text-blue-400" style={{ fontSize: "44px" }}>{value}</span>
-                <span className="text-white" style={{ fontSize: "26px" }}>{label}</span>
+              <div key={label} className="flex flex-col gap-1" style={{ flexShrink: 0 }}>
+                <span className="font-black text-blue-400" style={{ fontSize: "33px", whiteSpace: "nowrap" }}>{value}</span>
+                <span className="text-white" style={{ fontSize: "19px", whiteSpace: "nowrap" }}>{label}</span>
               </div>
             </>
           ))}
