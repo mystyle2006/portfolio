@@ -108,7 +108,7 @@ export const ProfileSection = () => {
   }, [phase]);
 
   return (
-    <div className="flex items-start gap-8 w-[760px]">
+    <div className="flex items-start gap-8 w-[760px]" onPointerDown={(e) => e.stopPropagation()}>
 
       {/* ── Photo ── */}
       <Image
@@ -120,7 +120,7 @@ export const ProfileSection = () => {
       />
 
       {/* ── Text ── */}
-      <div className="space-y-5 pt-2">
+      <div className="space-y-5 pt-2 select-text">
 
         <div>
           {/* Name */}
