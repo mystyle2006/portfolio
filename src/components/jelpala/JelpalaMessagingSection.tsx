@@ -183,10 +183,6 @@ export const JelpalaMessagingSection = ({
         <div>
           <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Amazon ElastiCache for Redis</div>
           <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 4 }}>Redis Pub/Sub Message Broker</div>
-          <div style={{ display: "flex", gap: 14, marginTop: 6 }}>
-            <span style={{ fontSize: 12, color: "rgba(239,68,68,0.7)" }}>Channels match events</span>
-            <span style={{ fontSize: 12, color: "rgba(239,68,68,0.7)" }}>Channel-driven status</span>
-          </div>
         </div>
       </div>
 
