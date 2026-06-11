@@ -91,7 +91,7 @@ const SECTION_NAV_BUTTONS = {
     // 좌측 상단 모서리
     { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: -3410, y: -1909 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 하단 모서리
-    { x: -2360, y: -700,  label: "Matching Architecture",        destination: { x: -2575, y: -174 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
+    { x: -2360, y: -700,  label: "Matching Architecture",        destination: { x: -3514, y: 187 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
   ],
 
   // projects: [],
@@ -183,7 +183,7 @@ export const PortfolioCanvas = () => {
       </CanvasNode>
 
       {/* ── Jelpala Matching Architecture ──────────────────────────── */}
-      <CanvasNode x={-3375} y={-1374} width={1600} height={2400}>
+      <CanvasNode x={-4314} y={-1063} width={1600} height={2500}>
         <JelpalaMatchingSection
           skipAnimation={matchingReady}
           onAnimationComplete={() => setMatchingReady(true)}
