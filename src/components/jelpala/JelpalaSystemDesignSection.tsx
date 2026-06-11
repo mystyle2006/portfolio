@@ -131,7 +131,7 @@ export const JelpalaSystemDesignSection = ({
           fontSize: 12, fontWeight: 600, color: "rgba(255,153,0,0.65)",
           display: "flex", alignItems: "center", gap: 6,
         }}>
-          <Image src="/icons/aws_icon.png" width={56} height={56} alt="AWS" style={{ objectFit: "contain" }} />
+          <Image src="/icons/aws_icon.png" width={72} height={72} alt="AWS" style={{ objectFit: "contain" }} />
           AWS Cloud
         </div>
       </div>
