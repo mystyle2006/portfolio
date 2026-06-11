@@ -59,8 +59,8 @@ const ARROWS: Arrow[] = [
   { x1: 545, y1: 235, x2: 743, y2: 195, phase: 3 },
   { x1: 545, y1: 245, x2: 743, y2: 335, phase: 3 },
   { x1: 545, y1: 255, x2: 743, y2: 468, phase: 3 },
-  // Batch → SQS
-  { x1: 462, y1: 492, x2: 447, y2: 633, phase: 4 },
+  // ECS 박스 하단 → SQS
+  { x1: 462, y1: 535, x2: 447, y2: 633, phase: 4 },
   // SQS → Lambda
   { x1: 487, y1: 665, x2: 613, y2: 665, phase: 4 },
   // Lambda → External Services
@@ -200,7 +200,6 @@ export const JelpalaSystemDesignSection = ({
             fill="none"
             strokeDasharray={a.dashed ? "4 3" : undefined}
             markerEnd={a.vertical ? "url(#ah-blue)" : "url(#ah)"}
-            markerStart={a.vertical ? "url(#ah-blue-rev)" : undefined}
             style={{ opacity: phase >= a.phase ? 1 : 0, transition: "opacity 0.5s ease" }}
           />
         ))}
