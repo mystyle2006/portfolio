@@ -85,7 +85,7 @@ const SECTION_NAV_BUTTONS = {
 
   jelpala: [
     // 상단 중앙
-    { x: -1635, y: -1457, label: "View System Design",           destination: { x: -733, y: -1635 }, arrow: "up"      as ArrowDir, labelSide: "right" as LabelSide },
+    { x: -1635, y: -1457, label: "View System Design",           destination: { x: -635, y: -1768 }, arrow: "up"      as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 상단 모서리
     { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: 80, y: 10 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 하단 모서리
@@ -163,7 +163,7 @@ export const PortfolioCanvas = () => {
       ))}
 
       {/* ── Jelpala System Design ────────────────────────────────────── */}
-      <CanvasNode x={-1533} y={-2045} width={1600} height={820}>
+      <CanvasNode x={-1435} y={-2178} width={1600} height={820}>
         <JelpalaSystemDesignSection
           skipAnimation={sysDesignReady}
           onAnimationComplete={() => setSysDesignReady(true)}
