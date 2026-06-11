@@ -118,11 +118,8 @@ export const JelpalaSystemDesignSection = ({
       {/* 제목 */}
       <div style={{ position: "absolute", left: 40, top: 30, ...fade(0) }}>
         <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>
-          Jelpala System Architecture
+          Jelpala System Design
         </h2>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginTop: 5, marginBottom: 0 }}>
-          Real-time Freight Matching Platform
-        </p>
       </div>
 
       {/* AWS Cloud 테두리 */}
