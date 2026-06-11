@@ -118,8 +118,7 @@ export const JelpalaMessagingSection = ({
   /* 클라이언트 노드 */
   const CLIENT_NODES = [
     { cy: 250, label: "Driver App",    sub: "iOS / Android" },
-    { cy: 360, label: "Customer App",  sub: "iOS / Android" },
-    { cy: 470, label: "Web Client",    sub: "Web / Mobile"  },
+    { cy: 380, label: "Customer App",  sub: "iOS / Android" },
   ];
 
   /* SVG 화살표 경로 */
