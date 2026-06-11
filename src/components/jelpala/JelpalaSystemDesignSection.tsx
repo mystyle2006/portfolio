@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useCanvas } from "../InfiniteCanvas";
 
 const W = 1600;
-const H = 820;
+const H = 870;
 const ICON = 64;
 const R   = ICON / 2;
 const MAX_PHASE = 5;
@@ -105,7 +105,7 @@ export const JelpalaSystemDesignSection = ({
 
   return (
     <div
-      style={{ width: W, height: H, position: "relative", color: "#fff", borderRadius: 20, overflow: "hidden" }}
+      style={{ width: W, height: H, position: "relative", color: "#fff", borderRadius: 20 }}
       onPointerDown={(e) => e.stopPropagation()}
     >
 

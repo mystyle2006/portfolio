@@ -163,7 +163,7 @@ export const PortfolioCanvas = () => {
       ))}
 
       {/* ── Jelpala System Design ────────────────────────────────────── */}
-      <CanvasNode x={-2235} y={-2588} width={1600} height={820}>
+      <CanvasNode x={-2235} y={-2588} width={1600} height={870}>
         <JelpalaSystemDesignSection
           skipAnimation={sysDesignReady}
           onAnimationComplete={() => setSysDesignReady(true)}
