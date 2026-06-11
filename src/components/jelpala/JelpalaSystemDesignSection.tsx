@@ -206,7 +206,7 @@ export const JelpalaSystemDesignSection = ({
 
         {/* Publish Events 레이블 */}
         <text
-          x={415} y={578} fontSize={10} fill="rgba(255,255,255,0.3)"
+          x={415} y={578} fontSize={10} fill="rgba(255,255,255,1)"
           textAnchor="middle"
           style={{ opacity: phase >= 4 ? 1 : 0, transition: "opacity 0.5s ease" }}
         >
@@ -276,8 +276,8 @@ export const JelpalaSystemDesignSection = ({
 
       {/* ElastiCache 서브 레이블 */}
       <div style={{ position: "absolute", left: 822, top: 313, ...fade(3) }}>
-        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>GEO (Geospatial Index)</div>
-        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap", marginTop: 3 }}>Pub/Sub (Real-time)</div>
+        <div style={{ fontSize: 10, color: "#ffffff", whiteSpace: "nowrap" }}>GEO (Geospatial Index)</div>
+        <div style={{ fontSize: 10, color: "#ffffff", whiteSpace: "nowrap", marginTop: 3 }}>Pub/Sub (Real-time)</div>
       </div>
 
       {/* 뒤로가기 버튼 (Jelpala 섹션으로) */}
