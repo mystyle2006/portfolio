@@ -149,7 +149,7 @@ export const JelpalaSystemDesignSection = ({
           fontSize: 11, fontWeight: 600, color: "rgba(255,153,0,0.5)",
           display: "flex", alignItems: "center", gap: 5,
         }}>
-          <Image src="/icons/aws_ecs.webp" width={13} height={13} alt="ECS" style={{ objectFit: "contain" }} />
+          <Image src="/icons/aws_ecs.webp" width={40} height={40} alt="ECS" style={{ objectFit: "contain" }} />
           Amazon ECS Cluster
         </div>
       </div>
