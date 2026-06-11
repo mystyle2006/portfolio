@@ -23,7 +23,6 @@ const NODES: Record<string, NodeDef> = {
   clientTrucking: { cx: 90,   cy: 335, icon: "/icons/client_icon.png",            label: "Trucking Co.",      sub: "Web",           phase: 0 },
   clientAdmin:    { cx: 90,   cy: 475, icon: "/icons/client_icon.png",            label: "Admin",             sub: "Web",           phase: 0 },
   alb:            { cx: 285,  cy: 335, icon: "/icons/aws_elb_icon.webp",          label: "Load Balancer",     sub: "ALB",           phase: 1 },
-  apiServers:     { cx: 500,  cy: 245, icon: "/icons/spring_java_icon.png",       label: "API Servers",       sub: "Spring Boot",   phase: 2 },
   batchServices:  { cx: 500,  cy: 460, icon: "/icons/spring_java_icon.png",       label: "Batch Services",    sub: "Spring Boot",   phase: 2 },
   rds:            { cx: 775,  cy: 195, icon: "/icons/aws_rds_icon.webp",          label: "Amazon RDS",        sub: "MySQL",         phase: 3 },
   elasticache:    { cx: 775,  cy: 335, icon: "/icons/redis_icon.png",             label: "ElastiCache",       sub: "Redis",         phase: 3 },
@@ -52,14 +51,14 @@ const ARROWS: Arrow[] = [
   { x1: 122, y1: 335, x2: 253, y2: 335, phase: 1 },
   { x1: 122, y1: 475, x2: 253, y2: 350, phase: 1 },
   // ALB → API + Batch
-  { x1: 317, y1: 318, x2: 468, y2: 245, phase: 2 },
+  { x1: 317, y1: 318, x2: 431, y2: 245, phase: 2 },
   { x1: 317, y1: 352, x2: 468, y2: 460, phase: 2 },
   // API ↔ Batch (Pub/Sub — dashed blue bidirectional)
-  { x1: 483, y1: 277, x2: 483, y2: 428, vertical: true, color: "rgba(99,179,237,0.5)", dashed: true, phase: 2 },
+  { x1: 500, y1: 266, x2: 500, y2: 428, vertical: true, color: "rgba(99,179,237,0.5)", dashed: true, phase: 2 },
   // API → Stores
-  { x1: 532, y1: 230, x2: 743, y2: 195, phase: 3 },
-  { x1: 532, y1: 248, x2: 743, y2: 335, phase: 3 },
-  { x1: 532, y1: 265, x2: 743, y2: 468, phase: 3 },
+  { x1: 569, y1: 235, x2: 743, y2: 195, phase: 3 },
+  { x1: 569, y1: 245, x2: 743, y2: 335, phase: 3 },
+  { x1: 569, y1: 255, x2: 743, y2: 468, phase: 3 },
   // Batch → SQS
   { x1: 462, y1: 492, x2: 447, y2: 633, phase: 4 },
   // SQS → Lambda
@@ -69,7 +68,7 @@ const ARROWS: Arrow[] = [
   { x1: 677, y1: 660, x2: 1033, y2: 455, phase: 5 },
   { x1: 677, y1: 672, x2: 1033, y2: 578, phase: 5 },
   // API Servers → Push Notification (RDS 위로 우회)
-  { x1: 532, y1: 215, x2: 1033, y2: 195, customPath: "M 532 215 C 532 105, 1033 105, 1033 195", phase: 5 },
+  { x1: 569, y1: 224, x2: 1033, y2: 195, customPath: "M 569 224 C 569 105, 1033 105, 1033 195", phase: 5 },
 ];
 
 function bezier(a: Arrow): string {
@@ -246,8 +245,23 @@ export const JelpalaSystemDesignSection = ({
         </div>
       ))}
 
+      {/* API Servers — 3개 아이콘 */}
+      <div style={{ position: "absolute", left: 431, top: 224, ...fade(2) }}>
+        <div style={{ display: "flex", gap: 6 }}>
+          {[0, 1, 2].map((i) => (
+            <Image key={i} src="/icons/spring_java_icon.png" width={42} height={42} alt="API Server" style={{ objectFit: "contain" }} />
+          ))}
+        </div>
+        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", display: "block", textAlign: "center", marginTop: 6 }}>
+          API Servers
+        </span>
+        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", whiteSpace: "nowrap", display: "block", textAlign: "center", marginTop: 2 }}>
+          Spring Boot
+        </span>
+      </div>
+
       {/* Pub/Sub 배지 */}
-      <div style={{ position: "absolute", left: 516, top: 345, transform: "translateY(-50%)", ...fade(2) }}>
+      <div style={{ position: "absolute", left: 510, top: 347, transform: "translateY(-50%)", ...fade(2) }}>
         <span style={{
           fontSize: 10, fontWeight: 600,
           color: "rgba(99,179,237,0.9)",
