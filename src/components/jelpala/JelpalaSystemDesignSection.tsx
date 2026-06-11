@@ -42,6 +42,7 @@ type Arrow = {
   vertical?: boolean;
   color?: string;
   dashed?: boolean;
+  customPath?: string;
   phase: number;
 };
 
@@ -67,11 +68,12 @@ const ARROWS: Arrow[] = [
   { x1: 677, y1: 648, x2: 1033, y2: 325, phase: 5 },
   { x1: 677, y1: 660, x2: 1033, y2: 455, phase: 5 },
   { x1: 677, y1: 672, x2: 1033, y2: 578, phase: 5 },
-  // API Servers → Push Notification
-  { x1: 532, y1: 215, x2: 1033, y2: 195, phase: 5 },
+  // API Servers → Push Notification (RDS 위로 우회)
+  { x1: 532, y1: 215, x2: 1033, y2: 195, customPath: "M 532 215 C 532 105, 1033 105, 1033 195", phase: 5 },
 ];
 
 function bezier(a: Arrow): string {
+  if (a.customPath) return a.customPath;
   if (a.vertical) return `M ${a.x1} ${a.y1} L ${a.x2} ${a.y2}`;
   const dx = Math.abs(a.x2 - a.x1) * 0.45;
   return `M ${a.x1} ${a.y1} C ${a.x1 + dx} ${a.y1}, ${a.x2 - dx} ${a.y2}, ${a.x2} ${a.y2}`;
