@@ -190,19 +190,6 @@ export const JelpalaMessagingSection = ({
         </div>
       </div>
 
-      {/* RDS */}
-      <div style={{ position: "absolute", left: 840, top: 220, display: "flex", flexDirection: "column", alignItems: "center", width: 90, ...fade(3) }}>
-        <Image src="/icons/aws_rds_icon.webp" width={66} height={66} alt="RDS" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 6 }}>Amazon RDS</span>
-        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>MySQL</span>
-      </div>
-
-      {/* S3 */}
-      <div style={{ position: "absolute", left: 840, top: 390, display: "flex", flexDirection: "column", alignItems: "center", width: 90, ...fade(3) }}>
-        <Image src="/icons/aws_s3_icon.webp" width={66} height={66} alt="S3" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 6 }}>Amazon S3</span>
-        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>File Storage</span>
-      </div>
 
       {/* How it works */}
       <div style={{ position: "absolute", left: 40, top: 560, ...fade(4) }}>
@@ -264,21 +251,6 @@ export const JelpalaMessagingSection = ({
           );
         })}
 
-        {/* Redis → RDS */}
-        <path
-          d={`M ${REDIS_LEFT + REDIS_W} ${REDIS_TOP + 30} C 830 ${REDIS_TOP + 30}, 830 253, 840 253`}
-          stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" fill="none"
-          markerEnd="url(#msg-ah)"
-          style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}
-        />
-
-        {/* Redis → S3 */}
-        <path
-          d={`M ${REDIS_LEFT + REDIS_W} ${REDIS_TOP + 85} C 830 ${REDIS_TOP + 85}, 830 423, 840 423`}
-          stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" fill="none"
-          markerEnd="url(#msg-ah)"
-          style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}
-        />
       </svg>
 
       {/* ── 구분선 ── */}
