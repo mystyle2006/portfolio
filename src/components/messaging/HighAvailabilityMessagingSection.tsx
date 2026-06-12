@@ -6,7 +6,7 @@ import { useCanvas } from "../InfiniteCanvas";
 
 const W = 1600;
 const H = 870;
-const ICON = 60;
+const ICON = 54;
 const R = ICON / 2;
 const MAX_PHASE = 5;
 
@@ -18,20 +18,23 @@ type NodeDef = {
   phase: number;
 };
 
+/* ── Row 1: Clients → Lambda API Writer
+   Row 2: Outbox Poller → SNS → SQS × 3 → Lambda × 3 → Services × 3 ── */
 const NODES: Record<string, NodeDef> = {
-  clientMobile: { cx: 90,   cy: 240, icon: "/icons/client_icon.png",            label: "Mobile App",   sub: "iOS / Android", phase: 0 },
-  clientWeb:    { cx: 90,   cy: 380, icon: "/icons/client_icon.png",            label: "Web App",      sub: "Browser",       phase: 0 },
-  lambdaPub:    { cx: 280,  cy: 310, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",       sub: "Publisher",     phase: 1 },
-  snsTopic:     { cx: 475,  cy: 310, icon: "/icons/aws_icon.png",               label: "SNS Topic",    sub: "Fan-out Hub",   phase: 2 },
-  sqsEmail:     { cx: 680,  cy: 190, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",          sub: "Email Queue",   phase: 3 },
-  sqsPush:      { cx: 680,  cy: 310, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",          sub: "Push Queue",    phase: 3 },
-  sqsSms:       { cx: 680,  cy: 430, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",          sub: "SMS Queue",     phase: 3 },
-  lambdaEmail:  { cx: 870,  cy: 190, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",       sub: "Email Worker",  phase: 4 },
-  lambdaPush:   { cx: 870,  cy: 310, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",       sub: "Push Worker",   phase: 4 },
-  lambdaSms:    { cx: 870,  cy: 430, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",       sub: "SMS Worker",    phase: 4 },
-  mailgun:      { cx: 1090, cy: 190, icon: "/icons/mailgun_icon.png",           label: "Mailgun",      sub: "Email",         phase: 5 },
-  fcm:          { cx: 1090, cy: 310, icon: "/icons/push_notification_icon.png", label: "Push Service", sub: "FCM / APNs",    phase: 5 },
-  twilio:       { cx: 1090, cy: 430, icon: "/icons/sms_icon.png",              label: "Twilio",        sub: "SMS",           phase: 5 },
+  clientMobile:  { cx:  75, cy: 190, icon: "/icons/client_icon.png",            label: "Mobile App",    sub: "iOS / Android", phase: 0 },
+  clientWeb:     { cx:  75, cy: 315, icon: "/icons/client_icon.png",            label: "Web App",       sub: "Browser",       phase: 0 },
+  lambdaWriter:  { cx: 255, cy: 252, icon: "/icons/aws_lambda_icon.png",        label: "Lambda API",    sub: "Writer",        phase: 1 },
+  outboxPoller:  { cx: 425, cy: 490, icon: "/icons/aws_lambda_icon.png",        label: "Outbox Poller", sub: "Scheduled",     phase: 3 },
+  snsTopic:      { cx: 615, cy: 490, icon: "/icons/aws_icon.png",               label: "SNS Topic",     sub: "Fan-out Hub",   phase: 3 },
+  sqsEmail:      { cx: 810, cy: 375, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "Email Queue",   phase: 4 },
+  sqsPush:       { cx: 810, cy: 490, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "Push Queue",    phase: 4 },
+  sqsSms:        { cx: 810, cy: 605, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "SMS Queue",     phase: 4 },
+  lambdaEmail:   { cx: 990, cy: 375, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "Email Worker",  phase: 5 },
+  lambdaPush:    { cx: 990, cy: 490, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "Push Worker",   phase: 5 },
+  lambdaSms:     { cx: 990, cy: 605, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "SMS Worker",    phase: 5 },
+  mailgun:       { cx:1175, cy: 375, icon: "/icons/mailgun_icon.png",           label: "Mailgun",       sub: "Email",         phase: 5 },
+  fcm:           { cx:1175, cy: 490, icon: "/icons/push_notification_icon.png", label: "Push Service",  sub: "FCM / APNs",    phase: 5 },
+  twilio:        { cx:1175, cy: 605, icon: "/icons/sms_icon.png",              label: "Twilio",         sub: "SMS",           phase: 5 },
 };
 
 type Arrow = {
@@ -44,23 +47,32 @@ type Arrow = {
 };
 
 const ARROWS: Arrow[] = [
-  // Clients → Lambda Publisher
-  { x1: 120, y1: 240, x2: 250, y2: 295, phase: 1 },
-  { x1: 120, y1: 380, x2: 250, y2: 325, phase: 1 },
-  // Lambda Publisher → SNS Topic
-  { x1: 310, y1: 310, x2: 445, y2: 310, phase: 2 },
+  // Clients → Lambda API Writer
+  { x1: 102, y1: 190, x2: 228, y2: 238, phase: 1 },
+  { x1: 102, y1: 315, x2: 228, y2: 266, phase: 1 },
+  // Lambda API → DB Outbox (write — same transaction)
+  { x1: 282, y1: 252, x2: 315, y2: 252, phase: 2 },
+  // DB Outbox → Outbox Poller (poll pending)
+  { x1: 407, y1: 365, x2: 425, y2: 463,
+    customPath: "M 407 365 C 407 445, 425 445, 425 463", phase: 3 },
+  // Outbox Poller → SNS Topic (publish)
+  { x1: 452, y1: 490, x2: 588, y2: 490, phase: 3 },
   // SNS fan-out → SQS Queues
-  { x1: 505, y1: 290, x2: 650, y2: 205, phase: 3 },
-  { x1: 505, y1: 310, x2: 650, y2: 310, phase: 3 },
-  { x1: 505, y1: 330, x2: 650, y2: 415, phase: 3 },
-  // SQS → Lambda Consumers
-  { x1: 710, y1: 190, x2: 840, y2: 190, phase: 4 },
-  { x1: 710, y1: 310, x2: 840, y2: 310, phase: 4 },
-  { x1: 710, y1: 430, x2: 840, y2: 430, phase: 4 },
-  // Lambda Consumers → Notification Services
-  { x1: 900, y1: 190, x2: 1060, y2: 190, phase: 5 },
-  { x1: 900, y1: 310, x2: 1060, y2: 310, phase: 5 },
-  { x1: 900, y1: 430, x2: 1060, y2: 430, phase: 5 },
+  { x1: 642, y1: 472, x2: 783, y2: 392, phase: 4 },
+  { x1: 642, y1: 490, x2: 783, y2: 490, phase: 4 },
+  { x1: 642, y1: 508, x2: 783, y2: 598, phase: 4 },
+  // SQS → Lambda Workers
+  { x1: 837, y1: 375, x2: 963, y2: 375, phase: 5 },
+  { x1: 837, y1: 490, x2: 963, y2: 490, phase: 5 },
+  { x1: 837, y1: 605, x2: 963, y2: 605, phase: 5 },
+  // Lambda Workers → DB Outbox (status update SENT / FAIL)
+  { x1: 963, y1: 365, x2: 407, y2: 358,
+    customPath: "M 963 365 C 963 210, 407 210, 407 358",
+    color: "rgba(167,243,208,0.28)", dashed: true, phase: 5 },
+  // Lambda Workers → Notification Services
+  { x1: 1017, y1: 375, x2: 1148, y2: 375, phase: 5 },
+  { x1: 1017, y1: 490, x2: 1148, y2: 490, phase: 5 },
+  { x1: 1017, y1: 605, x2: 1148, y2: 605, phase: 5 },
 ];
 
 function bezier(a: Arrow): string {
@@ -68,6 +80,13 @@ function bezier(a: Arrow): string {
   const dx = Math.abs(a.x2 - a.x1) * 0.45;
   return `M ${a.x1} ${a.y1} C ${a.x1 + dx} ${a.y1}, ${a.x2 - dx} ${a.y2}, ${a.x2} ${a.y2}`;
 }
+
+const STATUS_ITEMS = [
+  { label: "PENDING", color: "#F59E0B" },
+  { label: "SENDING", color: "#60A5FA" },
+  { label: "SENT",    color: "#34D399" },
+  { label: "FAIL",    color: "#F87171" },
+];
 
 export const HighAvailabilityMessagingSection = ({
   onAnimationComplete,
@@ -113,7 +132,7 @@ export const HighAvailabilityMessagingSection = ({
 
         {/* AWS Cloud 테두리 */}
         <div style={{
-          position: "absolute", left: 195, top: 110, width: 780, height: 520,
+          position: "absolute", left: 165, top: 105, width: 910, height: 600,
           border: "1.5px dashed rgba(255,153,0,0.3)", borderRadius: 16,
           pointerEvents: "none", ...fade(1),
         }}>
@@ -128,12 +147,54 @@ export const HighAvailabilityMessagingSection = ({
           </div>
         </div>
 
+        {/* Same Transaction 경계 (Lambda API + DB Outbox) */}
+        <div style={{
+          position: "absolute", left: 168, top: 128, width: 358, height: 255,
+          border: "1.5px dashed rgba(99,179,237,0.4)", borderRadius: 12,
+          pointerEvents: "none", ...fade(1),
+        }}>
+          <span style={{
+            position: "absolute", top: -11, left: 10,
+            background: "#0f1117", padding: "0 7px",
+            fontSize: 11, fontWeight: 600, color: "rgba(99,179,237,0.72)",
+          }}>
+            Same Transaction
+          </span>
+        </div>
+
+        {/* DB Outbox 박스 (RDS + 상태 뱃지) */}
+        <div style={{
+          position: "absolute", left: 315, top: 145, width: 190, height: 228,
+          border: "1px solid rgba(255,153,0,0.28)", borderRadius: 10,
+          background: "rgba(20,20,30,0.7)",
+          display: "flex", flexDirection: "column", alignItems: "center",
+          paddingTop: 12,
+          ...fade(2),
+        }}>
+          <Image src="/icons/aws_rds_icon.webp" width={36} height={36} alt="RDS"
+            style={{ objectFit: "contain", marginBottom: 5 }} />
+          <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.82)", marginBottom: 12 }}>
+            Outbox Table
+          </span>
+          {STATUS_ITEMS.map(({ label, color }) => (
+            <div key={label} style={{
+              display: "flex", alignItems: "center", gap: 8,
+              width: "100%", paddingLeft: 22, marginBottom: 7,
+            }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: color, flexShrink: 0 }} />
+              <span style={{ fontSize: 11, fontWeight: 700, color, letterSpacing: "0.06em" }}>
+                {label}
+              </span>
+            </div>
+          ))}
+        </div>
+
         {/* SQS Queues 그룹 박스 */}
         <div style={{
-          position: "absolute", left: 600, top: 120, width: 175, height: 400,
+          position: "absolute", left: 724, top: 318, width: 175, height: 365,
           border: "1px solid rgba(255,153,0,0.2)", borderRadius: 10,
           background: "rgba(255,153,0,0.025)",
-          pointerEvents: "none", ...fade(3),
+          pointerEvents: "none", ...fade(4),
         }}>
           <span style={{
             position: "absolute", top: -11, left: 10,
@@ -146,10 +207,10 @@ export const HighAvailabilityMessagingSection = ({
 
         {/* Lambda Consumers 그룹 박스 */}
         <div style={{
-          position: "absolute", left: 797, top: 120, width: 165, height: 400,
+          position: "absolute", left: 905, top: 318, width: 165, height: 365,
           border: "1px solid rgba(99,179,237,0.2)", borderRadius: 10,
           background: "rgba(99,179,237,0.025)",
-          pointerEvents: "none", ...fade(4),
+          pointerEvents: "none", ...fade(5),
         }}>
           <span style={{
             position: "absolute", top: -11, left: 10,
@@ -162,7 +223,7 @@ export const HighAvailabilityMessagingSection = ({
 
         {/* Notification Services 박스 */}
         <div style={{
-          position: "absolute", left: 1005, top: 120, width: 210, height: 390,
+          position: "absolute", left: 1085, top: 318, width: 210, height: 365,
           border: "1px solid rgba(255,255,255,0.09)", borderRadius: 10,
           background: "rgba(255,255,255,0.018)",
           pointerEvents: "none", ...fade(5),
@@ -176,22 +237,22 @@ export const HighAvailabilityMessagingSection = ({
           </span>
         </div>
 
-        {/* 우측 패널: Why SNS Fan-out? */}
-        <div style={{ position: "absolute", left: 1255, top: 100, width: 315, ...fade(5) }}>
-          <h3 style={{ fontSize: 17, fontWeight: 700, margin: "0 0 18px", color: "#fff" }}>
-            Why SNS Fan-out?
+        {/* 우측 패널: Why Outbox Pattern? */}
+        <div style={{ position: "absolute", left: 1322, top: 100, width: 252, ...fade(5) }}>
+          <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 16px", color: "#fff" }}>
+            Why Outbox Pattern?
           </h3>
           {[
-            { title: "Independent Scaling",  body: "Email, Push, and SMS each scale independently via dedicated SQS queues." },
-            { title: "Fault Isolation",       body: "Email delivery failure doesn't affect Push or SMS — queues buffer and retry separately." },
-            { title: "5,000+ Throughput",     body: "SNS publishes once; all consumers receive simultaneously for massive parallel delivery." },
-            { title: "Auto-scaling Lambda",   body: "Lambda auto-scales with SQS depth, handling sudden traffic bursts without manual intervention." },
+            { title: "Zero Message Loss",    body: "Outbox write and business data share one DB transaction — no message is lost even on process crash." },
+            { title: "Automatic Retry",       body: "FAIL status is re-polled and retried until SENT." },
+            { title: "Full Audit Trail",      body: "Every notification tracks PENDING → SENDING → SENT / FAIL for debugging." },
+            { title: "Transactional Safety",  body: "If the DB write fails, neither business data nor the notification is persisted — both rollback atomically." },
           ].map(({ title, body }) => (
-            <div key={title} style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.88)", marginBottom: 5 }}>
+            <div key={title} style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.88)", marginBottom: 4 }}>
                 {title}
               </div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.42)", lineHeight: 1.65 }}>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.40)", lineHeight: 1.65 }}>
                 {body}
               </div>
             </div>
@@ -207,6 +268,9 @@ export const HighAvailabilityMessagingSection = ({
             <marker id="ha-ah" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
               <path d="M0,0 L0,6 L7,3 z" fill="rgba(255,255,255,0.28)" />
             </marker>
+            <marker id="ha-ah-green" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="rgba(167,243,208,0.38)" />
+            </marker>
           </defs>
 
           {ARROWS.map((a, i) => (
@@ -217,18 +281,30 @@ export const HighAvailabilityMessagingSection = ({
               strokeWidth={1.5}
               fill="none"
               strokeDasharray={a.dashed ? "4 3" : undefined}
-              markerEnd="url(#ha-ah)"
+              markerEnd={a.dashed ? "url(#ha-ah-green)" : "url(#ha-ah)"}
               style={{ opacity: phase >= a.phase ? 1 : 0, transition: "opacity 0.5s ease" }}
             />
           ))}
 
-          <text x={378} y={298} fontSize={11} fill="rgba(255,255,255,0.5)" textAnchor="middle"
+          {/* Write 레이블 */}
+          <text x={297} y={242} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
             style={{ opacity: phase >= 2 ? 1 : 0, transition: "opacity 0.5s ease" }}>
+            Write
+          </text>
+          {/* Poll 레이블 */}
+          <text x={414} y={432} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
+            style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}>
+            Poll
+          </text>
+          {/* Publish 레이블 */}
+          <text x={520} y={479} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
+            style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}>
             Publish
           </text>
-          <text x={580} y={288} fontSize={11} fill="rgba(255,255,255,0.5)" textAnchor="middle"
-            style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}>
-            Fan-out
+          {/* SENT / FAIL 레이블 (arch 위) */}
+          <text x={685} y={200} fontSize={9} fill="rgba(167,243,208,0.5)" textAnchor="middle"
+            style={{ opacity: phase >= 5 ? 1 : 0, transition: "opacity 0.5s ease" }}>
+            Update Status
           </text>
         </svg>
 
