@@ -5,11 +5,6 @@ import Image from "next/image";
 import { useCanvas } from "../InfiniteCanvas";
 
 const W = 1600;
-const PhoneIcon = ({ size = 44, alt }: { size?: number; alt: string }) => (
-  <div style={{ width: size, height: size, borderRadius: "50%", background: "white", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-    <Image src="/icons/client_icon.png" width={size - 10} height={size - 10} alt={alt} style={{ objectFit: "contain" }} />
-  </div>
-);
 const H = 2150;
 const MAX_PHASE = 4;
 const ICON = 52;
@@ -183,7 +178,7 @@ export const JelpalaMatchingSection = ({
         {/* API → Redis */}
         <path d={`M 716 ${CY(2)} L 874 ${CY(2)}`}
           stroke="rgba(251,146,60,0.5)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
-        <text x={795} y={CY(2) - 13} fontSize="12" fill="rgba(251,146,60,0.85)" textAnchor="middle" fontWeight="500" style={sf(3)}>Publish</text>
+        <text x={795} y={CY(2) - 15} fontSize="13" fill="rgba(251,146,60,0.9)" textAnchor="middle" fontWeight="600" style={sf(3)}>Publish</text>
         {/* channel: driver:{id} 배지 */}
         <rect x={742} y={CY(2) + 8} width={108} height={18} rx="3"
           fill="rgba(251,146,60,0.08)" stroke="rgba(251,146,60,0.25)" strokeWidth="1" style={sf(3)} />
@@ -192,30 +187,24 @@ export const JelpalaMatchingSection = ({
         {/* Redis → ECS */}
         <path d={`M 926 ${CY(2)} L 1084 ${CY(2)}`}
           stroke="rgba(251,146,60,0.5)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
-        <text x={1005} y={CY(2) - 14} fontSize="11" fill="rgba(251,146,60,0.8)" textAnchor="middle" fontWeight="600" style={sf(3)}>Subscribed ECS only</text>
-        <text x={1005} y={CY(2) - 1} fontSize="10" fill="rgba(251,146,60,0.45)" textAnchor="middle" style={sf(3)}>(not all instances)</text>
+        <text x={1005} y={CY(2) - 16} fontSize="13" fill="rgba(251,146,60,0.85)" textAnchor="middle" fontWeight="600" style={sf(3)}>Subscribed ECS only</text>
+        <text x={1005} y={CY(2) + 17} fontSize="10" fill="rgba(251,146,60,0.45)" textAnchor="middle" style={sf(3)}>(not all instances)</text>
 
-        {/* ECS → Online Driver (상단 분기) */}
-        <path d={`M 1136 ${CY(2)} C 1230 ${CY(2)}, 1310 ${CY(2) - 95}, 1379 ${CY(2) - 95}`}
+        {/* ECS → Online Driver (상단 분기, 트럭 48px → 끝점 cx-24=1371) */}
+        <path d={`M 1136 ${CY(2)} C 1230 ${CY(2)}, 1310 ${CY(2) - 100}, 1371 ${CY(2) - 100}`}
           stroke="rgba(52,211,153,0.55)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-green)" style={sf(3)} />
-        <text x={1265} y={CY(2) - 106} fontSize="12" fill="rgba(52,211,153,0.85)" textAnchor="middle" fontWeight="600" style={sf(3)}>Socket.IO Direct</text>
-        {/* Online 상태 배지 */}
-        <circle cx={1395 + 18} cy={CY(2) - 95 - 14} r="5" fill="rgba(52,211,153,1)" style={sf(3)} />
-        <text x={1395 + 26} y={CY(2) - 95 - 10} fontSize="11" fill="rgba(52,211,153,0.9)" fontWeight="700" style={sf(3)}>Online</text>
+        <text x={1260} y={CY(2) - 116} fontSize="13" fill="rgba(52,211,153,0.9)" textAnchor="middle" fontWeight="600" style={sf(3)}>Socket.IO Direct</text>
 
         {/* ECS → Push Notif (하단 분기) */}
-        <path d={`M 1136 ${CY(2)} C 1170 ${CY(2) + 45}, 1200 ${CY(2) + 95}, 1229 ${CY(2) + 95}`}
+        <path d={`M 1136 ${CY(2)} C 1170 ${CY(2) + 50}, 1200 ${CY(2) + 100}, 1229 ${CY(2) + 100}`}
           stroke="rgba(251,146,60,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
-        {/* Push Notif → Offline Driver */}
-        <path d={`M 1281 ${CY(2) + 95} L 1379 ${CY(2) + 95}`}
+        {/* Push Notif → Offline Driver (끝점 cx-24=1371) */}
+        <path d={`M 1281 ${CY(2) + 100} L 1371 ${CY(2) + 100}`}
           stroke="rgba(251,146,60,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
-        <text x={1330} y={CY(2) + 82} fontSize="11" fill="rgba(251,146,60,0.7)" textAnchor="middle" style={sf(3)}>FCM / APNs</text>
-        {/* Offline 상태 배지 */}
-        <circle cx={1395 + 18} cy={CY(2) + 95 - 14} r="5" fill="rgba(156,163,175,0.8)" style={sf(3)} />
-        <text x={1395 + 26} y={CY(2) + 95 - 10} fontSize="11" fill="rgba(156,163,175,0.8)" fontWeight="700" style={sf(3)}>Offline</text>
+        <text x={1326} y={CY(2) + 85} fontSize="13" fill="rgba(251,146,60,0.8)" textAnchor="middle" fontWeight="500" style={sf(3)}>FCM / APNs</text>
 
         {/* 분기점 세로 점선 */}
-        <path d={`M 1136 ${CY(2) - 80} L 1136 ${CY(2) + 80}`}
+        <path d={`M 1136 ${CY(2) - 85} L 1136 ${CY(2) + 85}`}
           stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="4 3" fill="none" style={sf(3)} />
 
         {/* Step 3 → Step 4 */}
@@ -240,7 +229,7 @@ export const JelpalaMatchingSection = ({
       {/* Step 1: 드라이버 3개 (fan-in, cx=653) */}
       {([270, CY(0), 470] as number[]).map((cy, k) => (
         <div key={k} style={{ position: "absolute", left: 653 - R, top: cy - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
-          <PhoneIcon alt={`Driver ${k + 1}`} />
+          <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt={`Driver ${k + 1}`} style={{ objectFit: "contain" }} />
           <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>
             {k === 2 ? "Driver N" : `Driver ${k + 1}`}
           </span>
@@ -269,7 +258,7 @@ export const JelpalaMatchingSection = ({
 
       {/* Step 2: User App (cx=760) */}
       <div style={{ position: "absolute", left: 760 - R, top: CY(1) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(2) }}>
-        <PhoneIcon alt="User App" />
+        <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="User App" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>User App</span>
       </div>
       {/* Step 2: 내원 Top 5 트럭 (cx=1180 기준) */}
@@ -288,36 +277,40 @@ export const JelpalaMatchingSection = ({
       {/* Step 3: API Server (cx=690) */}
       <div style={{ position: "absolute", left: 690 - R, top: CY(2) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
         <Image src="/icons/spring_java_icon.png" width={ICON} height={ICON} alt="API Server" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>API Server</span>
+        <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", whiteSpace: "nowrap", marginTop: 4 }}>API Server</span>
       </div>
       {/* Step 3: Redis Pub/Sub (cx=900) */}
       <div style={{ position: "absolute", left: 900 - R, top: CY(2) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
         <Image src="/icons/redis_icon.png" width={ICON} height={ICON} alt="Redis Pub/Sub" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Redis Pub/Sub</span>
+        <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", whiteSpace: "nowrap", marginTop: 4 }}>Redis Pub/Sub</span>
       </div>
       {/* Step 3: ECS Instance (cx=1110) */}
       <div style={{ position: "absolute", left: 1110 - R, top: CY(2) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
         <Image src="/icons/spring_java_icon.png" width={ICON} height={ICON} alt="ECS Instance" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>ECS Instance</span>
-        <span style={{ fontSize: 10, color: "rgba(251,146,60,0.7)", whiteSpace: "nowrap", marginTop: 2 }}>Socket.IO Server</span>
+        <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", whiteSpace: "nowrap", marginTop: 4 }}>ECS Instance</span>
+        <span style={{ fontSize: 11, color: "rgba(251,146,60,0.75)", whiteSpace: "nowrap", marginTop: 2 }}>Socket.IO Server</span>
       </div>
-      {/* Step 3: Push Notification (cx=1255, cy=CY(2)+95) */}
-      <div style={{ position: "absolute", left: 1255 - R, top: CY(2) + 95 - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
-        <Image src="/icons/push_notification_icon.png" width={ICON} height={ICON} alt="Push Notification" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Push Notif</span>
+      {/* Step 3: Push Notification — 흰 원형 배경 (cx=1255, cy=CY(2)+100) */}
+      <div style={{ position: "absolute", left: 1255 - R, top: CY(2) + 100 - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
+        <div style={{ width: ICON, height: ICON, borderRadius: "50%", background: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Image src="/icons/push_notification_icon.png" width={ICON - 10} height={ICON - 10} alt="Push Notification" style={{ objectFit: "contain" }} />
+        </div>
+        <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", whiteSpace: "nowrap", marginTop: 4 }}>Push Notif</span>
       </div>
-      {/* Step 3: Online Driver truck (cx=1395, cy=CY(2)-95) */}
-      <div style={{ position: "absolute", left: 1395 - 16, top: CY(2) - 95 - 16, width: 32, height: 32, ...fade(3) }}>
-        <Image src="/icons/truck.png" width={32} height={32} alt="Online Driver" style={{ objectFit: "contain" }} />
+      {/* Step 3: Online Driver truck 48px (cx=1395, cy=CY(2)-100) */}
+      <div style={{ position: "absolute", left: 1395 - 24, top: CY(2) - 100 - 24, display: "flex", flexDirection: "column", alignItems: "center", gap: 5, ...fade(3) }}>
+        <Image src="/icons/truck.png" width={48} height={48} alt="Online Driver" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(52,211,153,0.9)", whiteSpace: "nowrap" }}>● Online</span>
       </div>
-      {/* Step 3: Offline Driver truck (cx=1395, cy=CY(2)+95) */}
-      <div style={{ position: "absolute", left: 1395 - 16, top: CY(2) + 95 - 16, width: 32, height: 32, opacity: 0.5, ...fade(3) }}>
-        <Image src="/icons/truck.png" width={32} height={32} alt="Offline Driver" style={{ objectFit: "contain" }} />
+      {/* Step 3: Offline Driver truck 48px (cx=1395, cy=CY(2)+100) */}
+      <div style={{ position: "absolute", left: 1395 - 24, top: CY(2) + 100 - 24, display: "flex", flexDirection: "column", alignItems: "center", gap: 5, opacity: 0.6, ...fade(3) }}>
+        <Image src="/icons/truck.png" width={48} height={48} alt="Offline Driver" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(156,163,175,0.9)", whiteSpace: "nowrap" }}>● Offline</span>
       </div>
 
       {/* Step 4 */}
       <div style={{ position: "absolute", left: 570 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
-        <PhoneIcon alt="Driver App" />
+        <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="Driver App" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>Driver App</span>
         <span style={{ fontSize: 10, color: "rgba(167,139,250,0.75)", whiteSpace: "nowrap", marginTop: 2 }}>Accepts</span>
       </div>
@@ -326,7 +319,7 @@ export const JelpalaMatchingSection = ({
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>API Server</span>
       </div>
       <div style={{ position: "absolute", left: 1310 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
-        <PhoneIcon alt="User App" />
+        <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="User App" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>User App</span>
         <span style={{ fontSize: 10, color: "rgba(167,139,250,0.75)", whiteSpace: "nowrap", marginTop: 2 }}>Driver Assigned</span>
       </div>
