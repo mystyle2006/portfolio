@@ -16,7 +16,7 @@ export const NAV_ORBS: {
   { title: "Skills",     x:  460, y: -280, bg: "#D1FAE5", floatDuration: "3.3s", floatDelay: "1.3s" },
   { title: "Experience", x:  530, y:   60, bg: "#EDE9FE", floatDuration: "5.0s", floatDelay: "0.3s" },
   { title: "Contact",    x:  140, y:  280, bg: "#FEF3C7", floatDuration: "4.2s", floatDelay: "1.8s" },
-  { title: "About",      x: -530, y:   60, bg: "#FFE4E6", floatDuration: "3.6s", floatDelay: "0.9s" },
+  { title: "2025",       x: -530, y:   60, bg: "#FFE4E6", floatDuration: "3.6s", floatDelay: "0.9s", destination: { x: -1544, y: 792 } },
 ];
 
 export const NavOrb = ({

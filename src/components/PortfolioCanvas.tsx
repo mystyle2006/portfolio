@@ -8,6 +8,7 @@ import { JelpalaSection } from "./jelpala/JelpalaSection";
 import { JelpalaSystemDesignSection } from "./jelpala/JelpalaSystemDesignSection";
 import { JelpalaMessagingSection } from "./jelpala/JelpalaMessagingSection";
 import { JelpalaMatchingSection } from "./jelpala/JelpalaMatchingSection";
+import { HighAvailabilityMessagingSection } from "./messaging/HighAvailabilityMessagingSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -114,6 +115,7 @@ export const PortfolioCanvas = () => {
   const [sysDesignReady, setSysDesignReady]         = useState(false);
   const [messagingReady, setMessagingReady]         = useState(false);
   const [matchingReady, setMatchingReady]           = useState(false);
+  const [hamReady, setHamReady]                     = useState(false);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -189,6 +191,14 @@ export const PortfolioCanvas = () => {
         <JelpalaMatchingSection
           skipAnimation={matchingReady}
           onAnimationComplete={() => setMatchingReady(true)}
+        />
+      </CanvasNode>
+
+      {/* ── High-Availability Messaging Architecture ─────────────── */}
+      <CanvasNode x={-2344} y={357} width={1600} height={870}>
+        <HighAvailabilityMessagingSection
+          skipAnimation={hamReady}
+          onAnimationComplete={() => setHamReady(true)}
         />
       </CanvasNode>
 
