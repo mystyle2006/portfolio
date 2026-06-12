@@ -158,13 +158,7 @@ export const JelpalaMatchingSection = ({
         <text x={1060 + 58} y={CY(1) - 7} fontSize="10" fill="rgba(52,211,153,0.7)" style={sf(2)}>40km</text>
         <text x={1060 + 103} y={CY(1) - 7} fontSize="10" fill="rgba(52,211,153,0.5)" style={sf(2)}>75km</text>
         <text x="1060" y={CY(1) + 164} fontSize="11" fill="rgba(52,211,153,0.4)" textAnchor="middle" style={sf(2)}>No results → expand radius</text>
-        {/* 드라이버 점 */}
-        {([[1030, CY(1) - 20], [1083, CY(1) + 24], [1143, CY(1) - 14], [1152, CY(1) + 26]] as [number,number][]).map(([dx, dy], k) => (
-          <g key={k} style={sf(2)}>
-            <circle cx={dx} cy={dy} r="7" fill="rgba(52,211,153,0.8)" stroke="rgba(0,0,0,0.2)" strokeWidth="0.5" />
-            <text x={dx} y={dy + 4} fontSize="8" fill="rgba(0,0,0,0.75)" textAnchor="middle" fontWeight="700">D</text>
-          </g>
-        ))}
+        {/* 드라이버 위치 — DOM Image로 렌더 */}
 
         {/* Step 2 → Step 3 */}
         <path d={`M 800 ${STEP_TOPS[1] + STEP_H + 4} L 800 ${STEP_TOPS[2] - 4}`}
@@ -235,11 +229,17 @@ export const JelpalaMatchingSection = ({
         <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Redis GEO</span>
       </div>
 
-      {/* Step 2 */}
+      {/* Step 2: User App */}
       <div style={{ position: "absolute", left: 570 - R, top: CY(1) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(2) }}>
         <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="User App" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>User App</span>
       </div>
+      {/* Step 2: 근처 드라이버 트럭 아이콘 */}
+      {([[1030, CY(1) - 20], [1083, CY(1) + 24], [1143, CY(1) - 14], [1152, CY(1) + 26]] as [number, number][]).map(([dx, dy], k) => (
+        <div key={k} style={{ position: "absolute", left: dx - 16, top: dy - 16, width: 32, height: 32, ...fade(2) }}>
+          <Image src="/icons/truck.png" width={32} height={32} alt={`Driver ${k + 1}`} style={{ objectFit: "contain" }} />
+        </div>
+      ))}
 
       {/* Step 3 */}
       <div style={{ position: "absolute", left: 510, top: CY(2) - 70, width: 190, height: 140, border: "1px solid rgba(251,146,60,0.25)", borderRadius: 10, background: "rgba(251,146,60,0.07)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 7, ...fade(3) }}>
