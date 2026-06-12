@@ -139,11 +139,10 @@ export const JelpalaSection = ({
         {/* role list */}
         <ul className="flex flex-col gap-2.5" style={{ ...fadeUp(80), marginTop: "20px" }}>
           {[
-            <>Led the <K>end-to-end development</K> of Jelpala, a logistics marketplace connecting shippers and truck drivers across <K>North America</K>.</>,
-            <>Designed and implemented <K>customer, driver, and admin platforms</K> for <K>Web, iOS, and Android</K>.</>,
-            <>Architected scalable cloud infrastructure on <K>AWS ECS</K>, <K>Redis</K>, <K>RDS</K>, and <K>S3</K>.</>,
+            <>Designed and implemented customer, driver, and admin platforms for Web, iOS, and Android using <K>React Native Expo</K>.</>,
+            <>Architected scalable cloud infrastructure on <K>AWS ECS</K>, <K>Redis</K>, <K>RDS</K>, <K>SQS</K>, <K>Lambda</K> and <K>S3</K>.</>,
             <>Built a <K>location-based matching system</K> using <K>Redis GEO</K> to connect drivers with nearby shipments in real time.</>,
-            <>Integrated <K>Stripe</K> payments, <K>Mailgun</K> notifications, and <K>CI/CD pipelines</K> for production.</>,
+            <>Designed and implemented <K>a Docker-based CI/CD pipeline</K> using <K>GitHub Actions</K>, standardizing build, testing, and deployment processes across environments.</>
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2.5 leading-relaxed text-zinc-400" style={{ fontSize: "15px" }}>
               <span style={{ marginTop: "9px", width: "4px", height: "4px", borderRadius: "50%", background: "#52525b", flexShrink: 0, display: "inline-block" }} />
