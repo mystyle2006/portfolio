@@ -5,6 +5,11 @@ import Image from "next/image";
 import { useCanvas } from "../InfiniteCanvas";
 
 const W = 1600;
+const PhoneIcon = ({ size = 44, alt }: { size?: number; alt: string }) => (
+  <div style={{ width: size, height: size, borderRadius: "50%", background: "white", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+    <Image src="/icons/client_icon.png" width={size - 10} height={size - 10} alt={alt} style={{ objectFit: "contain" }} />
+  </div>
+);
 const H = 2150;
 const MAX_PHASE = 4;
 const ICON = 52;
@@ -235,7 +240,7 @@ export const JelpalaMatchingSection = ({
       {/* Step 1: 드라이버 3개 (fan-in, cx=653) */}
       {([270, CY(0), 470] as number[]).map((cy, k) => (
         <div key={k} style={{ position: "absolute", left: 653 - R, top: cy - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
-          <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt={`Driver ${k + 1}`} style={{ objectFit: "contain" }} />
+          <PhoneIcon alt={`Driver ${k + 1}`} />
           <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>
             {k === 2 ? "Driver N" : `Driver ${k + 1}`}
           </span>
@@ -264,7 +269,7 @@ export const JelpalaMatchingSection = ({
 
       {/* Step 2: User App (cx=760) */}
       <div style={{ position: "absolute", left: 760 - R, top: CY(1) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(2) }}>
-        <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="User App" style={{ objectFit: "contain" }} />
+        <PhoneIcon alt="User App" />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>User App</span>
       </div>
       {/* Step 2: 내원 Top 5 트럭 (cx=1180 기준) */}
@@ -312,7 +317,7 @@ export const JelpalaMatchingSection = ({
 
       {/* Step 4 */}
       <div style={{ position: "absolute", left: 570 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
-        <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="Driver App" style={{ objectFit: "contain" }} />
+        <PhoneIcon alt="Driver App" />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>Driver App</span>
         <span style={{ fontSize: 10, color: "rgba(167,139,250,0.75)", whiteSpace: "nowrap", marginTop: 2 }}>Accepts</span>
       </div>
@@ -321,7 +326,7 @@ export const JelpalaMatchingSection = ({
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>API Server</span>
       </div>
       <div style={{ position: "absolute", left: 1310 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
-        <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="User App" style={{ objectFit: "contain" }} />
+        <PhoneIcon alt="User App" />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>User App</span>
         <span style={{ fontSize: 10, color: "rgba(167,139,250,0.75)", whiteSpace: "nowrap", marginTop: 2 }}>Driver Assigned</span>
       </div>
