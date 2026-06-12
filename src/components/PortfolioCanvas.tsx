@@ -183,7 +183,7 @@ export const PortfolioCanvas = () => {
       </CanvasNode>
 
       {/* ── Jelpala Matching Architecture ──────────────────────────── */}
-      <CanvasNode x={-4314} y={-213} width={1600} height={2500}>
+      <CanvasNode x={-4314} y={-213} width={1600} height={2150}>
         <JelpalaMatchingSection
           skipAnimation={matchingReady}
           onAnimationComplete={() => setMatchingReady(true)}

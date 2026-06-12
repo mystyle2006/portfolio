@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useCanvas } from "../InfiniteCanvas";
 
 const W = 1600;
-const H = 2500;
+const H = 2150;
 const MAX_PHASE = 5;
 const ICON = 52;
 const R = ICON / 2;
@@ -233,24 +233,6 @@ export const JelpalaMatchingSection = ({
         <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="User App" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>User App</span>
         <span style={{ fontSize: 10, color: "rgba(167,139,250,0.75)", whiteSpace: "nowrap", marginTop: 2 }}>Driver Assigned</span>
-      </div>
-
-      {/* ── Key Points ── */}
-      <div style={{ position: "absolute", left: 40, top: STEP_TOPS[3] + STEP_H + 60, ...fade(5) }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.55)", marginBottom: 18, letterSpacing: "0.05em" }}>KEY POINTS</div>
-        <div style={{ display: "flex", gap: 24 }}>
-          {([
-            { color: "99,179,237",  title: "Real-time Location",    desc: "Background updates every 300ms" },
-            { color: "52,211,153",  title: "Redis GEO Search",     desc: "GEORADIUS with expanding radius" },
-            { color: "251,146,60",  title: "Instant Notification",  desc: "Pub/Sub + Socket.IO broadcast" },
-            { color: "167,139,250", title: "Fast Matching",         desc: "< 100ms end-to-end response" },
-          ] as const).map(({ color, title, desc }) => (
-            <div key={title} style={{ flex: 1, padding: "18px 22px", border: `1px solid rgba(${color},0.2)`, borderRadius: 12, background: `rgba(${color},0.05)` }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: `rgba(${color},1)`, marginBottom: 7 }}>{title}</div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>{desc}</div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* ── 뒤로가기 버튼 ── */}
