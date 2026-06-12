@@ -364,7 +364,7 @@ export const JelpalaMatchingSection = ({
         onMouseLeave={(e) => (e.currentTarget.style.transform = "translateX(-50%) scale(1)")}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M9 3V15M9 15L3 9M9 15L15 9" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 14L14 4M14 4H8M14 4V10" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
     </div>
