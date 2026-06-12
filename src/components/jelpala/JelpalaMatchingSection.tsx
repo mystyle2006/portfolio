@@ -142,8 +142,8 @@ export const JelpalaMatchingSection = ({
 
         {/* Step 1 → Step 2 */}
         <path d={`M 800 ${STEP_TOPS[0] + STEP_H + 4} L 800 ${STEP_TOPS[1] - 4}`}
-          stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(2)} />
-        <text x="820" y={STEP_TOPS[0] + STEP_H + 32} fontSize="11" fill="rgba(255,255,255,0.22)" style={sf(2)}>Continuous Update</text>
+          stroke="rgba(255,255,255,0.55)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(2)} />
+        <text x="820" y={STEP_TOPS[0] + STEP_H + 32} fontSize="14" fill="rgba(255,255,255,0.82)" fontWeight="500" style={sf(2)}>Continuous Update</text>
 
         {/* ── Step 2: User(cx=760) → GEORADIUS(cx=1180) ── */}
         {/* 화살표 */}
@@ -171,8 +171,8 @@ export const JelpalaMatchingSection = ({
 
         {/* Step 2 → Step 3 */}
         <path d={`M 800 ${STEP_TOPS[1] + STEP_H + 4} L 800 ${STEP_TOPS[2] - 4}`}
-          stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(3)} />
-        <text x="820" y={STEP_TOPS[1] + STEP_H + 32} fontSize="11" fill="rgba(255,255,255,0.22)" style={sf(3)}>Drivers Found</text>
+          stroke="rgba(255,255,255,0.55)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(3)} />
+        <text x="820" y={STEP_TOPS[1] + STEP_H + 32} fontSize="14" fill="rgba(255,255,255,0.82)" fontWeight="500" style={sf(3)}>Drivers Found</text>
 
         {/* ── Step 3: API → Redis → ECS → (Online/Offline 분기) ── */}
         {/* API → Redis */}
@@ -209,8 +209,8 @@ export const JelpalaMatchingSection = ({
 
         {/* Step 3 → Step 4 */}
         <path d={`M 800 ${STEP_TOPS[2] + STEP_H + 4} L 800 ${STEP_TOPS[3] - 4}`}
-          stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(4)} />
-        <text x="820" y={STEP_TOPS[2] + STEP_H + 32} fontSize="11" fill="rgba(255,255,255,0.22)" style={sf(4)}>Driver Accepts</text>
+          stroke="rgba(255,255,255,0.55)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(4)} />
+        <text x="820" y={STEP_TOPS[2] + STEP_H + 32} fontSize="14" fill="rgba(255,255,255,0.82)" fontWeight="500" style={sf(4)}>Driver Accepts</text>
 
         {/* ── Step 4: Race Condition → Redis Lock → DB Transaction ── */}
         {/* D1, D2, D3 → Redis Lock (fan-in, 동시 수락) */}
