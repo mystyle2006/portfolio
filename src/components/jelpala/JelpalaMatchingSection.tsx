@@ -43,8 +43,8 @@ export const JelpalaMatchingSection = ({
     {
       color: "99,179,237",
       title: "Driver Location Update",
-      desc: "Drivers continuously send location updates every 300ms. To prevent Redis from being overwhelmed by high-volume concurrent writes, SQS acts as a buffer between the API and Redis GEO.",
-      points: ["N drivers send HTTPS updates every 300ms", "API publishes to SQS — decouples write load", "Lambda consumer batch-writes via Redis GEOADD"],
+      desc: "Drivers send location updates every 300m traveled. To prevent Redis from being overwhelmed by high-volume concurrent writes, SQS acts as a buffer between the API and Redis GEO.",
+      points: ["N drivers send HTTPS updates every 300m traveled", "API publishes to SQS — decouples write load", "Lambda consumer batch-writes via Redis GEOADD"],
     },
     {
       color: "52,211,153",
@@ -114,9 +114,9 @@ export const JelpalaMatchingSection = ({
         </defs>
 
         {/* ── Step 1: N Drivers → API → SQS → Lambda → Redis GEO ── */}
-        {/* "Every 300ms" 배지 (D1 위) */}
+        {/* "Every 300m" 배지 (D1 위) */}
         <rect x={519} y={222} width={106} height={22} rx="6" fill="rgba(99,179,237,0.14)" stroke="rgba(99,179,237,0.3)" strokeWidth="1" style={sf(1)} />
-        <text x={572} y={237} fontSize="11" fill="rgba(99,179,237,0.9)" textAnchor="middle" fontWeight="600" style={sf(1)}>Every 300ms</text>
+        <text x={572} y={237} fontSize="11" fill="rgba(99,179,237,0.9)" textAnchor="middle" fontWeight="600" style={sf(1)}>Every 300m</text>
         {/* 드라이버 3개 → API Server (fan-in 곡선) */}
         <path d={`M ${565 + R} 270 C 640 270, 740 ${CY(0)}, 764 ${CY(0)}`}
           stroke="rgba(99,179,237,0.35)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-blue)" style={sf(1)} />
