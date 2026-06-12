@@ -114,31 +114,31 @@ export const JelpalaMatchingSection = ({
         </defs>
 
         {/* ── Step 1: N Drivers → API → SQS → Lambda → Redis GEO ── */}
-        {/* "Every 300m" 배지 (D1 위) */}
-        <rect x={519} y={222} width={106} height={22} rx="6" fill="rgba(99,179,237,0.14)" stroke="rgba(99,179,237,0.3)" strokeWidth="1" style={sf(1)} />
-        <text x={572} y={237} fontSize="11" fill="rgba(99,179,237,0.9)" textAnchor="middle" fontWeight="600" style={sf(1)}>Every 300m</text>
-        {/* 드라이버 3개 → API Server (fan-in 곡선) */}
-        <path d={`M ${565 + R} 270 C 640 270, 740 ${CY(0)}, 764 ${CY(0)}`}
+        {/* "Every 300m" 배지 (D1 위, cx=653 기준 중앙) */}
+        <rect x={607} y={222} width={112} height={24} rx="6" fill="rgba(99,179,237,0.14)" stroke="rgba(99,179,237,0.3)" strokeWidth="1" style={sf(1)} />
+        <text x={663} y={238} fontSize="13" fill="rgba(99,179,237,0.9)" textAnchor="middle" fontWeight="600" style={sf(1)}>Every 300m</text>
+        {/* 드라이버 3개 → API Server (fan-in 곡선, cx=653→878) */}
+        <path d={`M 679 270 C 730 270, 825 ${CY(0)}, 852 ${CY(0)}`}
           stroke="rgba(99,179,237,0.35)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-blue)" style={sf(1)} />
-        <path d={`M ${565 + R} ${CY(0)} L 764 ${CY(0)}`}
+        <path d={`M 679 ${CY(0)} L 852 ${CY(0)}`}
           stroke="rgba(99,179,237,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-blue)" style={sf(1)} />
-        <path d={`M ${565 + R} 470 C 640 470, 740 ${CY(0)}, 764 ${CY(0)}`}
+        <path d={`M 679 470 C 730 470, 825 ${CY(0)}, 852 ${CY(0)}`}
           stroke="rgba(99,179,237,0.35)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-blue)" style={sf(1)} />
-        {/* API → SQS */}
-        <path d={`M 816 ${CY(0)} L 944 ${CY(0)}`}
+        {/* API(878) → SQS(1058) */}
+        <path d={`M 904 ${CY(0)} L 1032 ${CY(0)}`}
           stroke="rgba(99,179,237,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-blue)" style={sf(1)} />
-        <text x={880} y={CY(0) - 12} fontSize="11" fill="rgba(99,179,237,0.75)" textAnchor="middle" style={sf(1)}>Publish</text>
-        {/* SQS → Lambda */}
-        <path d={`M 996 ${CY(0)} L 1124 ${CY(0)}`}
+        <text x={968} y={CY(0) - 13} fontSize="13" fill="rgba(99,179,237,0.85)" textAnchor="middle" fontWeight="500" style={sf(1)}>Publish</text>
+        {/* SQS(1058) → Lambda(1238) */}
+        <path d={`M 1084 ${CY(0)} L 1212 ${CY(0)}`}
           stroke="rgba(99,179,237,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-blue)" style={sf(1)} />
-        <text x={1060} y={CY(0) - 12} fontSize="11" fill="rgba(99,179,237,0.75)" textAnchor="middle" style={sf(1)}>Consume</text>
-        {/* Lambda → Redis GEO */}
-        <path d={`M 1176 ${CY(0)} L 1304 ${CY(0)}`}
+        <text x={1148} y={CY(0) - 13} fontSize="13" fill="rgba(99,179,237,0.85)" textAnchor="middle" fontWeight="500" style={sf(1)}>Consume</text>
+        {/* Lambda(1238) → Redis GEO(1418) */}
+        <path d={`M 1264 ${CY(0)} L 1392 ${CY(0)}`}
           stroke="rgba(99,179,237,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-blue)" style={sf(1)} />
-        <text x={1240} y={CY(0) - 12} fontSize="11" fill="rgba(99,179,237,0.75)" textAnchor="middle" style={sf(1)}>GEOADD</text>
-        {/* SQS "Buffer" 배지 */}
-        <rect x={920} y={CY(0) + 36} width={100} height={20} rx="4" fill="rgba(99,179,237,0.1)" stroke="rgba(99,179,237,0.25)" strokeWidth="1" style={sf(1)} />
-        <text x={970} y={CY(0) + 50} fontSize="10" fill="rgba(99,179,237,0.7)" textAnchor="middle" fontWeight="600" style={sf(1)}>Burst Buffer</text>
+        <text x={1328} y={CY(0) - 13} fontSize="13" fill="rgba(99,179,237,0.85)" textAnchor="middle" fontWeight="500" style={sf(1)}>GEOADD</text>
+        {/* SQS "Burst Buffer" 배지 — label 아래 충분한 간격 */}
+        <rect x={1008} y={CY(0) + 54} width={100} height={22} rx="4" fill="rgba(99,179,237,0.1)" stroke="rgba(99,179,237,0.25)" strokeWidth="1" style={sf(1)} />
+        <text x={1058} y={CY(0) + 69} fontSize="11" fill="rgba(99,179,237,0.75)" textAnchor="middle" fontWeight="600" style={sf(1)}>Burst Buffer</text>
 
         {/* Step 1 → Step 2 */}
         <path d={`M 800 ${STEP_TOPS[0] + STEP_H + 4} L 800 ${STEP_TOPS[1] - 4}`}
@@ -199,32 +199,32 @@ export const JelpalaMatchingSection = ({
 
       {/* ── DOM 아이콘 ── */}
 
-      {/* Step 1: 드라이버 3개 (fan-in) */}
+      {/* Step 1: 드라이버 3개 (fan-in, cx=653) */}
       {([270, CY(0), 470] as number[]).map((cy, k) => (
-        <div key={k} style={{ position: "absolute", left: 565 - R, top: cy - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
+        <div key={k} style={{ position: "absolute", left: 653 - R, top: cy - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
           <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt={`Driver ${k + 1}`} style={{ objectFit: "contain" }} />
           <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>
             {k === 2 ? "Driver N" : `Driver ${k + 1}`}
           </span>
         </div>
       ))}
-      {/* API Server */}
-      <div style={{ position: "absolute", left: 790 - R, top: CY(0) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
+      {/* API Server (cx=878) */}
+      <div style={{ position: "absolute", left: 878 - R, top: CY(0) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
         <Image src="/icons/spring_java_icon.png" width={ICON} height={ICON} alt="API Server" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>API Server</span>
       </div>
-      {/* SQS */}
-      <div style={{ position: "absolute", left: 970 - R, top: CY(0) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
+      {/* SQS (cx=1058) */}
+      <div style={{ position: "absolute", left: 1058 - R, top: CY(0) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
         <Image src="/icons/aws_sqs_icon.webp" width={ICON} height={ICON} alt="SQS" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>AWS SQS</span>
       </div>
-      {/* Lambda */}
-      <div style={{ position: "absolute", left: 1150 - R, top: CY(0) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
+      {/* Lambda (cx=1238) */}
+      <div style={{ position: "absolute", left: 1238 - R, top: CY(0) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
         <Image src="/icons/aws_lambda_icon.png" width={ICON} height={ICON} alt="Lambda" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Lambda</span>
       </div>
-      {/* Redis GEO */}
-      <div style={{ position: "absolute", left: 1330 - R, top: CY(0) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
+      {/* Redis GEO (cx=1418) */}
+      <div style={{ position: "absolute", left: 1418 - R, top: CY(0) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(1) }}>
         <Image src="/icons/redis_icon.png" width={ICON} height={ICON} alt="Redis GEO" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Redis GEO</span>
       </div>
