@@ -158,8 +158,8 @@ export const JelpalaMatchingSection = ({
         <circle cx="1180" cy={CY(1)} r="5" fill="rgba(52,211,153,0.9)" style={sf(2)} />
         <text x="1180" y={CY(1) + 4} fontSize="9" fill="rgba(52,211,153,0.85)" textAnchor="middle" fontWeight="700" style={sf(2)}>GEO</text>
         {/* 원 레이블 */}
-        <text x="1180" y={CY(1) - 88} fontSize="12" fill="rgba(52,211,153,0.9)" textAnchor="middle" fontWeight="700" style={sf(2)}>① Top 5 Notified</text>
-        <text x="1180" y={CY(1) - 150} fontSize="12" fill="rgba(52,211,153,0.55)" textAnchor="middle" fontWeight="600" style={sf(2)}>② Expand → Top 20</text>
+        <text x="1180" y={CY(1) - 90} fontSize="16" fill="rgba(52,211,153,0.95)" textAnchor="middle" fontWeight="700" style={sf(2)}>① Top 5 Notified</text>
+        <text x="1180" y={CY(1) - 152} fontSize="15" fill="rgba(52,211,153,0.65)" textAnchor="middle" fontWeight="600" style={sf(2)}>② Expand → Top 20</text>
         {/* "No accept" 안내 — 두 원 사이 */}
         <text x="1300" y={CY(1) + 5} fontSize="11" fill="rgba(52,211,153,0.35)" style={sf(2)}>if no accept</text>
         <path d={`M 1298 ${CY(1) - 8} L 1298 ${CY(1) - 30}`}
