@@ -85,17 +85,17 @@ export const JelpalaMatchingSection = ({
           {/* 좌/우 분리선 */}
           <div style={{ position: "absolute", left: 490, top: STEP_TOPS[i] + 20, width: 1, height: STEP_H - 40, background: `rgba(${color},0.12)`, ...fade(i + 1) }} />
           {/* 좌측 설명 */}
-          <div style={{ position: "absolute", left: 70, top: STEP_TOPS[i] + 32, width: 380, ...fade(i + 1) }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-              <div style={{ width: 34, height: 34, borderRadius: "50%", flexShrink: 0, background: `rgba(${color},0.15)`, border: `1px solid rgba(${color},0.35)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 800, color: `rgba(${color},1)` }}>{i + 1}</div>
-              <span style={{ fontSize: 17, fontWeight: 800, color: "rgba(255,255,255,0.92)" }}>{title}</span>
+          <div style={{ position: "absolute", left: 70, top: STEP_TOPS[i] + 36, width: 390, ...fade(i + 1) }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 16 }}>
+              <div style={{ width: 38, height: 38, borderRadius: "50%", flexShrink: 0, background: `rgba(${color},0.18)`, border: `1.5px solid rgba(${color},0.5)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 800, color: `rgba(${color},1)` }}>{i + 1}</div>
+              <span style={{ fontSize: 19, fontWeight: 800, color: "rgba(255,255,255,0.95)", letterSpacing: "-0.01em" }}>{title}</span>
             </div>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", lineHeight: 1.65, margin: "0 0 16px 0" }}>{desc}</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.72)", lineHeight: 1.7, margin: "0 0 20px 0" }}>{desc}</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {points.map((pt) => (
-                <div key={pt} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-                  <div style={{ width: 4, height: 4, borderRadius: "50%", background: `rgba(${color},0.65)`, marginTop: 6, flexShrink: 0 }} />
-                  <span style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", lineHeight: 1.5 }}>{pt}</span>
+                <div key={pt} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                  <div style={{ width: 5, height: 5, borderRadius: "50%", background: `rgba(${color},0.9)`, marginTop: 7, flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.62)", lineHeight: 1.55 }}>{pt}</span>
                 </div>
               ))}
             </div>
