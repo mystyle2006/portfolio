@@ -89,9 +89,9 @@ const SECTION_NAV_BUTTONS = {
     // 상단 중앙
     { x: -1635, y: -1457, label: "View System Design",           destination: { x: -1435, y: -2178 }, arrow: "up"      as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 상단 모서리
-    { x: -2360, y: -1420, label: "Distributed Real-Time Messaging", destination: { x: -3410, y: -1909 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
+    { x: -2360, y: -1420, label: "View Distributed Real-Time Messaging", destination: { x: -3410, y: -1909 }, arrow: "up-left" as ArrowDir, labelSide: "right" as LabelSide },
     // 좌측 하단 모서리
-    { x: -2360, y: -700,  label: "Matching Architecture",        destination: { x: -3514, y: 187 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
+    { x: -2360, y: -700,  label: "View Matching Architecture",        destination: { x: -3514, y: 187 }, arrow: "down-left" as ArrowDir, labelSide: "right" as LabelSide },
   ],
 
   // projects: [],
