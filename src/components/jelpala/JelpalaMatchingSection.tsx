@@ -49,8 +49,8 @@ export const JelpalaMatchingSection = ({
     {
       color: "52,211,153",
       title: "User Matching Request",
-      desc: "When a user requests a match, GEORADIUS searches nearby drivers. If no results are found, the search radius automatically expands.",
-      points: ["GEORADIUS searches within initial radius", "No results → radius expands automatically", "Returns nearest available drivers sorted"],
+      desc: "GEORADIUS finds all nearby drivers and ranks them by proximity. Match requests go to the Top 5 first — if none accept, the radius expands and the Top 20 are notified.",
+      points: ["GEORADIUS returns drivers sorted by proximity", "Round 1: notify Top 5 closest drivers", "No accept → expand radius, notify Top 20"],
     },
     {
       color: "251,146,60",
@@ -145,20 +145,33 @@ export const JelpalaMatchingSection = ({
           stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(2)} />
         <text x="820" y={STEP_TOPS[0] + STEP_H + 32} fontSize="11" fill="rgba(255,255,255,0.22)" style={sf(2)}>Continuous Update</text>
 
-        {/* ── Step 2: User → Expanding Radius ── */}
-        <path d={`M ${570 + R} ${CY(1)} C 730 ${CY(1)}, 900 ${CY(1)}, ${1060 - 58} ${CY(1)}`}
+        {/* ── Step 2: User(cx=760) → GEORADIUS(cx=1180) ── */}
+        {/* 화살표 */}
+        <path d={`M 786 ${CY(1)} L 1098 ${CY(1)}`}
           stroke="rgba(52,211,153,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-green)" style={sf(2)} />
-        <text x={(570 + R + 1002) / 2} y={CY(1) - 12} fontSize="12" fill="rgba(52,211,153,0.75)" textAnchor="middle" style={sf(2)}>Match Request</text>
-        {/* 동심원 */}
-        <circle cx="1060" cy={CY(1)} r="150" fill="rgba(52,211,153,0.025)" stroke="rgba(52,211,153,0.15)" strokeWidth="1" strokeDasharray="5 3" style={sf(2)} />
-        <circle cx="1060" cy={CY(1)} r="100" fill="rgba(52,211,153,0.055)" stroke="rgba(52,211,153,0.28)" strokeWidth="1.5" strokeDasharray="5 2" style={sf(2)} />
-        <circle cx="1060" cy={CY(1)} r="55" fill="rgba(52,211,153,0.1)" stroke="rgba(52,211,153,0.48)" strokeWidth="1.5" style={sf(2)} />
-        <circle cx="1060" cy={CY(1)} r="6" fill="rgba(52,211,153,0.9)" style={sf(2)} />
-        <text x="1060" y={CY(1) + 4} fontSize="10" fill="rgba(52,211,153,0.85)" textAnchor="middle" fontWeight="700" style={sf(2)}>GEORADIUS</text>
-        <text x={1060 + 58} y={CY(1) - 7} fontSize="10" fill="rgba(52,211,153,0.7)" style={sf(2)}>40km</text>
-        <text x={1060 + 103} y={CY(1) - 7} fontSize="10" fill="rgba(52,211,153,0.5)" style={sf(2)}>75km</text>
-        <text x="1060" y={CY(1) + 164} fontSize="11" fill="rgba(52,211,153,0.4)" textAnchor="middle" style={sf(2)}>No results → expand radius</text>
-        {/* 드라이버 위치 — DOM Image로 렌더 */}
+        <text x={942} y={CY(1) - 14} fontSize="13" fill="rgba(52,211,153,0.8)" textAnchor="middle" fontWeight="500" style={sf(2)}>Match Request</text>
+        {/* ② Round 2 — 외원 (r=145, dashed) */}
+        <circle cx="1180" cy={CY(1)} r="145" fill="rgba(52,211,153,0.018)" stroke="rgba(52,211,153,0.22)" strokeWidth="1.5" strokeDasharray="6 4" style={sf(2)} />
+        {/* ① Round 1 — 내원 (r=82, solid) */}
+        <circle cx="1180" cy={CY(1)} r="82" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.55)" strokeWidth="1.5" style={sf(2)} />
+        {/* 중심점 */}
+        <circle cx="1180" cy={CY(1)} r="5" fill="rgba(52,211,153,0.9)" style={sf(2)} />
+        <text x="1180" y={CY(1) + 4} fontSize="9" fill="rgba(52,211,153,0.85)" textAnchor="middle" fontWeight="700" style={sf(2)}>GEO</text>
+        {/* 원 레이블 */}
+        <text x="1180" y={CY(1) - 88} fontSize="12" fill="rgba(52,211,153,0.9)" textAnchor="middle" fontWeight="700" style={sf(2)}>① Top 5 Notified</text>
+        <text x="1180" y={CY(1) - 150} fontSize="12" fill="rgba(52,211,153,0.55)" textAnchor="middle" fontWeight="600" style={sf(2)}>② Expand → Top 20</text>
+        {/* "No accept" 안내 — 두 원 사이 */}
+        <text x="1300" y={CY(1) + 5} fontSize="11" fill="rgba(52,211,153,0.35)" style={sf(2)}>if no accept</text>
+        <path d={`M 1298 ${CY(1) - 8} L 1298 ${CY(1) - 30}`}
+          stroke="rgba(52,211,153,0.25)" strokeWidth="1" strokeDasharray="3 2" fill="none" style={sf(2)} />
+        {/* 랭크 배지 (Top 5 내원 트럭 위) */}
+        {([[1202, 802, 1], [1142, 808, 2], [1235, 888, 3], [1128, 902, 4], [1192, 928, 5]] as [number,number,number][]).map(([tx, ty, rank]) => (
+          <g key={rank} style={sf(2)}>
+            <circle cx={tx + 13} cy={ty - 13} r="9" fill="rgba(52,211,153,1)" />
+            <text x={tx + 13} y={ty - 9} fontSize="9" fill="#0f1117" textAnchor="middle" fontWeight="800">{rank}</text>
+          </g>
+        ))}
+        {/* 드라이버 트럭 — DOM Image로 렌더 */}
 
         {/* Step 2 → Step 3 */}
         <path d={`M 800 ${STEP_TOPS[1] + STEP_H + 4} L 800 ${STEP_TOPS[2] - 4}`}
@@ -229,15 +242,21 @@ export const JelpalaMatchingSection = ({
         <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Redis GEO</span>
       </div>
 
-      {/* Step 2: User App */}
-      <div style={{ position: "absolute", left: 570 - R, top: CY(1) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(2) }}>
+      {/* Step 2: User App (cx=760) */}
+      <div style={{ position: "absolute", left: 760 - R, top: CY(1) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(2) }}>
         <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="User App" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>User App</span>
       </div>
-      {/* Step 2: 근처 드라이버 트럭 아이콘 */}
-      {([[1030, CY(1) - 20], [1083, CY(1) + 24], [1143, CY(1) - 14], [1152, CY(1) + 26]] as [number, number][]).map(([dx, dy], k) => (
-        <div key={k} style={{ position: "absolute", left: dx - 16, top: dy - 16, width: 32, height: 32, ...fade(2) }}>
-          <Image src="/icons/truck.png" width={32} height={32} alt={`Driver ${k + 1}`} style={{ objectFit: "contain" }} />
+      {/* Step 2: 내원 Top 5 트럭 (cx=1180 기준) */}
+      {([[1202, 802], [1142, 808], [1235, 888], [1128, 902], [1192, 928]] as [number,number][]).map(([tx, ty], k) => (
+        <div key={k} style={{ position: "absolute", left: tx - 16, top: ty - 16, width: 32, height: 32, ...fade(2) }}>
+          <Image src="/icons/truck.png" width={32} height={32} alt={`Top Driver ${k + 1}`} style={{ objectFit: "contain" }} />
+        </div>
+      ))}
+      {/* Step 2: 외원 추가 트럭 (r=82~145 구간) */}
+      {([[1075, 788], [1295, 772], [1062, 938], [1270, 960]] as [number,number][]).map(([tx, ty], k) => (
+        <div key={k} style={{ position: "absolute", left: tx - 16, top: ty - 16, width: 32, height: 32, opacity: 0.45, ...fade(2) }}>
+          <Image src="/icons/truck.png" width={32} height={32} alt={`Outer Driver ${k + 1}`} style={{ objectFit: "contain" }} />
         </div>
       ))}
 
