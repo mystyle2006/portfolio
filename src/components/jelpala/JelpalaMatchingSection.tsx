@@ -187,7 +187,7 @@ export const JelpalaMatchingSection = ({
         {/* Redis → ECS */}
         <path d={`M 926 ${CY(2)} L 1084 ${CY(2)}`}
           stroke="rgba(251,146,60,0.5)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
-        <text x={1005} y={CY(2) - 16} fontSize="13" fill="rgba(251,146,60,0.85)" textAnchor="middle" fontWeight="600" style={sf(3)}>Subscribed ECS only</text>
+        <text x={1005} y={CY(2) - 16} fontSize="13" fill="rgba(251,146,60,0.85)" textAnchor="middle" fontWeight="600" style={sf(3)}>Subscribed Channel only</text>
         <text x={1005} y={CY(2) + 17} fontSize="10" fill="rgba(251,146,60,0.45)" textAnchor="middle" style={sf(3)}>(not all instances)</text>
 
         {/* ECS → Online Driver (상단 분기, 트럭 48px → 끝점 cx-24=1371) */}
