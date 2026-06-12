@@ -160,10 +160,6 @@ export const JelpalaMatchingSection = ({
         {/* 원 레이블 */}
         <text x="1180" y={CY(1) - 90} fontSize="16" fill="rgba(52,211,153,0.95)" textAnchor="middle" fontWeight="700" style={sf(2)}>① Top 5 Notified</text>
         <text x="1180" y={CY(1) - 152} fontSize="15" fill="rgba(52,211,153,0.65)" textAnchor="middle" fontWeight="600" style={sf(2)}>② Expand → Top 20</text>
-        {/* "No accept" 안내 — 두 원 사이 */}
-        <text x="1300" y={CY(1) + 5} fontSize="11" fill="rgba(52,211,153,0.35)" style={sf(2)}>if no accept</text>
-        <path d={`M 1298 ${CY(1) - 8} L 1298 ${CY(1) - 30}`}
-          stroke="rgba(52,211,153,0.25)" strokeWidth="1" strokeDasharray="3 2" fill="none" style={sf(2)} />
         {/* 랭크 배지 (Top 5 내원 트럭 위) */}
         {([[1202, 802, 1], [1142, 808, 2], [1235, 888, 3], [1128, 902, 4], [1192, 928, 5]] as [number,number,number][]).map(([tx, ty, rank]) => (
           <g key={rank} style={sf(2)}>
