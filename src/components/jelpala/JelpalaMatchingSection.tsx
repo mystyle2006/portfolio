@@ -61,8 +61,8 @@ export const JelpalaMatchingSection = ({
     {
       color: "167,139,250",
       title: "Matching Confirmation",
-      desc: "Once a driver accepts, the match is confirmed and the user receives a driver assignment notification instantly.",
-      points: ["First accepting driver wins the match", "Match status updated in RDS atomically", "User receives Driver Assigned notification"],
+      desc: "Multiple drivers may accept simultaneously, creating a race condition. Redis distributed lock (SETNX) ensures only the first acceptor wins, while a DB transaction atomically commits the result.",
+      points: ["Redis SETNX: only the first driver acquires the lock", "Others immediately receive 'Already Matched' response", "DB transaction commits atomically — user notified on success"],
     },
   ] as const;
 
@@ -106,7 +106,7 @@ export const JelpalaMatchingSection = ({
       {/* ── SVG 레이어 ── */}
       <svg style={{ position: "absolute", inset: 0, width: W, height: H, pointerEvents: "none" }} viewBox={`0 0 ${W} ${H}`}>
         <defs>
-          {([["match-ah","rgba(255,255,255,0.28)"],["match-ah-blue","rgba(99,179,237,0.75)"],["match-ah-green","rgba(52,211,153,0.75)"],["match-ah-orange","rgba(251,146,60,0.75)"],["match-ah-purple","rgba(167,139,250,0.75)"]] as const).map(([id, fill]) => (
+          {([["match-ah","rgba(255,255,255,0.28)"],["match-ah-blue","rgba(99,179,237,0.75)"],["match-ah-green","rgba(52,211,153,0.75)"],["match-ah-orange","rgba(251,146,60,0.75)"],["match-ah-purple","rgba(167,139,250,0.75)"],["match-ah-red","rgba(239,68,68,0.7)"]] as const).map(([id, fill]) => (
             <marker key={id} id={id} markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
               <path d="M0,0 L0,6 L7,3 z" fill={fill} />
             </marker>
@@ -212,16 +212,30 @@ export const JelpalaMatchingSection = ({
           stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(4)} />
         <text x="820" y={STEP_TOPS[2] + STEP_H + 32} fontSize="11" fill="rgba(255,255,255,0.22)" style={sf(4)}>Driver Accepts</text>
 
-        {/* ── Step 4: Driver → API → User ── */}
-        <path d={`M ${570 + R} ${CY(3)} C 710 ${CY(3)}, 840 ${CY(3)}, ${940 - R} ${CY(3)}`}
-          stroke="rgba(167,139,250,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-purple)" style={sf(4)} />
-        <text x={(570 + R + 940 - R) / 2} y={CY(3) - 12} fontSize="12" fill="rgba(167,139,250,0.75)" textAnchor="middle" style={sf(4)}>Accept</text>
-        <path d={`M ${940 + R} ${CY(3)} C 1080 ${CY(3)}, 1200 ${CY(3)}, ${1310 - R} ${CY(3)}`}
-          stroke="rgba(167,139,250,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-purple)" style={sf(4)} />
-        <text x={(940 + R + 1310 - R) / 2} y={CY(3) - 12} fontSize="12" fill="rgba(167,139,250,0.75)" textAnchor="middle" style={sf(4)}>Confirmed</text>
-        {/* Match Success 배지 */}
-        <rect x={940 - 48} y={CY(3) - 55} width={96} height={22} rx="6" fill="rgba(167,139,250,0.18)" stroke="rgba(167,139,250,0.38)" strokeWidth="1" style={sf(4)} />
-        <text x={940} y={CY(3) - 40} fontSize="11" fill="rgba(167,139,250,0.9)" textAnchor="middle" fontWeight="600" style={sf(4)}>Match Success</text>
+        {/* ── Step 4: Race Condition → Redis Lock → DB Transaction ── */}
+        {/* D1, D2, D3 → Redis Lock (fan-in, 동시 수락) */}
+        <path d={`M 686 ${CY(3) - 100} C 748 ${CY(3) - 100}, 818 ${CY(3)}, 830 ${CY(3)}`}
+          stroke="rgba(167,139,250,0.42)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-purple)" style={sf(4)} />
+        <path d={`M 686 ${CY(3)} L 830 ${CY(3)}`}
+          stroke="rgba(167,139,250,0.65)" strokeWidth="2" fill="none" markerEnd="url(#match-ah-purple)" style={sf(4)} />
+        <path d={`M 686 ${CY(3) + 100} C 748 ${CY(3) + 100}, 818 ${CY(3)}, 830 ${CY(3)}`}
+          stroke="rgba(167,139,250,0.42)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-purple)" style={sf(4)} />
+        <text x={758} y={CY(3) - 14} fontSize="13" fill="rgba(167,139,250,0.85)" textAnchor="middle" fontWeight="600" style={sf(4)}>Accept</text>
+        {/* Already Matched 거절 응답 (외곡선, dashed red) */}
+        <path d={`M 830 ${CY(3)} C 830 ${CY(3) - 160}, 686 ${CY(3) - 155}, 686 ${CY(3) - 100}`}
+          stroke="rgba(239,68,68,0.48)" strokeWidth="1.2" fill="none" strokeDasharray="5 3" markerEnd="url(#match-ah-red)" style={sf(4)} />
+        <text x={760} y={CY(3) - 152} fontSize="10" fill="rgba(239,68,68,0.85)" textAnchor="middle" fontWeight="600" style={sf(4)}>Already Matched</text>
+        <path d={`M 830 ${CY(3)} C 830 ${CY(3) + 160}, 686 ${CY(3) + 155}, 686 ${CY(3) + 100}`}
+          stroke="rgba(239,68,68,0.48)" strokeWidth="1.2" fill="none" strokeDasharray="5 3" markerEnd="url(#match-ah-red)" style={sf(4)} />
+        <text x={760} y={CY(3) + 162} fontSize="10" fill="rgba(239,68,68,0.85)" textAnchor="middle" fontWeight="600" style={sf(4)}>Already Matched</text>
+        {/* Redis Lock → DB Transaction (success, green) */}
+        <path d={`M 950 ${CY(3)} L 1015 ${CY(3)}`}
+          stroke="rgba(52,211,153,0.65)" strokeWidth="2" fill="none" markerEnd="url(#match-ah-green)" style={sf(4)} />
+        <text x={983} y={CY(3) - 12} fontSize="14" fill="rgba(52,211,153,0.9)" textAnchor="middle" fontWeight="800" style={sf(4)}>✓</text>
+        {/* DB Transaction → User App */}
+        <path d={`M 1165 ${CY(3)} L 1334 ${CY(3)}`}
+          stroke="rgba(167,139,250,0.55)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-purple)" style={sf(4)} />
+        <text x={1249} y={CY(3) - 14} fontSize="13" fill="rgba(167,139,250,0.85)" textAnchor="middle" fontWeight="500" style={sf(4)}>Confirmed</text>
       </svg>
 
       {/* ── DOM 아이콘 ── */}
@@ -308,17 +322,27 @@ export const JelpalaMatchingSection = ({
         <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(156,163,175,0.9)", whiteSpace: "nowrap" }}>● Offline</span>
       </div>
 
-      {/* Step 4 */}
-      <div style={{ position: "absolute", left: 570 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
-        <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="Driver App" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>Driver App</span>
-        <span style={{ fontSize: 10, color: "rgba(167,139,250,0.75)", whiteSpace: "nowrap", marginTop: 2 }}>Accepts</span>
+      {/* Step 4: 3 Driver phones (cx=660, D1/D2/D3) */}
+      {([CY(3) - 100, CY(3), CY(3) + 100] as number[]).map((cy, k) => (
+        <div key={k} style={{ position: "absolute", left: 660 - R, top: cy - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
+          <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt={`Driver ${k + 1}`} style={{ objectFit: "contain" }} />
+          <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Driver {k + 1}</span>
+        </div>
+      ))}
+      {/* Step 4: Redis Lock 박스 */}
+      <div style={{ position: "absolute", left: 830, top: CY(3) - 60, width: 120, height: 120, border: "1px solid rgba(167,139,250,0.4)", borderRadius: 10, background: "rgba(167,139,250,0.06)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, ...fade(4) }}>
+        <Image src="/icons/redis_icon.png" width={40} height={40} alt="Redis Lock" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Redis Lock</span>
+        <span style={{ fontSize: 10, color: "rgba(167,139,250,0.85)", border: "1px solid rgba(167,139,250,0.3)", borderRadius: 3, padding: "2px 6px", whiteSpace: "nowrap" }}>SET NX EX</span>
       </div>
-      <div style={{ position: "absolute", left: 940 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
-        <Image src="/icons/spring_java_icon.png" width={ICON} height={ICON} alt="API Server" style={{ objectFit: "contain" }} />
-        <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>API Server</span>
+      {/* Step 4: DB Transaction 박스 */}
+      <div style={{ position: "absolute", left: 1015, top: CY(3) - 60, width: 150, height: 120, border: "1px solid rgba(52,211,153,0.35)", borderRadius: 10, background: "rgba(52,211,153,0.05)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, ...fade(4) }}>
+        <Image src="/icons/aws_rds_icon.webp" width={38} height={38} alt="RDS" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>DB Transaction</span>
+        <span style={{ fontSize: 10, color: "rgba(52,211,153,0.85)", border: "1px solid rgba(52,211,153,0.3)", borderRadius: 3, padding: "2px 6px", whiteSpace: "nowrap" }}>Atomic Commit</span>
       </div>
-      <div style={{ position: "absolute", left: 1310 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
+      {/* Step 4: User App (cx=1360) */}
+      <div style={{ position: "absolute", left: 1360 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
         <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt="User App" style={{ objectFit: "contain" }} />
         <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.8)", whiteSpace: "nowrap", marginTop: 5 }}>User App</span>
         <span style={{ fontSize: 10, color: "rgba(167,139,250,0.75)", whiteSpace: "nowrap", marginTop: 2 }}>Driver Assigned</span>
