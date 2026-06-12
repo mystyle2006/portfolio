@@ -55,8 +55,8 @@ export const JelpalaMatchingSection = ({
     {
       color: "251,146,60",
       title: "Notify Drivers",
-      desc: "Events are broadcast via Redis Pub/Sub, and each ECS instance delivers real-time notifications to drivers through Socket.IO.",
-      points: ["API publishes event to Redis channel", "All ECS instances receive via Pub/Sub", "Socket.IO emits to connected driver apps"],
+      desc: "Each driver subscribes to their own Pub/Sub channel (driver:{id}). The API publishes to that specific channel — only the ECS instance the driver is connected to receives it, then routes the notification based on driver status.",
+      points: ["Per-driver channel: no broadcast to all instances", "Online → ECS delivers via Socket.IO direct message", "Offline → FCM / APNs push notification fallback"],
     },
     {
       color: "167,139,250",
@@ -174,20 +174,44 @@ export const JelpalaMatchingSection = ({
           stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" markerEnd="url(#match-ah)" style={sf(3)} />
         <text x="820" y={STEP_TOPS[1] + STEP_H + 32} fontSize="11" fill="rgba(255,255,255,0.22)" style={sf(3)}>Drivers Found</text>
 
-        {/* ── Step 3: ECS/Redis → 드라이버 3명 fan-out ── */}
-        {([CY(2) - 110, CY(2), CY(2) + 110] as number[]).map((dy, k) => (
-          <path key={k}
-            d={`M 700 ${CY(2)} C 900 ${CY(2)}, 1100 ${dy}, ${1290 - R} ${dy}`}
-            stroke="rgba(251,146,60,0.4)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
-        ))}
-        <text x={(700 + 1290 - R) / 2} y={CY(2) - 130} fontSize="12" fill="rgba(251,146,60,0.75)" textAnchor="middle" style={sf(3)}>Socket.IO Emit</text>
-        {/* 알림 배지 */}
-        {([CY(2) - 110, CY(2), CY(2) + 110] as number[]).map((dy, k) => (
-          <g key={k} style={sf(3)}>
-            <circle cx={1290 + R + 9} cy={dy - R + 5} r="10" fill="rgba(251,146,60,0.9)" />
-            <text x={1290 + R + 9} y={dy - R + 9} fontSize="10" fill="#000" textAnchor="middle" fontWeight="800">!</text>
-          </g>
-        ))}
+        {/* ── Step 3: API → Redis → ECS → (Online/Offline 분기) ── */}
+        {/* API → Redis */}
+        <path d={`M 716 ${CY(2)} L 874 ${CY(2)}`}
+          stroke="rgba(251,146,60,0.5)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
+        <text x={795} y={CY(2) - 13} fontSize="12" fill="rgba(251,146,60,0.85)" textAnchor="middle" fontWeight="500" style={sf(3)}>Publish</text>
+        {/* channel: driver:{id} 배지 */}
+        <rect x={742} y={CY(2) + 8} width={108} height={18} rx="3"
+          fill="rgba(251,146,60,0.08)" stroke="rgba(251,146,60,0.25)" strokeWidth="1" style={sf(3)} />
+        <text x={796} y={CY(2) + 20} fontSize="10" fill="rgba(251,146,60,0.75)" textAnchor="middle" style={sf(3)}>{"channel: driver:{id}"}</text>
+
+        {/* Redis → ECS */}
+        <path d={`M 926 ${CY(2)} L 1084 ${CY(2)}`}
+          stroke="rgba(251,146,60,0.5)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
+        <text x={1005} y={CY(2) - 14} fontSize="11" fill="rgba(251,146,60,0.8)" textAnchor="middle" fontWeight="600" style={sf(3)}>Subscribed ECS only</text>
+        <text x={1005} y={CY(2) - 1} fontSize="10" fill="rgba(251,146,60,0.45)" textAnchor="middle" style={sf(3)}>(not all instances)</text>
+
+        {/* ECS → Online Driver (상단 분기) */}
+        <path d={`M 1136 ${CY(2)} C 1230 ${CY(2)}, 1310 ${CY(2) - 95}, 1379 ${CY(2) - 95}`}
+          stroke="rgba(52,211,153,0.55)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-green)" style={sf(3)} />
+        <text x={1265} y={CY(2) - 106} fontSize="12" fill="rgba(52,211,153,0.85)" textAnchor="middle" fontWeight="600" style={sf(3)}>Socket.IO Direct</text>
+        {/* Online 상태 배지 */}
+        <circle cx={1395 + 18} cy={CY(2) - 95 - 14} r="5" fill="rgba(52,211,153,1)" style={sf(3)} />
+        <text x={1395 + 26} y={CY(2) - 95 - 10} fontSize="11" fill="rgba(52,211,153,0.9)" fontWeight="700" style={sf(3)}>Online</text>
+
+        {/* ECS → Push Notif (하단 분기) */}
+        <path d={`M 1136 ${CY(2)} C 1170 ${CY(2) + 45}, 1200 ${CY(2) + 95}, 1229 ${CY(2) + 95}`}
+          stroke="rgba(251,146,60,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
+        {/* Push Notif → Offline Driver */}
+        <path d={`M 1281 ${CY(2) + 95} L 1379 ${CY(2) + 95}`}
+          stroke="rgba(251,146,60,0.45)" strokeWidth="1.5" fill="none" markerEnd="url(#match-ah-orange)" style={sf(3)} />
+        <text x={1330} y={CY(2) + 82} fontSize="11" fill="rgba(251,146,60,0.7)" textAnchor="middle" style={sf(3)}>FCM / APNs</text>
+        {/* Offline 상태 배지 */}
+        <circle cx={1395 + 18} cy={CY(2) + 95 - 14} r="5" fill="rgba(156,163,175,0.8)" style={sf(3)} />
+        <text x={1395 + 26} y={CY(2) + 95 - 10} fontSize="11" fill="rgba(156,163,175,0.8)" fontWeight="700" style={sf(3)}>Offline</text>
+
+        {/* 분기점 세로 점선 */}
+        <path d={`M 1136 ${CY(2) - 80} L 1136 ${CY(2) + 80}`}
+          stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="4 3" fill="none" style={sf(3)} />
 
         {/* Step 3 → Step 4 */}
         <path d={`M 800 ${STEP_TOPS[2] + STEP_H + 4} L 800 ${STEP_TOPS[3] - 4}`}
@@ -256,21 +280,35 @@ export const JelpalaMatchingSection = ({
         </div>
       ))}
 
-      {/* Step 3 */}
-      <div style={{ position: "absolute", left: 510, top: CY(2) - 70, width: 190, height: 140, border: "1px solid rgba(251,146,60,0.25)", borderRadius: 10, background: "rgba(251,146,60,0.07)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 7, ...fade(3) }}>
-        <div style={{ display: "flex", gap: 8 }}>
-          <Image src="/icons/spring_java_icon.png" width={34} height={34} alt="ECS" style={{ objectFit: "contain" }} />
-          <Image src="/icons/redis_icon.png" width={34} height={34} alt="Redis" style={{ objectFit: "contain" }} />
-        </div>
-        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>ECS + Redis</span>
-        <span style={{ fontSize: 10, color: "rgba(251,146,60,0.85)", border: "1px solid rgba(251,146,60,0.3)", borderRadius: 3, padding: "2px 6px" }}>Pub/Sub Broadcast</span>
+      {/* Step 3: API Server (cx=690) */}
+      <div style={{ position: "absolute", left: 690 - R, top: CY(2) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
+        <Image src="/icons/spring_java_icon.png" width={ICON} height={ICON} alt="API Server" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>API Server</span>
       </div>
-      {([CY(2) - 110, CY(2), CY(2) + 110] as number[]).map((dy, k) => (
-        <div key={k} style={{ position: "absolute", left: 1290 - R, top: dy - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
-          <Image src="/icons/client_icon.png" width={ICON} height={ICON} alt={`Driver ${k + 1}`} style={{ objectFit: "contain" }} />
-          <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Driver {k + 1}</span>
-        </div>
-      ))}
+      {/* Step 3: Redis Pub/Sub (cx=900) */}
+      <div style={{ position: "absolute", left: 900 - R, top: CY(2) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
+        <Image src="/icons/redis_icon.png" width={ICON} height={ICON} alt="Redis Pub/Sub" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Redis Pub/Sub</span>
+      </div>
+      {/* Step 3: ECS Instance (cx=1110) */}
+      <div style={{ position: "absolute", left: 1110 - R, top: CY(2) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
+        <Image src="/icons/spring_java_icon.png" width={ICON} height={ICON} alt="ECS Instance" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>ECS Instance</span>
+        <span style={{ fontSize: 10, color: "rgba(251,146,60,0.7)", whiteSpace: "nowrap", marginTop: 2 }}>Socket.IO Server</span>
+      </div>
+      {/* Step 3: Push Notification (cx=1255, cy=CY(2)+95) */}
+      <div style={{ position: "absolute", left: 1255 - R, top: CY(2) + 95 - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(3) }}>
+        <Image src="/icons/push_notification_icon.png" width={ICON} height={ICON} alt="Push Notification" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap", marginTop: 4 }}>Push Notif</span>
+      </div>
+      {/* Step 3: Online Driver truck (cx=1395, cy=CY(2)-95) */}
+      <div style={{ position: "absolute", left: 1395 - 16, top: CY(2) - 95 - 16, width: 32, height: 32, ...fade(3) }}>
+        <Image src="/icons/truck.png" width={32} height={32} alt="Online Driver" style={{ objectFit: "contain" }} />
+      </div>
+      {/* Step 3: Offline Driver truck (cx=1395, cy=CY(2)+95) */}
+      <div style={{ position: "absolute", left: 1395 - 16, top: CY(2) + 95 - 16, width: 32, height: 32, opacity: 0.5, ...fade(3) }}>
+        <Image src="/icons/truck.png" width={32} height={32} alt="Offline Driver" style={{ objectFit: "contain" }} />
+      </div>
 
       {/* Step 4 */}
       <div style={{ position: "absolute", left: 570 - R, top: CY(3) - R, width: ICON, display: "flex", flexDirection: "column", alignItems: "center", ...fade(4) }}>
