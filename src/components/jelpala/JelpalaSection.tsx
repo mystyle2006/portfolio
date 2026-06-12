@@ -22,9 +22,11 @@ const Cursor = ({ visible }: { visible: boolean }) => (
 
 export const JelpalaSection = ({
   onAnimationComplete,
+  onNavReady,
   skipAnimation = false,
 }: {
   onAnimationComplete?: () => void;
+  onNavReady?: () => void;
   skipAnimation?: boolean;
 }) => {
   const { panTo } = useCanvas();
@@ -75,6 +77,12 @@ export const JelpalaSection = ({
       return () => clearInterval(timer);
     }
   }, [phase, skipAnimation]);
+
+  /* stats 표시 직후 네비 버튼 노출 */
+  useEffect(() => {
+    if (!statsVisible) return;
+    onNavReady?.();
+  }, [statsVisible]);
 
   /* stats fadeUp 최장 딜레이(200ms) + 트랜지션(600ms) 이후 완료 */
   useEffect(() => {

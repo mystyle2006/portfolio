@@ -110,6 +110,7 @@ export const PortfolioCanvas = () => {
   const [visibleOrbCount, setVisibleOrbCount] = useState(0);
   const [orbsIdle, setOrbsIdle]               = useState(false);
   const [jelpalaReady, setJelpalaReady]           = useState(false);
+  const [jelpalaNavReady, setJelpalaNavReady]     = useState(false);
   const [sysDesignReady, setSysDesignReady]         = useState(false);
   const [messagingReady, setMessagingReady]         = useState(false);
   const [matchingReady, setMatchingReady]           = useState(false);
@@ -157,12 +158,13 @@ export const PortfolioCanvas = () => {
         <JelpalaSection
           skipAnimation={jelpalaReady}
           onAnimationComplete={() => setJelpalaReady(true)}
+          onNavReady={() => setJelpalaNavReady(true)}
         />
       </CanvasNode>
 
       {SECTION_NAV_BUTTONS.jelpala.map(({ x, y, label, destination, arrow, labelSide }) => (
         <CanvasNode key={label} x={x} y={y}>
-          <CanvasNavButton label={label} destination={destination} arrow={arrow} labelSide={labelSide} visible={jelpalaReady} />
+          <CanvasNavButton label={label} destination={destination} arrow={arrow} labelSide={labelSide} visible={jelpalaNavReady} />
         </CanvasNode>
       ))}
 
