@@ -211,14 +211,14 @@ export const JelpalaMessagingSection = ({
           markerEnd="url(#msg-ah-orange)"
           style={{ opacity: phase >= 2 ? 1 : 0, transition: "opacity 0.5s ease" }} />
         <text x="405" y="316" fontSize="12" fill="rgba(251,146,60,0.92)" textAnchor="middle" fontWeight="700"
-          style={{ opacity: phase >= 2 ? 1 : 0, transition: "opacity 0.5s ease" }}>PUBLISH</text>
+          style={{ opacity: phase >= 2 ? 1 : 0, transition: "opacity 0.5s ease" }}>Publish</text>
 
         {/* ③ Redis → ECS 2 (subscribed, success) */}
         <path d="M 620 364 C 668 364, 700 438, 740 438"
           stroke="rgba(52,211,153,0.68)" strokeWidth="2" fill="none"
           markerEnd="url(#msg-ah-green)"
           style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }} />
-        <text x="682" y="415" fontSize="11" fill="rgba(52,211,153,0.88)" textAnchor="middle" fontWeight="600"
+        <text x="682" y="415" fontSize="12" fill="rgba(52,211,153,0.88)" textAnchor="middle" fontWeight="600"
           style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}>Subscribed ✓</text>
 
         {/* ④ Redis → ECS 3 (not subscribed, rejected) */}
@@ -226,7 +226,7 @@ export const JelpalaMessagingSection = ({
           stroke="rgba(239,68,68,0.42)" strokeWidth="1.2" fill="none" strokeDasharray="5 3"
           markerEnd="url(#msg-ah-red)"
           style={{ opacity: phase >= 4 ? 1 : 0, transition: "opacity 0.5s ease" }} />
-        <text x="682" y="298" fontSize="11" fill="rgba(239,68,68,0.65)" textAnchor="middle"
+        <text x="682" y="298" fontSize="12" fill="rgba(239,68,68,0.65)" textAnchor="middle"
           style={{ opacity: phase >= 4 ? 1 : 0, transition: "opacity 0.5s ease" }}>× Ignored</text>
 
         {/* ⑤ ECS 2 → Customer App */}
@@ -234,7 +234,7 @@ export const JelpalaMessagingSection = ({
           stroke="rgba(52,211,153,0.5)" strokeWidth="1.5" fill="none"
           markerEnd="url(#msg-ah-green)"
           style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }} />
-        <text x="947" y="428" fontSize="11" fill="rgba(52,211,153,0.62)" textAnchor="middle"
+        <text x="947" y="428" fontSize="12" fill="rgba(52,211,153,0.62)" textAnchor="middle"
           style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}>Socket.IO</text>
       </svg>
 
