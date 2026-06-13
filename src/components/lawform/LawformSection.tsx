@@ -174,7 +174,7 @@ export const LawformSection = ({
       <button
         onClick={() => panTo(80, 10)}
         onPointerDown={(e) => e.stopPropagation()}
-        className="absolute bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-20"
+        className="absolute top-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-20"
         style={{
           background: "#ffffff",
           boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
@@ -184,7 +184,7 @@ export const LawformSection = ({
         onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M4 4L14 14M14 14V6M14 14H6" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 14L14 4M14 4H8M14 4V10" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
     </div>
