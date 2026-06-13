@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, CSSProperties } from "react";
 import { MapBackground } from "../jelpala/MapBackground";
 import { useCanvas } from "../InfiniteCanvas";
 
-const TITLE    = "Jelpala";
-const SUBTITLE = "Real-Time Freight Matching Platform";
+const TITLE    = "Building a Highly Available Notification System at Lawform";
+const SUBTITLE = "Designed an event-driven notification architecture using AWS SQS and Lambda, reliably delivering SMS and email notifications to 5,000+ recipients while improving system responsiveness and fault tolerance.";
 
 const K = ({ children }: { children: React.ReactNode }) => (
   <span className="text-white font-semibold underline decoration-blue-400/50 decoration-2 underline-offset-[3px]">
@@ -120,13 +120,13 @@ export const LawformSection = ({
       >
 
         {/* title */}
-        <h1 className="text-[80px] font-extrabold leading-none tracking-tight min-h-[1em]" style={{ marginBottom: "14px" }}>
+        <h1 className="text-[36px] font-extrabold leading-tight tracking-tight min-h-[1em]" style={{ marginBottom: "14px" }}>
           {titleText}
           {phase === "title" && <Cursor visible={cursorVisible} />}
         </h1>
 
         {/* subtitle */}
-        <p className="text-[22px] font-medium text-zinc-400 min-h-[1.5em] mb-12">
+        <p className="text-[14px] font-medium text-zinc-400 min-h-[1.5em] mb-12" style={{ lineHeight: "1.6" }}>
           {subtitleText}
           {phase === "subtitle" && <Cursor visible={cursorVisible} />}
         </p>
