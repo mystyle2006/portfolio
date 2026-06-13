@@ -8,7 +8,7 @@ import { JelpalaSection } from "./jelpala/JelpalaSection";
 import { JelpalaSystemDesignSection } from "./jelpala/JelpalaSystemDesignSection";
 import { JelpalaMessagingSection } from "./jelpala/JelpalaMessagingSection";
 import { JelpalaMatchingSection } from "./jelpala/JelpalaMatchingSection";
-import { HighAvailabilityMessagingSection } from "./messaging/HighAvailabilityMessagingSection";
+import { HighAvailabilityMessagingSection } from "./lawform/HighAvailabilityMessagingSection";
 import { LawformSection } from "./lawform/LawformSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
@@ -197,12 +197,12 @@ export const PortfolioCanvas = () => {
       </CanvasNode>
 
       {/* ── High-Availability Messaging Architecture ─────────────── */}
-      {/* <CanvasNode x={-2344} y={357} width={1600} height={870}>
+      <CanvasNode x={-2411} y={1469} width={1600} height={870}>
         <HighAvailabilityMessagingSection
           skipAnimation={hamReady}
           onAnimationComplete={() => setHamReady(true)}
         />
-      </CanvasNode> */}
+      </CanvasNode>
 
       {/* ── Lawform Section ──────────────────────────────────────── */}
       <CanvasNode x={-2264} y={492} width={1440} height={600}>
