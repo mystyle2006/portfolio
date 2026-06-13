@@ -165,8 +165,8 @@ export const LawformSection = ({
 
       </div>
 
-      {/* ── 우측 지도 영역 ── */}
-      <div className="flex-1 relative">
+      {/* ── 우측 애니메이션 영역 ── */}
+      <div className="flex-1 relative" style={{ paddingLeft: "64px" }}>
         <LawformAnimation active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
       </div>
 
