@@ -67,10 +67,10 @@ export const LawformAnimation = ({
 
         {/* 암시적 추가 fan-out 선 (노드 없음) */}
         {[
-          { x:  18, y: 395 },
-          { x: 200, y: 445 },
-          { x: 422, y: 445 },
-          { x: 608, y: 402 },
+          { x:  18, y: 318 },
+          { x: 200, y: 455 },
+          { x: 422, y: 352 },
+          { x: 608, y: 302 },
         ].map((ch, i) => (
           <path key={`ghost-${i}`} d={fanPath(ch)}
             stroke="rgba(255,255,255,0.07)" strokeWidth={1} fill="none" />
