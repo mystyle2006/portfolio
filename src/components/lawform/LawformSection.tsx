@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
-import { MapBackground } from "../jelpala/MapBackground";
+import { LawformAnimation } from "./LawformAnimation";
 import { useCanvas } from "../InfiniteCanvas";
 
 const TITLE    = "Building a Highly Available Notification System at Lawform";
@@ -167,7 +167,7 @@ export const LawformSection = ({
 
       {/* ── 우측 지도 영역 ── */}
       <div className="flex-1 relative">
-        <MapBackground active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
+        <LawformAnimation active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
       </div>
 
       {/* ── 프로필로 돌아가기 버튼 ── */}
