@@ -197,7 +197,7 @@ export const PortfolioCanvas = () => {
       </CanvasNode>
 
       {/* ── High-Availability Messaging Architecture ─────────────── */}
-      <CanvasNode x={-2411} y={1469} width={1600} height={870}>
+      <CanvasNode x={-2411} y={1669} width={1600} height={870}>
         <HighAvailabilityMessagingSection
           skipAnimation={hamReady}
           onAnimationComplete={() => setHamReady(true)}
