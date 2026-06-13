@@ -150,7 +150,6 @@ export const LawformSection = ({
           {[
             { value: "5,000+",    label: "Daily Recipients" },
             { value: "99.9%",     label: "High Availability" },
-            { value: "3,000+",    label: "Concurrent Users" },
           ].map(({ value, label }, i) => (
             <>
               {i > 0 && (
