@@ -148,7 +148,7 @@ export const LawformSection = ({
         {/* stats */}
         <div className="flex items-center gap-6" style={{ ...fadeUp(200), marginTop: "32px", flexWrap: "nowrap" }}>
           {[
-            { value: "Redis GEO", label: "Based Matching" },
+            { value: "5,000+",    label: "Daily Recipients" },
             { value: "Real-time", label: "Message Processing" },
             { value: "3,000+",    label: "Concurrent Users" },
           ].map(({ value, label }, i) => (
