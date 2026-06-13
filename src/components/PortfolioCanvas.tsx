@@ -118,6 +118,7 @@ export const PortfolioCanvas = () => {
   const [matchingReady, setMatchingReady]           = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
   const [lawformReady, setLawformReady]             = useState(false);
+  const [lawformNavReady, setLawformNavReady]       = useState(false);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -209,7 +210,13 @@ export const PortfolioCanvas = () => {
         <LawformSection
           skipAnimation={lawformReady}
           onAnimationComplete={() => setLawformReady(true)}
+          onNavReady={() => setLawformNavReady(true)}
         />
+      </CanvasNode>
+
+      {/* ── Lawform 하단 네비게이션 ──────────────────────────────── */}
+      <CanvasNode x={-1584} y={1112}>
+        <CanvasNavButton label="View System Design" destination={{ x: -1611, y: 2104 }} arrow="down" labelSide="right" visible={lawformNavReady} />
       </CanvasNode>
 
     </InfiniteCanvas>
