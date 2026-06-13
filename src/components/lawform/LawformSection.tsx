@@ -126,14 +126,9 @@ export const LawformSection = ({
         </h1>
 
         {/* subtitle */}
-        <p className="text-[14px] font-medium text-zinc-400 min-h-[1.5em] mb-12" style={{ lineHeight: "1.6" }}>
+        <p className="text-[15px] font-medium text-zinc-400 min-h-[1.5em] mb-12" style={{ lineHeight: "1.6" }}>
           {subtitleText}
           {phase === "subtitle" && <Cursor visible={cursorVisible} />}
-        </p>
-
-        {/* description */}
-        <p className="text-[15px] leading-relaxed text-zinc-400" style={fadeUp(0)}>
-          North America&apos;s First Semi-Truck Sharing Platform.
         </p>
 
         {/* role list */}
