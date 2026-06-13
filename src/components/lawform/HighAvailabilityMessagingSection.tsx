@@ -340,25 +340,6 @@ export const HighAvailabilityMessagingSection = ({
 
       </div>
 
-      {/* 뒤로가기 버튼 (프로필로) */}
-      <button
-        onClick={() => panTo(-1544, 792)}
-        onPointerDown={(e) => e.stopPropagation()}
-        style={{
-          position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
-          width: 48, height: 48, borderRadius: "50%",
-          background: "#ffffff", border: "none", cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-          transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = "translateX(-50%) scale(1.1)")}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = "translateX(-50%) scale(1)")}
-      >
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M4 14L14 4M14 4H8M14 4V10" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
     </div>
   );
 };

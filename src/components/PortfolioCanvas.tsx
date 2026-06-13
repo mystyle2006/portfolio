@@ -197,6 +197,11 @@ export const PortfolioCanvas = () => {
         />
       </CanvasNode>
 
+      {/* ── HAM 상단 네비게이션 ──────────────────────────────────── */}
+      <CanvasNode x={-1651} y={1629}>
+        <CanvasNavButton label="Back to Lawform" destination={{ x: -1544, y: 792 }} arrow="up" labelSide="right" visible={hamReady} />
+      </CanvasNode>
+
       {/* ── High-Availability Messaging Architecture ─────────────── */}
       <CanvasNode x={-2411} y={1669} width={1600} height={870}>
         <HighAvailabilityMessagingSection
@@ -216,7 +221,7 @@ export const PortfolioCanvas = () => {
 
       {/* ── Lawform 하단 네비게이션 ──────────────────────────────── */}
       <CanvasNode x={-1584} y={1112}>
-        <CanvasNavButton label="View System Design" destination={{ x: -1611, y: 2104 }} arrow="down" labelSide="right" visible={lawformNavReady} />
+        <CanvasNavButton label="View System Design" destination={{ x: -1611, y: 2004 }} arrow="down" labelSide="right" visible={lawformNavReady} />
       </CanvasNode>
 
     </InfiniteCanvas>
