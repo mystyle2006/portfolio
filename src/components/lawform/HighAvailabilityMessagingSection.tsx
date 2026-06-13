@@ -32,9 +32,9 @@ const NODES: Record<string, NodeDef> = {
   lambdaEmail:   { cx: 990, cy: 395, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "Email Worker",  phase: 5 },
   lambdaPush:    { cx: 990, cy: 510, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "Push Worker",   phase: 5 },
   lambdaSms:     { cx: 990, cy: 625, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "SMS Worker",    phase: 5 },
-  email:         { cx:1175, cy: 395, icon: "/icons/email_icon.svg",             label: "Email",         sub: "Mailgun",       phase: 5 },
+  email:         { cx:1175, cy: 395, icon: "/icons/email_icon.svg",             label: "Email",                               phase: 5 },
   fcm:           { cx:1175, cy: 510, icon: "/icons/push_notification_icon.png", label: "Push Service",  sub: "FCM / APNs",    phase: 5 },
-  sms:           { cx:1175, cy: 625, icon: "/icons/sms_icon.png",               label: "SMS",           sub: "Twilio",        phase: 5 },
+  sms:           { cx:1175, cy: 625, icon: "/icons/sms_icon.png",               label: "SMS",                                 phase: 5 },
 };
 
 type Arrow = {
