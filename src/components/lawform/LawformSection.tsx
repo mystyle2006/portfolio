@@ -174,7 +174,7 @@ export const LawformSection = ({
       <button
         onClick={() => panTo(80, 10)}
         onPointerDown={(e) => e.stopPropagation()}
-        className="absolute top-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-20"
+        className="absolute top-0 right-6 w-12 h-12 rounded-full flex items-center justify-center z-20"
         style={{
           background: "#ffffff",
           boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
