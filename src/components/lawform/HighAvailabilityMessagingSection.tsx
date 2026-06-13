@@ -18,23 +18,23 @@ type NodeDef = {
   phase: number;
 };
 
-/* ── Row 1: Clients → Lambda API Writer
+/* ── Row 1: Clients → Spring API Server
    Row 2: Outbox Poller → SNS → SQS × 3 → Lambda × 3 → Services × 3 ── */
 const NODES: Record<string, NodeDef> = {
-  clientMobile:  { cx:  75, cy: 190, icon: "/icons/client_icon.png",            label: "Mobile App",    sub: "iOS / Android", phase: 0 },
-  clientWeb:     { cx:  75, cy: 315, icon: "/icons/client_icon.png",            label: "Web App",       sub: "Browser",       phase: 0 },
-  lambdaWriter:  { cx: 255, cy: 252, icon: "/icons/aws_lambda_icon.png",        label: "Lambda API",    sub: "Writer",        phase: 1 },
-  outboxPoller:  { cx: 425, cy: 490, icon: "/icons/aws_lambda_icon.png",        label: "Outbox Poller", sub: "Scheduled",     phase: 3 },
-  snsTopic:      { cx: 615, cy: 490, icon: "/icons/aws_icon.png",               label: "SNS Topic",     sub: "Fan-out Hub",   phase: 3 },
-  sqsEmail:      { cx: 810, cy: 375, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "Email Queue",   phase: 4 },
-  sqsPush:       { cx: 810, cy: 490, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "Push Queue",    phase: 4 },
-  sqsSms:        { cx: 810, cy: 605, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "SMS Queue",     phase: 4 },
-  lambdaEmail:   { cx: 990, cy: 375, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "Email Worker",  phase: 5 },
-  lambdaPush:    { cx: 990, cy: 490, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "Push Worker",   phase: 5 },
-  lambdaSms:     { cx: 990, cy: 605, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "SMS Worker",    phase: 5 },
-  mailgun:       { cx:1175, cy: 375, icon: "/icons/mailgun_icon.png",           label: "Mailgun",       sub: "Email",         phase: 5 },
-  fcm:           { cx:1175, cy: 490, icon: "/icons/push_notification_icon.png", label: "Push Service",  sub: "FCM / APNs",    phase: 5 },
-  twilio:        { cx:1175, cy: 605, icon: "/icons/sms_icon.png",              label: "Twilio",         sub: "SMS",           phase: 5 },
+  clientMobile:  { cx:  75, cy: 210, icon: "/icons/client_icon.png",            label: "Mobile App",    sub: "iOS / Android", phase: 0 },
+  clientWeb:     { cx:  75, cy: 335, icon: "/icons/client_icon.png",            label: "Web App",       sub: "Browser",       phase: 0 },
+  springWriter:  { cx: 255, cy: 272, icon: "/icons/spring_java_icon.png",       label: "Spring",        sub: "API Server",    phase: 1 },
+  outboxPoller:  { cx: 425, cy: 510, icon: "/icons/aws_lambda_icon.png",        label: "Outbox Poller", sub: "Scheduled",     phase: 3 },
+  snsTopic:      { cx: 615, cy: 510, icon: "/icons/aws_icon.png",               label: "SNS Topic",     sub: "Fan-out Hub",   phase: 3 },
+  sqsEmail:      { cx: 810, cy: 395, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "Email Queue",   phase: 4 },
+  sqsPush:       { cx: 810, cy: 510, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "Push Queue",    phase: 4 },
+  sqsSms:        { cx: 810, cy: 625, icon: "/icons/aws_sqs_icon.webp",          label: "SQS",           sub: "SMS Queue",     phase: 4 },
+  lambdaEmail:   { cx: 990, cy: 395, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "Email Worker",  phase: 5 },
+  lambdaPush:    { cx: 990, cy: 510, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "Push Worker",   phase: 5 },
+  lambdaSms:     { cx: 990, cy: 625, icon: "/icons/aws_lambda_icon.png",        label: "Lambda",        sub: "SMS Worker",    phase: 5 },
+  email:         { cx:1175, cy: 395, icon: "/icons/email_icon.svg",             label: "Email",         sub: "Mailgun",       phase: 5 },
+  fcm:           { cx:1175, cy: 510, icon: "/icons/push_notification_icon.png", label: "Push Service",  sub: "FCM / APNs",    phase: 5 },
+  sms:           { cx:1175, cy: 625, icon: "/icons/sms_icon.png",               label: "SMS",           sub: "Twilio",        phase: 5 },
 };
 
 type Arrow = {
@@ -47,32 +47,32 @@ type Arrow = {
 };
 
 const ARROWS: Arrow[] = [
-  // Clients → Lambda API Writer
-  { x1: 102, y1: 190, x2: 228, y2: 238, phase: 1 },
-  { x1: 102, y1: 315, x2: 228, y2: 266, phase: 1 },
-  // Lambda API → DB Outbox (write — same transaction)
-  { x1: 282, y1: 252, x2: 315, y2: 252, phase: 2 },
+  // Clients → Spring API Server
+  { x1: 102, y1: 210, x2: 228, y2: 258, phase: 1 },
+  { x1: 102, y1: 335, x2: 228, y2: 286, phase: 1 },
+  // Spring API → DB Outbox (write — same transaction)
+  { x1: 282, y1: 272, x2: 315, y2: 272, phase: 2 },
   // DB Outbox → Outbox Poller (poll pending)
-  { x1: 407, y1: 365, x2: 425, y2: 463,
-    customPath: "M 407 365 C 407 445, 425 445, 425 463", phase: 3 },
+  { x1: 407, y1: 385, x2: 425, y2: 483,
+    customPath: "M 407 385 C 407 465, 425 465, 425 483", phase: 3 },
   // Outbox Poller → SNS Topic (publish)
-  { x1: 452, y1: 490, x2: 588, y2: 490, phase: 3 },
+  { x1: 452, y1: 510, x2: 588, y2: 510, phase: 3 },
   // SNS fan-out → SQS Queues
-  { x1: 642, y1: 472, x2: 783, y2: 392, phase: 4 },
-  { x1: 642, y1: 490, x2: 783, y2: 490, phase: 4 },
-  { x1: 642, y1: 508, x2: 783, y2: 598, phase: 4 },
+  { x1: 642, y1: 492, x2: 783, y2: 412, phase: 4 },
+  { x1: 642, y1: 510, x2: 783, y2: 510, phase: 4 },
+  { x1: 642, y1: 528, x2: 783, y2: 618, phase: 4 },
   // SQS → Lambda Workers
-  { x1: 837, y1: 375, x2: 963, y2: 375, phase: 5 },
-  { x1: 837, y1: 490, x2: 963, y2: 490, phase: 5 },
-  { x1: 837, y1: 605, x2: 963, y2: 605, phase: 5 },
+  { x1: 837, y1: 395, x2: 963, y2: 395, phase: 5 },
+  { x1: 837, y1: 510, x2: 963, y2: 510, phase: 5 },
+  { x1: 837, y1: 625, x2: 963, y2: 625, phase: 5 },
   // Lambda Workers → DB Outbox (status update SENT / FAIL)
-  { x1: 963, y1: 365, x2: 407, y2: 358,
-    customPath: "M 963 365 C 963 210, 407 210, 407 358",
+  { x1: 963, y1: 385, x2: 407, y2: 378,
+    customPath: "M 963 385 C 963 230, 407 230, 407 378",
     color: "rgba(167,243,208,0.28)", dashed: true, phase: 5 },
   // Lambda Workers → Notification Services
-  { x1: 1017, y1: 375, x2: 1148, y2: 375, phase: 5 },
-  { x1: 1017, y1: 490, x2: 1148, y2: 490, phase: 5 },
-  { x1: 1017, y1: 605, x2: 1148, y2: 605, phase: 5 },
+  { x1: 1017, y1: 395, x2: 1148, y2: 395, phase: 5 },
+  { x1: 1017, y1: 510, x2: 1148, y2: 510, phase: 5 },
+  { x1: 1017, y1: 625, x2: 1148, y2: 625, phase: 5 },
 ];
 
 function bezier(a: Arrow): string {
@@ -132,7 +132,7 @@ export const HighAvailabilityMessagingSection = ({
 
         {/* AWS Cloud 테두리 */}
         <div style={{
-          position: "absolute", left: 165, top: 105, width: 910, height: 600,
+          position: "absolute", left: 165, top: 125, width: 910, height: 600,
           border: "1.5px dashed rgba(255,153,0,0.3)", borderRadius: 16,
           pointerEvents: "none", ...fade(1),
         }}>
@@ -147,9 +147,9 @@ export const HighAvailabilityMessagingSection = ({
           </div>
         </div>
 
-        {/* Same Transaction 경계 (Lambda API + DB Outbox) */}
+        {/* Same Transaction 경계 (Spring API + DB Outbox) */}
         <div style={{
-          position: "absolute", left: 168, top: 128, width: 358, height: 255,
+          position: "absolute", left: 168, top: 148, width: 358, height: 255,
           border: "1.5px dashed rgba(99,179,237,0.4)", borderRadius: 12,
           pointerEvents: "none", ...fade(1),
         }}>
@@ -164,7 +164,7 @@ export const HighAvailabilityMessagingSection = ({
 
         {/* DB Outbox 박스 (RDS + 상태 뱃지) */}
         <div style={{
-          position: "absolute", left: 315, top: 145, width: 190, height: 228,
+          position: "absolute", left: 315, top: 165, width: 190, height: 228,
           border: "1px solid rgba(255,153,0,0.28)", borderRadius: 10,
           background: "rgba(20,20,30,0.7)",
           display: "flex", flexDirection: "column", alignItems: "center",
@@ -191,7 +191,7 @@ export const HighAvailabilityMessagingSection = ({
 
         {/* SQS Queues 그룹 박스 */}
         <div style={{
-          position: "absolute", left: 724, top: 318, width: 175, height: 365,
+          position: "absolute", left: 724, top: 338, width: 175, height: 365,
           border: "1px solid rgba(255,153,0,0.2)", borderRadius: 10,
           background: "rgba(255,153,0,0.025)",
           pointerEvents: "none", ...fade(4),
@@ -207,7 +207,7 @@ export const HighAvailabilityMessagingSection = ({
 
         {/* Lambda Consumers 그룹 박스 */}
         <div style={{
-          position: "absolute", left: 905, top: 318, width: 165, height: 365,
+          position: "absolute", left: 905, top: 338, width: 165, height: 365,
           border: "1px solid rgba(99,179,237,0.2)", borderRadius: 10,
           background: "rgba(99,179,237,0.025)",
           pointerEvents: "none", ...fade(5),
@@ -223,7 +223,7 @@ export const HighAvailabilityMessagingSection = ({
 
         {/* Notification Services 박스 */}
         <div style={{
-          position: "absolute", left: 1085, top: 318, width: 210, height: 365,
+          position: "absolute", left: 1085, top: 338, width: 210, height: 365,
           border: "1px solid rgba(255,255,255,0.09)", borderRadius: 10,
           background: "rgba(255,255,255,0.018)",
           pointerEvents: "none", ...fade(5),
@@ -238,7 +238,7 @@ export const HighAvailabilityMessagingSection = ({
         </div>
 
         {/* 우측 패널: Why Outbox Pattern? */}
-        <div style={{ position: "absolute", left: 1322, top: 100, width: 252, ...fade(5) }}>
+        <div style={{ position: "absolute", left: 1322, top: 120, width: 252, ...fade(5) }}>
           <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 16px", color: "#fff" }}>
             Why Outbox Pattern?
           </h3>
@@ -287,22 +287,22 @@ export const HighAvailabilityMessagingSection = ({
           ))}
 
           {/* Write 레이블 */}
-          <text x={297} y={242} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
+          <text x={297} y={262} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
             style={{ opacity: phase >= 2 ? 1 : 0, transition: "opacity 0.5s ease" }}>
             Write
           </text>
           {/* Poll 레이블 */}
-          <text x={414} y={432} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
+          <text x={414} y={452} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
             style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}>
             Poll
           </text>
           {/* Publish 레이블 */}
-          <text x={520} y={479} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
+          <text x={520} y={499} fontSize={10} fill="rgba(255,255,255,0.42)" textAnchor="middle"
             style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}>
             Publish
           </text>
           {/* SENT / FAIL 레이블 (arch 위) */}
-          <text x={685} y={200} fontSize={9} fill="rgba(167,243,208,0.5)" textAnchor="middle"
+          <text x={685} y={220} fontSize={9} fill="rgba(167,243,208,0.5)" textAnchor="middle"
             style={{ opacity: phase >= 5 ? 1 : 0, transition: "opacity 0.5s ease" }}>
             Update Status
           </text>
