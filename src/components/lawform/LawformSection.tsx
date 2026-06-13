@@ -163,44 +163,43 @@ export const LawformSection = ({
           ))}
         </div>
 
-        {/* View System Design 네비게이션 */}
-        <div
-          onPointerDown={(e) => e.stopPropagation()}
-          style={{
-            marginTop: "48px",
-            display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
-            opacity: statsVisible ? 1 : 0,
-            transform: statsVisible ? "translateY(0)" : "translateY(8px)",
-            transition: "opacity 0.5s ease 350ms, transform 0.5s ease 350ms",
-            pointerEvents: statsVisible ? "auto" : "none",
-          }}
-        >
-          <button
-            onClick={() => panTo(-1611, 1904)}
-            style={{
-              width: 40, height: 40, borderRadius: "50%", background: "#ffffff",
-              border: "none", cursor: "pointer", display: "flex",
-              alignItems: "center", justifyContent: "center",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-              transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 3V13M8 13L3 8M8 13L13 8" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)", fontWeight: 500, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
-            View System Design
-          </span>
-        </div>
-
       </div>
 
       {/* ── 우측 애니메이션 영역 ── */}
       <div className="flex-1 relative" style={{ paddingLeft: "64px" }}>
         <LawformAnimation active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
+      </div>
+
+      {/* ── View System Design 네비게이션 ── */}
+      <div
+        onPointerDown={(e) => e.stopPropagation()}
+        style={{
+          position: "absolute", bottom: 28, left: "50%", transform: statsVisible ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(8px)",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
+          opacity: statsVisible ? 1 : 0,
+          transition: "opacity 0.5s ease 350ms, transform 0.5s ease 350ms",
+          pointerEvents: statsVisible ? "auto" : "none",
+        }}
+      >
+        <button
+          onClick={() => panTo(-1611, 1904)}
+          style={{
+            width: 40, height: 40, borderRadius: "50%", background: "#ffffff",
+            border: "none", cursor: "pointer", display: "flex",
+            alignItems: "center", justifyContent: "center",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+            transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 3V13M8 13L3 8M8 13L13 8" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)", fontWeight: 500, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
+          View System Design
+        </span>
       </div>
 
       {/* ── 프로필로 돌아가기 버튼 ── */}
