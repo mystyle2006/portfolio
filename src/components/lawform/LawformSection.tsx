@@ -134,7 +134,7 @@ export const LawformSection = ({
         {/* role list */}
         <ul className="flex flex-col gap-2.5" style={{ ...fadeUp(80), marginTop: "20px" }}>
           {[
-            <>Designed and implemented customer, driver, and admin platforms for Web, iOS, and Android using <K>React Native Expo</K>.</>,
+            <>Built an <K>event-driven</K> notification system using <K>AWS SNS</K> and <K>SQS</K> fan-out, decoupling business logic from notification delivery and enabling scalable, fault-tolerant SMS and email processing.</>,
             <>Architected scalable cloud infrastructure on <K>AWS ECS</K>, <K>Redis</K>, <K>RDS</K>, <K>SQS</K>, <K>Lambda</K> and <K>S3</K>.</>,
             <>Built a <K>location-based matching system</K> using <K>Redis GEO</K> to connect drivers with nearby shipments in real time.</>,
             <>Designed and implemented <K>a Docker-based CI/CD pipeline</K> using <K>GitHub Actions</K>, standardizing build, testing, and deployment processes across environments.</>
