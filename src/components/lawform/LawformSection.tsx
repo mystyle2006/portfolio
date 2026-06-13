@@ -149,7 +149,7 @@ export const LawformSection = ({
         <div className="flex items-center gap-6" style={{ ...fadeUp(200), marginTop: "32px", flexWrap: "nowrap" }}>
           {[
             { value: "5,000+",    label: "Daily Recipients" },
-            { value: "Real-time", label: "Message Processing" },
+            { value: "99.9%",     label: "High Availability" },
             { value: "3,000+",    label: "Concurrent Users" },
           ].map(({ value, label }, i) => (
             <>
