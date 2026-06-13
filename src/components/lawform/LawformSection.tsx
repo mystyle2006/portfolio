@@ -20,7 +20,7 @@ const Cursor = ({ visible }: { visible: boolean }) => (
   />
 );
 
-export const Section2025 = ({
+export const LawformSection = ({
   onAnimationComplete,
   onNavReady,
   skipAnimation = false,
