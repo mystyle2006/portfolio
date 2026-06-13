@@ -9,6 +9,7 @@ import { JelpalaSystemDesignSection } from "./jelpala/JelpalaSystemDesignSection
 import { JelpalaMessagingSection } from "./jelpala/JelpalaMessagingSection";
 import { JelpalaMatchingSection } from "./jelpala/JelpalaMatchingSection";
 import { HighAvailabilityMessagingSection } from "./messaging/HighAvailabilityMessagingSection";
+import { Section2025 } from "./section2025/Section2025";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -116,6 +117,7 @@ export const PortfolioCanvas = () => {
   const [messagingReady, setMessagingReady]         = useState(false);
   const [matchingReady, setMatchingReady]           = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
+  const [section2025Ready, setSection2025Ready]     = useState(false);
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -195,10 +197,18 @@ export const PortfolioCanvas = () => {
       </CanvasNode>
 
       {/* ── High-Availability Messaging Architecture ─────────────── */}
-      <CanvasNode x={-2344} y={357} width={1600} height={870}>
+      {/* <CanvasNode x={-2344} y={357} width={1600} height={870}>
         <HighAvailabilityMessagingSection
           skipAnimation={hamReady}
           onAnimationComplete={() => setHamReady(true)}
+        />
+      </CanvasNode> */}
+
+      {/* ── 2025 Section ─────────────────────────────────────────── */}
+      <CanvasNode x={-2264} y={492} width={1440} height={600}>
+        <Section2025
+          skipAnimation={section2025Ready}
+          onAnimationComplete={() => setSection2025Ready(true)}
         />
       </CanvasNode>
 
