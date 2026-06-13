@@ -44,10 +44,15 @@ export const LawformAnimation = ({
   }, [active]);
 
   return (
-    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+    <div style={{
+      width: "100%", height: "100%", position: "relative",
+      opacity: active ? 1 : 0,
+      transform: active ? "translateY(0)" : "translateY(12px)",
+      transition: "opacity 0.7s ease, transform 0.7s ease",
+    }}>
       <svg
         viewBox={`0 0 ${VW} ${VH}`}
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%", height: "100%", marginTop: "-40px" }}
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -133,13 +138,6 @@ export const LawformAnimation = ({
           fill="rgba(255,255,255,0.3)" textAnchor="middle">DELIVERED TODAY</text>
         <text x={672} y={185} fontSize="52" fontWeight="900"
           fill="#ffffff" textAnchor="middle">{count.toLocaleString()}</text>
-
-        {/* LIVE 인디케이터 */}
-        <circle cx={637} cy={208} r="4" fill="#34D399">
-          <animate attributeName="opacity" values="1;0.2;1" dur="1.4s" repeatCount="indefinite" />
-        </circle>
-        <text x={647} y={213} fontSize="11" fontWeight="700" letterSpacing="1"
-          fill="rgba(52,211,153,0.85)">LIVE</text>
 
         {/* 채널별 구분선 */}
         <line x1={610} y1={240} x2={740} y2={240}
