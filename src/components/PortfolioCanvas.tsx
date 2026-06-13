@@ -198,8 +198,8 @@ export const PortfolioCanvas = () => {
       </CanvasNode>
 
       {/* ── HAM 상단 네비게이션 ──────────────────────────────────── */}
-      <CanvasNode x={-1651} y={1629}>
-        <CanvasNavButton label="Back to Lawform" destination={{ x: -1544, y: 792 }} arrow="up" labelSide="right" visible={hamReady} />
+      <CanvasNode x={-1651} y={1589}>
+        <CanvasNavButton label="" destination={{ x: -1544, y: 792 }} arrow="up" labelSide="right" visible={hamReady} />
       </CanvasNode>
 
       {/* ── High-Availability Messaging Architecture ─────────────── */}
