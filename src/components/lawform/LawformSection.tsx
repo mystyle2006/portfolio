@@ -136,8 +136,7 @@ export const LawformSection = ({
           {[
             <>Built an <K>event-driven</K> notification system using <K>AWS SNS</K> and <K>SQS</K> fan-out, decoupling business logic from notification delivery and enabling scalable, fault-tolerant SMS and email processing.</>,
             <>Implemented the <K>Transactional Outbox</K> pattern to guarantee reliable event publishing and prevent notification loss during database transactions.</>,
-            <>Leveraged <K>AWS Lambda</K> as SQS consumers to automatically scale notification processing based on traffic demand, reducing infrastructure management overhead and operational costs.</>,
-            <>Designed and implemented <K>a Docker-based CI/CD pipeline</K> using <K>GitHub Actions</K>, standardizing build, testing, and deployment processes across environments.</>
+            <>Leveraged <K>AWS Lambda</K> as SQS consumers to automatically scale notification processing based on traffic demand, reducing infrastructure management overhead and operational costs.</>
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2.5 leading-relaxed text-zinc-400" style={{ fontSize: "15px" }}>
               <span style={{ marginTop: "9px", width: "4px", height: "4px", borderRadius: "50%", background: "#52525b", flexShrink: 0, display: "inline-block" }} />
