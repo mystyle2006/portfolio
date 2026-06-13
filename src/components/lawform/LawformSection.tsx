@@ -115,7 +115,7 @@ export const LawformSection = ({
     >
       {/* ── 좌측 텍스트 영역 ── */}
       <div
-        className="px-14 py-12 w-[620px] shrink-0 relative z-10 select-text"
+        className="px-14 pt-12 pb-28 w-[620px] shrink-0 relative z-10 select-text"
         onPointerDown={(e) => e.stopPropagation()}
       >
 
