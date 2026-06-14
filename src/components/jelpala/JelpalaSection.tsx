@@ -174,6 +174,17 @@ export const JelpalaSection = ({
 
       {/* ── 우측 지도 영역 (pan 허용) ── */}
       <div className="flex-1 relative">
+        {/* 배경 프리뷰 이미지 */}
+        <div
+          style={{
+            position: "absolute", inset: 0,
+            backgroundImage: "url(/jelpala_preview.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.07,
+            pointerEvents: "none",
+          }}
+        />
         <MapBackground active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
       </div>
 
