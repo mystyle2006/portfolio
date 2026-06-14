@@ -64,6 +64,7 @@ export const JelpalaSection = ({
   const [activeTab,     setActiveTab]     = useState<"features" | "previews">("features");
   const [previewGroup,  setPreviewGroup]  = useState<"user" | "driver">("user");
   const [slideIndex,    setSlideIndex]    = useState(0);
+  const [lightbox,      setLightbox]      = useState<string | null>(null);
   const notifiedRef = useRef(false);
 
   /* cursor blink */
@@ -344,15 +345,29 @@ export const JelpalaSection = ({
                   {/* 이미지 3장 */}
                   <div style={{ display: "flex", gap: 10, flex: 1, justifyContent: "center" }}>
                     {visible.map((src, i) => (
-                      <div key={slideIndex + i} style={{
-                        flex: "0 0 calc(33.33% - 7px)",
-                        borderRadius: 16,
-                        overflow: "hidden",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        background: "rgba(255,255,255,0.04)",
-                        aspectRatio: "9/19",
-                        position: "relative",
-                      }}>
+                      <div
+                        key={slideIndex + i}
+                        onClick={() => setLightbox(src)}
+                        style={{
+                          flex: "0 0 calc(33.33% - 7px)",
+                          borderRadius: 16,
+                          overflow: "hidden",
+                          border: "1px solid rgba(255,255,255,0.1)",
+                          background: "rgba(255,255,255,0.04)",
+                          aspectRatio: "9/19",
+                          position: "relative",
+                          cursor: "zoom-in",
+                          transition: "transform 0.2s ease, border-color 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLDivElement).style.transform = "scale(1.03)";
+                          (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.3)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLDivElement).style.transform = "scale(1)";
+                          (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.1)";
+                        }}
+                      >
                         <Image
                           src={src}
                           alt={`preview-${slideIndex + i}`}
@@ -406,6 +421,43 @@ export const JelpalaSection = ({
           })()}
         </div>
       </div>
+
+      {/* ── 라이트박스 ── */}
+      {lightbox && (
+        <div
+          onPointerDown={(e) => { e.stopPropagation(); setLightbox(null); }}
+          style={{
+            position: "fixed", inset: 0, zIndex: 9999,
+            background: "rgba(0,0,0,0.88)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}
+        >
+          <div
+            onPointerDown={(e) => e.stopPropagation()}
+            style={{ position: "relative", maxHeight: "90vh", maxWidth: "90vw" }}
+          >
+            <Image
+              src={lightbox}
+              alt="preview"
+              width={400}
+              height={860}
+              style={{ objectFit: "contain", maxHeight: "90vh", width: "auto", borderRadius: 20 }}
+            />
+            <button
+              onPointerDown={(e) => { e.stopPropagation(); setLightbox(null); }}
+              style={{
+                position: "absolute", top: -14, right: -14,
+                width: 32, height: 32, borderRadius: "50%",
+                background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)",
+                color: "#fff", fontSize: 16, lineHeight: 1,
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+              }}
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── 프로필로 돌아가기 버튼 ── */}
       <button
