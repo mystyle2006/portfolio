@@ -1,8 +1,32 @@
 "use client";
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
+import Image from "next/image";
 import { MapBackground } from "./MapBackground";
 import { useCanvas } from "../InfiniteCanvas";
+
+const USER_IMAGES = [
+  "/jelpala_preview/user/user_1.PNG",
+  "/jelpala_preview/user/user_2.PNG",
+  "/jelpala_preview/user/user_3.jpg",
+  "/jelpala_preview/user/user_4.jpg",
+  "/jelpala_preview/user/user_5.jpg",
+  "/jelpala_preview/user/user_6.jpg",
+  "/jelpala_preview/user/user_7.jpg",
+  "/jelpala_preview/user/user_8.jpg",
+  "/jelpala_preview/user/user_9.png",
+  "/jelpala_preview/user/IMG_8637 (1).PNG",
+];
+
+const DRIVER_IMAGES = [
+  "/jelpala_preview/driver/driver1.jpeg",
+  "/jelpala_preview/driver/driver2.PNG",
+  "/jelpala_preview/driver/driver3.PNG",
+  "/jelpala_preview/driver/driver4.PNG",
+  "/jelpala_preview/driver/driver5.PNG",
+  "/jelpala_preview/driver/driver6.PNG",
+  "/jelpala_preview/driver/driver7.jpeg",
+];
 
 const TITLE    = "Jelpala";
 const SUBTITLE = "Real-Time Freight Matching Platform";
@@ -38,6 +62,8 @@ export const JelpalaSection = ({
   const [statsVisible,  setStatsVisible]  = useState(skipAnimation);
   const [mapDone,       setMapDone]       = useState(true);
   const [activeTab,     setActiveTab]     = useState<"features" | "previews">("features");
+  const [previewGroup,  setPreviewGroup]  = useState<"user" | "driver">("user");
+  const [slideIndex,    setSlideIndex]    = useState(0);
   const notifiedRef = useRef(false);
 
   /* cursor blink */
@@ -268,11 +294,116 @@ export const JelpalaSection = ({
               ))}
             </div>
           )}
-          {activeTab === "previews" && (
-            <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>
-              {/* App Previews 콘텐츠 추후 추가 */}
-            </div>
-          )}
+          {activeTab === "previews" && (() => {
+            const images = previewGroup === "user" ? USER_IMAGES : DRIVER_IMAGES;
+            const PER_PAGE = 3;
+            const maxIndex = Math.max(0, images.length - PER_PAGE);
+            const visible = images.slice(slideIndex, slideIndex + PER_PAGE);
+            return (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16, height: "100%" }}>
+                {/* User / Driver 서브탭 */}
+                <div style={{ display: "flex", gap: 8 }}>
+                  {(["user", "driver"] as const).map((g) => (
+                    <button
+                      key={g}
+                      onClick={() => { setPreviewGroup(g); setSlideIndex(0); }}
+                      style={{
+                        padding: "5px 14px", borderRadius: 20, fontSize: 12, fontWeight: 500,
+                        background: previewGroup === g ? "rgba(255,255,255,0.12)" : "transparent",
+                        border: "1px solid",
+                        borderColor: previewGroup === g ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.1)",
+                        color: previewGroup === g ? "#fff" : "rgba(255,255,255,0.4)",
+                        cursor: "pointer", transition: "all 0.2s ease",
+                      }}
+                    >
+                      {g === "user" ? "User" : "Driver"}
+                    </button>
+                  ))}
+                </div>
+
+                {/* 슬라이드 영역 */}
+                <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}>
+                  {/* Prev */}
+                  <button
+                    onClick={() => setSlideIndex((i) => Math.max(0, i - 1))}
+                    disabled={slideIndex === 0}
+                    style={{
+                      width: 28, height: 28, borderRadius: "50%", flexShrink: 0,
+                      background: slideIndex === 0 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.1)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      cursor: slideIndex === 0 ? "default" : "pointer",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      transition: "background 0.2s",
+                    }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M7.5 2L4 6l3.5 4" stroke={slideIndex === 0 ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.7)"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+
+                  {/* 이미지 3장 */}
+                  <div style={{ display: "flex", gap: 10, flex: 1, justifyContent: "center" }}>
+                    {visible.map((src, i) => (
+                      <div key={slideIndex + i} style={{
+                        flex: "0 0 calc(33.33% - 7px)",
+                        borderRadius: 16,
+                        overflow: "hidden",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        background: "rgba(255,255,255,0.04)",
+                        aspectRatio: "9/19",
+                        position: "relative",
+                      }}>
+                        <Image
+                          src={src}
+                          alt={`preview-${slideIndex + i}`}
+                          fill
+                          style={{ objectFit: "cover" }}
+                          sizes="200px"
+                        />
+                      </div>
+                    ))}
+                    {/* 빈 슬롯 채우기 */}
+                    {Array.from({ length: PER_PAGE - visible.length }).map((_, i) => (
+                      <div key={`empty-${i}`} style={{ flex: "0 0 calc(33.33% - 7px)" }} />
+                    ))}
+                  </div>
+
+                  {/* Next */}
+                  <button
+                    onClick={() => setSlideIndex((i) => Math.min(maxIndex, i + 1))}
+                    disabled={slideIndex >= maxIndex}
+                    style={{
+                      width: 28, height: 28, borderRadius: "50%", flexShrink: 0,
+                      background: slideIndex >= maxIndex ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.1)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      cursor: slideIndex >= maxIndex ? "default" : "pointer",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      transition: "background 0.2s",
+                    }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M4.5 2L8 6l-3.5 4" stroke={slideIndex >= maxIndex ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.7)"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+
+                {/* 페이지 인디케이터 */}
+                <div style={{ display: "flex", justifyContent: "center", gap: 5 }}>
+                  {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSlideIndex(i)}
+                      style={{
+                        width: i === slideIndex ? 16 : 5, height: 5, borderRadius: 3, border: "none",
+                        background: i === slideIndex ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.2)",
+                        cursor: "pointer", padding: 0, transition: "all 0.25s ease",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
 
