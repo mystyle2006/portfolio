@@ -174,7 +174,7 @@ export const JelpalaSection = ({
 
       {/* ── 우측 지도 영역 (pan 허용) ── */}
       <div className="flex-1 relative">
-        <MapBackground active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
+        {/* <MapBackground active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} /> */}
       </div>
 
       {/* ── 프로필로 돌아가기 버튼 ── */}
