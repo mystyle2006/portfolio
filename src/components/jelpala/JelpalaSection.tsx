@@ -36,7 +36,8 @@ export const JelpalaSection = ({
   const [phase,         setPhase]         = useState<"title" | "subtitle" | "done">(skipAnimation ? "done" : "title");
   const [cursorVisible, setCursorVisible] = useState(true);
   const [statsVisible,  setStatsVisible]  = useState(skipAnimation);
-  const [mapDone,       setMapDone]       = useState(skipAnimation);
+  const [mapDone,       setMapDone]       = useState(true);
+  const [activeTab,     setActiveTab]     = useState<"features" | "previews">("features");
   const notifiedRef = useRef(false);
 
   /* cursor blink */
@@ -172,9 +173,52 @@ export const JelpalaSection = ({
 
       </div>
 
-      {/* ── 우측 지도 영역 (pan 허용) ── */}
-      <div className="flex-1 relative">
-        {/* <MapBackground active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} /> */}
+      {/* ── 우측 탭 영역 ── */}
+      <div
+        className="flex-1 relative flex flex-col"
+        style={{ ...fadeUp(0), padding: "48px 40px 40px 32px" }}
+        onPointerDown={(e) => e.stopPropagation()}
+      >
+        {/* 탭 헤더 */}
+        <div style={{ display: "flex", gap: 0, marginBottom: 28, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+          {(["features", "previews"] as const).map((tab) => {
+            const label = tab === "features" ? "Key Features" : "App Previews";
+            const active = activeTab === tab;
+            return (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                style={{
+                  background: "none", border: "none", cursor: "pointer",
+                  padding: "0 0 14px",
+                  marginRight: 32,
+                  fontSize: 14, fontWeight: active ? 600 : 400,
+                  color: active ? "#ffffff" : "rgba(255,255,255,0.35)",
+                  borderBottom: active ? "2px solid #ffffff" : "2px solid transparent",
+                  marginBottom: -1,
+                  transition: "color 0.2s ease, border-color 0.2s ease",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 탭 콘텐츠 */}
+        <div style={{ flex: 1, position: "relative" }}>
+          {activeTab === "features" && (
+            <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>
+              {/* Key Features 콘텐츠 추후 추가 */}
+            </div>
+          )}
+          {activeTab === "previews" && (
+            <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>
+              {/* App Previews 콘텐츠 추후 추가 */}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── 프로필로 돌아가기 버튼 ── */}
