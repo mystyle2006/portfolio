@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { MapBackground } from "./MapBackground";
 import { useCanvas } from "../InfiniteCanvas";
@@ -422,8 +423,8 @@ export const JelpalaSection = ({
         </div>
       </div>
 
-      {/* ── 라이트박스 ── */}
-      {lightbox && (
+      {/* ── 라이트박스 (portal → body에 직접 마운트) ── */}
+      {lightbox && createPortal(
         <div
           onPointerDown={(e) => { e.stopPropagation(); setLightbox(null); }}
           style={{
@@ -457,7 +458,8 @@ export const JelpalaSection = ({
               ×
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* ── 프로필로 돌아가기 버튼 ── */}
