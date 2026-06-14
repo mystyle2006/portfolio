@@ -257,10 +257,10 @@ export const JelpalaSection = ({
                     {icon}
                   </div>
                   <div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.88)", marginBottom: 4 }}>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: "rgba(255,255,255,0.88)", marginBottom: 4 }}>
                       {title}
                     </div>
-                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", lineHeight: 1.6 }}>
+                    <div style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.6 }}>
                       {body}
                     </div>
                   </div>
