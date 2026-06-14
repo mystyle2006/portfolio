@@ -176,7 +176,7 @@ export const JelpalaSection = ({
       {/* ── 우측 탭 영역 ── */}
       <div
         className="flex-1 relative flex flex-col"
-        style={{ ...fadeUp(0), padding: "24px 40px 40px 32px" }}
+        style={{ ...fadeUp(0), padding: "8px 40px 40px 32px" }}
         onPointerDown={(e) => e.stopPropagation()}
       >
         {/* 탭 헤더 */}
