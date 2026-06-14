@@ -209,8 +209,58 @@ export const JelpalaSection = ({
         {/* 탭 콘텐츠 */}
         <div style={{ flex: 1, position: "relative" }}>
           {activeTab === "features" && (
-            <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>
-              {/* Key Features 콘텐츠 추후 추가 */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 24px" }}>
+              {[
+                {
+                  icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C7.24 2 5 4.24 5 7c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 1 1 10 5a1.5 1.5 0 0 1 0 3.5z" fill="rgba(96,165,250,0.9)"/></svg>,
+                  title: "Google Maps Integration",
+                  body: "Real-time route planning, truck stop search, distance & ETA calculation.",
+                },
+                {
+                  icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="5" width="16" height="11" rx="2" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6"/><path d="M2 8h16" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6"/><rect x="5" y="11" width="3" height="2" rx="0.5" fill="rgba(96,165,250,0.9)"/></svg>,
+                  title: "Stripe Payment Integration",
+                  body: "Secure payments and payouts with Stripe Connect.",
+                },
+                {
+                  icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6"/><path d="M4 17c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6" strokeLinecap="round"/></svg>,
+                  title: "Authentication & Roles",
+                  body: "Secure login system with role-based access for customers, drivers, and admins.",
+                },
+                {
+                  icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="12" height="16" rx="2" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6"/><path d="M7 7h6M7 10h6M7 13h4" stroke="rgba(96,165,250,0.9)" strokeWidth="1.4" strokeLinecap="round"/></svg>,
+                  title: "Document & Image Upload",
+                  body: "Upload driver license and other required documents securely.",
+                },
+                {
+                  icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" fill="rgba(96,165,250,0.9)"/><circle cx="10" cy="10" r="7" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6"/><path d="M10 3V1M10 19v-2M3 10H1M19 10h-2" stroke="rgba(96,165,250,0.9)" strokeWidth="1.4" strokeLinecap="round"/></svg>,
+                  title: "Matching System",
+                  body: "Smart driver-shipment matching based on location, route, and availability in real time.",
+                },
+                {
+                  icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a6 6 0 0 0-6 6c0 3-1.5 4-1.5 4h15S16 11 16 8a6 6 0 0 0-6-6z" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6"/><path d="M8.5 16a1.5 1.5 0 0 0 3 0" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6" strokeLinecap="round"/></svg>,
+                  title: "Notification System",
+                  body: "Multi-channel notifications via Push, Email, and SMS.",
+                },
+              ].map(({ icon, title, body }) => (
+                <div key={title} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 8, flexShrink: 0,
+                    background: "rgba(96,165,250,0.08)",
+                    border: "1px solid rgba(96,165,250,0.15)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    {icon}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.88)", marginBottom: 4 }}>
+                      {title}
+                    </div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", lineHeight: 1.6 }}>
+                      {body}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
           {activeTab === "previews" && (
