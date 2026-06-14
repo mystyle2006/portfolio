@@ -434,9 +434,24 @@ export const JelpalaSection = ({
             cursor: "zoom-out",
           }}
         >
+          {/* 닫기 버튼 — 화면 우측 상단 고정 */}
+          <button
+            onPointerDown={(e) => { e.stopPropagation(); setLightbox(null); }}
+            style={{
+              position: "fixed", top: 24, right: 24,
+              width: 40, height: 40, borderRadius: "50%",
+              background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)",
+              color: "#fff", fontSize: 20, lineHeight: 1,
+              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+              zIndex: 10000,
+            }}
+          >
+            ×
+          </button>
+
           <div
             onPointerDown={(e) => e.stopPropagation()}
-            style={{ position: "relative", maxHeight: "90vh", maxWidth: "90vw" }}
+            style={{ maxHeight: "90vh", maxWidth: "90vw" }}
           >
             <Image
               src={lightbox}
@@ -445,18 +460,6 @@ export const JelpalaSection = ({
               height={860}
               style={{ objectFit: "contain", maxHeight: "90vh", width: "auto", borderRadius: 20 }}
             />
-            <button
-              onPointerDown={(e) => { e.stopPropagation(); setLightbox(null); }}
-              style={{
-                position: "absolute", top: -14, right: -14,
-                width: 32, height: 32, borderRadius: "50%",
-                background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)",
-                color: "#fff", fontSize: 16, lineHeight: 1,
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              }}
-            >
-              ×
-            </button>
           </div>
         </div>,
         document.body
