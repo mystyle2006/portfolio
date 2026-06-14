@@ -241,6 +241,11 @@ export const JelpalaSection = ({
                   title: "Notification System",
                   body: "Multi-channel notifications via Push, Email, and SMS.",
                 },
+                {
+                  icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="rgba(96,165,250,0.9)" strokeWidth="1.6"/><path d="M10 6v1.5m0 5V14m0-6.5a2 2 0 0 1 2 2c0 1.1-.9 1.8-2 2s-2 .9-2 2a2 2 0 0 0 2 2" stroke="rgba(96,165,250,0.9)" strokeWidth="1.4" strokeLinecap="round"/></svg>,
+                  title: "Point System",
+                  body: "Reward-based point system for user engagement and driver incentives.",
+                },
               ].map(({ icon, title, body }) => (
                 <div key={title} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                   <div style={{
