@@ -347,7 +347,7 @@ export const JelpalaSection = ({
                     {visible.map((src, i) => (
                       <div
                         key={slideIndex + i}
-                        onClick={() => setLightbox(src)}
+                        onPointerDown={(e) => { e.stopPropagation(); setLightbox(src); }}
                         style={{
                           flex: "0 0 calc(33.33% - 7px)",
                           borderRadius: 16,
@@ -430,6 +430,7 @@ export const JelpalaSection = ({
             position: "fixed", inset: 0, zIndex: 9999,
             background: "rgba(0,0,0,0.88)",
             display: "flex", alignItems: "center", justifyContent: "center",
+            cursor: "zoom-out",
           }}
         >
           <div
