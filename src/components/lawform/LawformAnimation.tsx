@@ -128,7 +128,7 @@ export const LawformAnimation = ({
               fill={ch.color} textAnchor="middle">{ch.label}</text>
             {/* 하단 레이블 */}
             <text x={ch.x} y={ch.y + 52} fontSize="13" fontWeight="600"
-              fill="rgba(255,255,255,0.85)" textAnchor="middle">SQS + Lambda</text>
+              fill="rgba(255,255,255,0.4)" textAnchor="middle">SQS + Lambda</text>
           </g>
         ))}
 
