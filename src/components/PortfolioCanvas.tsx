@@ -10,7 +10,7 @@ import { JelpalaMessagingSection } from "./jelpala/JelpalaMessagingSection";
 import { JelpalaMatchingSection } from "./jelpala/JelpalaMatchingSection";
 import { HighAvailabilityMessagingSection } from "./lawform/HighAvailabilityMessagingSection";
 import { LawformSection } from "./lawform/LawformSection";
-import { Section2024 } from "./section2024/Section2024";
+import { WashswatSection } from "./washswat/WashswatSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -117,7 +117,7 @@ export const PortfolioCanvas = () => {
   const [sysDesignReady, setSysDesignReady]         = useState(false);
   const [messagingReady, setMessagingReady]         = useState(false);
   const [matchingReady, setMatchingReady]           = useState(false);
-  const [section2024Ready, setSection2024Ready]       = useState(false);
+  const [washswatReady, setWashswatReady]       = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
   const [lawformReady, setLawformReady]             = useState(false);
   const [lawformNavReady, setLawformNavReady]       = useState(false);
@@ -214,9 +214,9 @@ export const PortfolioCanvas = () => {
 
       {/* ── 2024 Section ─────────────────────────────────────────── */}
       <CanvasNode x={1096} y={-1178} width={1440} height={600}>
-        <Section2024
-          skipAnimation={section2024Ready}
-          onAnimationComplete={() => setSection2024Ready(true)}
+        <WashswatSection
+          skipAnimation={washswatReady}
+          onAnimationComplete={() => setWashswatReady(true)}
         />
       </CanvasNode>
 
