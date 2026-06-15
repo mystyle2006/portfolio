@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 const VW = 820;
 const VH = 520;
 
-const SNS = { x: 310, y: 175 };
+const SNS   = { x: 310, y: 175 };
+const SNS_R = 58;
 
 const CHANNELS = [
   { x: 105, y: 385, label: "Email",  color: "#60A5FA" },
@@ -15,7 +16,7 @@ const CHANNELS = [
 
 function fanPath(ch: { x: number; y: number }): string {
   const midY = (SNS.y + ch.y) / 2 + 18;
-  return `M ${SNS.x} ${SNS.y + 44} C ${SNS.x} ${midY}, ${ch.x} ${midY}, ${ch.x} ${ch.y - 30}`;
+  return `M ${SNS.x} ${SNS.y + SNS_R} C ${SNS.x} ${midY}, ${ch.x} ${midY}, ${ch.x} ${ch.y - 30}`;
 }
 
 export const LawformAnimation = ({
@@ -90,9 +91,9 @@ export const LawformAnimation = ({
 
         {/* SNS 외부 펄스 링 */}
         {[0, 0.8, 1.6].map((beg, i) => (
-          <circle key={`ring-${i}`} cx={SNS.x} cy={SNS.y} r="44" fill="none"
+          <circle key={`ring-${i}`} cx={SNS.x} cy={SNS.y} r={SNS_R} fill="none"
             stroke="rgba(255,153,0,0.45)">
-            <animate attributeName="r" from="44" to="88" dur="2.4s"
+            <animate attributeName="r" from={SNS_R} to={SNS_R * 2} dur="2.4s"
               begin={`${beg}s`} repeatCount="indefinite" />
             <animate attributeName="opacity" from="0.5" to="0" dur="2.4s"
               begin={`${beg}s`} repeatCount="indefinite" />
@@ -100,13 +101,13 @@ export const LawformAnimation = ({
         ))}
 
         {/* SNS 노드 */}
-        <circle cx={SNS.x} cy={SNS.y} r="44"
+        <circle cx={SNS.x} cy={SNS.y} r={SNS_R}
           fill="rgba(255,153,0,0.1)" stroke="rgba(255,153,0,0.82)" strokeWidth={1.8}
           filter="url(#lf-glow)" />
-        <text x={SNS.x} y={SNS.y - 6} fontSize="13" fontWeight="800"
+        <text x={SNS.x} y={SNS.y + 6} fontSize="16" fontWeight="800"
           fill="rgba(255,153,0,1)" textAnchor="middle">AWS SNS</text>
-        <text x={SNS.x} y={SNS.y + 11} fontSize="10" fill="rgba(255,153,0,0.58)"
-          textAnchor="middle">Fan-out Topic</text>
+        <text x={SNS.x} y={SNS.y + SNS_R + 22} fontSize="13" fontWeight="600"
+          fill="rgba(255,153,0,0.6)" textAnchor="middle">Fan-out Topic</text>
 
         {/* 채널 노드 (SQS + Lambda) */}
         {CHANNELS.map((ch, i) => (
@@ -126,8 +127,8 @@ export const LawformAnimation = ({
             <text x={ch.x} y={ch.y + 6} fontSize="12" fontWeight="700"
               fill={ch.color} textAnchor="middle">{ch.label}</text>
             {/* 하단 레이블 */}
-            <text x={ch.x} y={ch.y + 52} fontSize="9.5"
-              fill="rgba(255,255,255,0.3)" textAnchor="middle">SQS + Lambda</text>
+            <text x={ch.x} y={ch.y + 52} fontSize="13" fontWeight="600"
+              fill="rgba(255,255,255,0.85)" textAnchor="middle">SQS + Lambda</text>
           </g>
         ))}
 
