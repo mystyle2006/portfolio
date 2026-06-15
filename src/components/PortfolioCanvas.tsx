@@ -224,7 +224,7 @@ export const PortfolioCanvas = () => {
 
       {/* ── Washswat 좌측 하단 네비게이션 ───────────────────────── */}
       <CanvasNode x={1036} y={-528}>
-        <CanvasNavButton label="Back to Profile" destination={{ x: 80, y: 10 }} arrow="down-left" labelSide="right" visible={washswatNavReady} />
+        <CanvasNavButton label="" destination={{ x: 80, y: 10 }} arrow="down-left" labelSide="right" visible={washswatNavReady} />
       </CanvasNode>
 
       {/* ── Lawform Section ──────────────────────────────────────── */}
@@ -234,6 +234,11 @@ export const PortfolioCanvas = () => {
           onAnimationComplete={() => setLawformReady(true)}
           onNavReady={() => setLawformNavReady(true)}
         />
+      </CanvasNode>
+
+      {/* ── Lawform 우측 상단 네비게이션 ─────────────────────────── */}
+      <CanvasNode x={-814} y={452}>
+        <CanvasNavButton label="" destination={{ x: 80, y: 10 }} arrow="up-right" labelSide="left" visible={lawformNavReady} />
       </CanvasNode>
 
       {/* ── Lawform 하단 네비게이션 ──────────────────────────────── */}

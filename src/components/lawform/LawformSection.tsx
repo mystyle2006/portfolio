@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
 import { LawformAnimation } from "./LawformAnimation";
-import { useCanvas } from "../InfiniteCanvas";
 
 const TITLE    = "Building a Highly Available Notification System at Lawform";
 const SUBTITLE = "Designed an event-driven notification architecture using AWS SQS and Lambda, reliably delivering SMS and email notifications to 5,000+ recipients while improving system responsiveness and fault tolerance.";
@@ -29,8 +28,6 @@ export const LawformSection = ({
   onNavReady?: () => void;
   skipAnimation?: boolean;
 }) => {
-  const { panTo } = useCanvas();
-
   const [titleText,     setTitleText]     = useState(skipAnimation ? TITLE    : "");
   const [subtitleText,  setSubtitleText]  = useState(skipAnimation ? SUBTITLE : "");
   const [phase,         setPhase]         = useState<"title" | "subtitle" | "done">(skipAnimation ? "done" : "title");
@@ -170,23 +167,6 @@ export const LawformSection = ({
         <LawformAnimation active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
       </div>
 
-      {/* ── 프로필로 돌아가기 버튼 ── */}
-      <button
-        onClick={() => panTo(80, 10)}
-        onPointerDown={(e) => e.stopPropagation()}
-        className="absolute top-0 right-6 w-12 h-12 rounded-full flex items-center justify-center z-20"
-        style={{
-          background: "#ffffff",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-          transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-      >
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M4 14L14 4M14 4H8M14 4V10" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
     </div>
   );
 };
