@@ -4,20 +4,27 @@ import { CSSProperties, useEffect, useState } from "react";
 
 const VW = 820;
 const VH = 460;
-const MAX_PHASE = 9;
+const MAX_PHASE = 12;
 
-// 각 phase가 시작되는 ms (deploying → stable 사이를 넉넉히)
+//  0: divider + headers
+//  1: NaverPay usage bar     2: TossPay     3: KakaoPay
+//  4: NaverPay DEPLOYING     5: MONITORING  6: STABLE
+//  7: TossPay  DEPLOYING     8: MONITORING  9: STABLE
+// 10: KakaoPay DEPLOYING    11: MONITORING 12: STABLE
 const PHASE_DELAYS = [
-     0,  // 0: 구분선 + 헤더
-   450,  // 1: NaverPay 사용량 바
-   900,  // 2: TossPay 사용량 바
-  1350,  // 3: KakaoPay 사용량 바 + 우측 헤더
-  1850,  // 4: NaverPay DEPLOYING
-  3350,  // 5: NaverPay STABLE     (1500ms 소요)
-  3850,  // 6: TossPay  DEPLOYING
-  5350,  // 7: TossPay  STABLE     (1500ms 소요)
-  5850,  // 8: KakaoPay DEPLOYING
-  7350,  // 9: KakaoPay STABLE     (1500ms 소요)
+     0,  // 0
+   400,  // 1
+   800,  // 2
+  1200,  // 3
+  1650,  // 4  NaverPay DEPLOYING
+  2650,  // 5  NaverPay MONITORING  (1000ms 배포)
+  4200,  // 6  NaverPay STABLE      (1550ms 모니터링)
+  4650,  // 7  TossPay  DEPLOYING   (450ms 간격)
+  5650,  // 8  TossPay  MONITORING
+  7200,  // 9  TossPay  STABLE
+  7650,  // 10 KakaoPay DEPLOYING
+  8650,  // 11 KakaoPay MONITORING
+ 10200,  // 12 KakaoPay STABLE
 ];
 
 const PGS = [
@@ -26,15 +33,18 @@ const PGS = [
   { name: "KakaoPay",  pct: 53, color: "#FBBF24" },
 ];
 
-const BAR_MAX    = 240; // 좌측 usage bar 최대폭
-const DEPLOY_BAR = 195; // 우측 deploy progress bar 최대폭
+const BAR_MAX    = 240;
+const DEPLOY_BAR = 195;
 const ROW_GAP    = 115;
 const COVERAGE   = ["0%", "15%", "47%", "100%"];
 
-// deploy: phase 4/6/8, stable: phase 5/7/9
-function pgStatus(i: number, phase: number): "pending" | "deploying" | "stable" {
-  if (phase >= 5 + i * 2) return "stable";
-  if (phase >= 4 + i * 2) return "deploying";
+type Status = "pending" | "deploying" | "monitoring" | "stable";
+
+function pgStatus(i: number, phase: number): Status {
+  const d = 4 + i * 3, m = 5 + i * 3, s = 6 + i * 3;
+  if (phase >= s) return "stable";
+  if (phase >= m) return "monitoring";
+  if (phase >= d) return "deploying";
   return "pending";
 }
 
@@ -64,9 +74,8 @@ export const WashswatDeployAnimation = ({
     transition: "opacity 0.5s ease",
   });
 
-  // stable phase: 5, 7, 9 → coverage 1, 2, 3
-  const stableCount = [5, 7, 9].filter((p) => phase >= p).length;
-  const coverage = COVERAGE[stableCount];
+  const stableCount = [6, 9, 12].filter((p) => phase >= p).length;
+  const coverage    = COVERAGE[stableCount];
 
   return (
     <div style={{
@@ -97,10 +106,8 @@ export const WashswatDeployAnimation = ({
                 fill="rgba(255,255,255,0.35)" textAnchor="middle">#{i + 1}</text>
               <text x={65} y={y + 12} fontSize={13} fontWeight={700}
                 fill="rgba(255,255,255,0.82)">{name}</text>
-              {/* 바 배경 */}
               <rect x={65} y={y + 22} width={BAR_MAX} height={13} rx={3}
                 fill="rgba(255,255,255,0.04)" />
-              {/* 바 채움 */}
               <rect x={65} y={y + 22} width={BAR_MAX * pct / 100} height={13} rx={3}
                 fill={`${color}44`} stroke={`${color}70`} strokeWidth={0.8} />
               <text x={65 + BAR_MAX * pct / 100 + 8} y={y + 33} fontSize={11} fontWeight={700}
@@ -109,8 +116,8 @@ export const WashswatDeployAnimation = ({
           );
         })}
 
-        <text x={200} y={400} fontSize={14} fontWeight={600} fill="rgba(255,255,255,0.45)"
-          textAnchor="middle" style={f(3)}>
+        <text x={200} y={400} fontSize={14} fontWeight={600}
+          fill="rgba(255,255,255,0.45)" textAnchor="middle" style={f(3)}>
           deploy in ascending order ↑
         </text>
 
@@ -131,60 +138,81 @@ export const WashswatDeployAnimation = ({
           </text>
         </g>
 
-        {/* ── 3개 배포 행 ── */}
+        {/* ── 배포 행 3개 ── */}
         {PGS.map(({ name, color }, i) => {
-          const status = pgStatus(i, phase);
-          const rowY   = 68 + i * ROW_GAP;
-          const active  = status !== "pending";
+          const status  = pgStatus(i, phase);
+          const rowY    = 68 + i * ROW_GAP;
+          const isActive = status !== "pending";
+          const barFill =
+            status === "stable"     ? `${color}92` :
+            status === "monitoring" ? `${color}6a` :
+                                      `${color}52`;
 
           return (
             <g key={`deploy-${name}`}>
               {/* 행 배경 */}
               <rect x={426} y={rowY} width={382} height={70} rx={9}
-                fill={active ? `${color}07` : "rgba(255,255,255,0.02)"}
-                stroke={active ? `${color}22` : "rgba(255,255,255,0.06)"}
+                fill={isActive ? `${color}07` : "rgba(255,255,255,0.02)"}
+                stroke={isActive ? `${color}22` : "rgba(255,255,255,0.06)"}
                 strokeWidth={1}
                 style={{ transition: "fill 0.5s, stroke 0.5s" }} />
 
               {/* 스텝 원 */}
               <circle cx={450} cy={rowY + 35} r={17}
-                fill={active ? `${color}18` : "rgba(255,255,255,0.04)"}
-                stroke={active ? `${color}58` : "rgba(255,255,255,0.1)"}
+                fill={isActive ? `${color}18` : "rgba(255,255,255,0.04)"}
+                stroke={isActive ? `${color}58` : "rgba(255,255,255,0.1)"}
                 strokeWidth={1.5}
                 style={{ transition: "fill 0.5s, stroke 0.5s" }} />
               <text x={450} y={rowY + 40} fontSize={13} fontWeight={900}
-                fill={active ? color : "rgba(255,255,255,0.22)"}
+                fill={isActive ? color : "rgba(255,255,255,0.22)"}
                 textAnchor="middle"
                 style={{ transition: "fill 0.5s" }}>{i + 1}</text>
 
               {/* PG 이름 */}
               <text x={477} y={rowY + 26} fontSize={13} fontWeight={700}
-                fill={active ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.2)"}
+                fill={isActive ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.2)"}
                 style={{ transition: "fill 0.5s" }}>{name}</text>
 
               {/* 프로그레스 바 배경 */}
               <rect x={477} y={rowY + 36} width={DEPLOY_BAR} height={11} rx={3}
                 fill="rgba(255,255,255,0.05)" />
 
-              {/* 프로그레스 바 채움 (scaleX 애니메이션) */}
+              {/* 프로그레스 바 채움 */}
               <g style={{
                 transformBox: "fill-box" as CSSProperties["transformBox"],
                 transformOrigin: "left",
-                transform: `scaleX(${status !== "pending" ? 1 : 0})`,
-                transition: "transform 0.5s ease",
+                transform: `scaleX(${isActive ? 1 : 0})`,
+                transition: "transform 0.55s ease",
               }}>
                 <rect x={477} y={rowY + 36} width={DEPLOY_BAR} height={11} rx={3}
-                  fill={status === "stable" ? `${color}90` : `${color}55`}
-                  style={{ transition: "fill 0.4s" }} />
+                  fill={barFill}
+                  style={{ transition: "fill 0.4s" }}>
+                  {/* 모니터링 중 숨쉬는 애니메이션 */}
+                  {status === "monitoring" && (
+                    <animate attributeName="opacity"
+                      values="0.5;1;0.5" dur="1.4s" repeatCount="indefinite" />
+                  )}
+                </rect>
               </g>
 
               {/* 상태 뱃지 */}
               {status === "deploying" && (
-                <text x={686} y={rowY + 26} fontSize={10} fontWeight={600}
-                  fill={`${color}88`} textAnchor="middle">
-                  DEPLOYING...
-                </text>
+                <text x={688} y={rowY + 26} fontSize={10} fontWeight={600}
+                  fill={`${color}99`} textAnchor="middle">DEPLOYING...</text>
               )}
+
+              {status === "monitoring" && (
+                <g>
+                  {/* 점멸 도트 */}
+                  <circle cx={670} cy={rowY + 22} r={4} fill={color}>
+                    <animate attributeName="opacity"
+                      values="1;0.2;1" dur="1.1s" repeatCount="indefinite" />
+                  </circle>
+                  <text x={686} y={rowY + 26} fontSize={10} fontWeight={600}
+                    fill={`${color}88`}>MONITORING...</text>
+                </g>
+              )}
+
               {status === "stable" && (
                 <g>
                   <rect x={668} y={rowY + 14} width={60} height={22} rx={5}
