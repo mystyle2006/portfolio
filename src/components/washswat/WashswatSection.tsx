@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, CSSProperties } from "react";
 import { MapBackground } from "../jelpala/MapBackground";
 import { useCanvas } from "../InfiniteCanvas";
 
-const TITLE    = "Unified Payment Platform at Washswat";
-const SUBTITLE = "Real-Time Freight Matching Platform";
+const TITLE    = "Unified Payment at Washswat";
+const SUBTITLE = "Consolidating Multiple Payment Gateways into a Scalable Architecture";
 
 const K = ({ children }: { children: React.ReactNode }) => (
   <span className="text-white font-semibold underline decoration-blue-400/50 decoration-2 underline-offset-[3px]">
@@ -120,7 +120,7 @@ export const WashswatSection = ({
       >
 
         {/* title */}
-        <h1 className="text-[80px] font-extrabold leading-none tracking-tight min-h-[1em]" style={{ marginBottom: "14px" }}>
+        <h1 className="text-[54px] font-extrabold leading-tight tracking-tight min-h-[1em]" style={{ marginBottom: "14px" }}>
           {titleText}
           {phase === "title" && <Cursor visible={cursorVisible} />}
         </h1>
