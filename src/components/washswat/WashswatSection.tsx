@@ -1,17 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
-import { MapBackground } from "../jelpala/MapBackground";
 import { useCanvas } from "../InfiniteCanvas";
+import { WashswatAnimation } from "./WashswatAnimation";
 
 const TITLE    = "Multi-Payment Gateway Integration at Washswat";
 const SUBTITLE = "Consolidating Multiple Payment Gateways into a Scalable Architecture";
-
-const K = ({ children }: { children: React.ReactNode }) => (
-  <span className="text-white font-semibold underline decoration-blue-400/50 decoration-2 underline-offset-[3px]">
-    {children}
-  </span>
-);
 
 const Cursor = ({ visible }: { visible: boolean }) => (
   <span
@@ -31,11 +25,10 @@ export const WashswatSection = ({
 }) => {
   const { panTo } = useCanvas();
 
-  const [titleText,     setTitleText]     = useState(skipAnimation ? TITLE    : "");
+  const [titleText,     setTitleText]     = useState(skipAnimation ? TITLE : "");
   const [phase,         setPhase]         = useState<"title" | "done">(skipAnimation ? "done" : "title");
   const [cursorVisible, setCursorVisible] = useState(true);
   const [statsVisible,  setStatsVisible]  = useState(skipAnimation);
-  const [mapDone,       setMapDone]       = useState(skipAnimation);
   const notifiedRef = useRef(false);
 
   /* cursor blink */
@@ -65,29 +58,18 @@ export const WashswatSection = ({
     }
   }, [phase, skipAnimation]);
 
-  /* stats 표시 직후 네비 버튼 노출 */
+  /* nav 버튼 노출 */
   useEffect(() => {
     if (!statsVisible) return;
     onNavReady?.();
   }, [statsVisible]);
 
-  /* stats fadeUp 최장 딜레이(200ms) + 트랜지션(600ms) 이후 완료 */
-  useEffect(() => {
-    if (!statsVisible) return;
-    const timer = setTimeout(() => {
-      if (notifiedRef.current || !mapDone) return;
-      notifiedRef.current = true;
-      onAnimationComplete?.();
-    }, 800);
-    return () => clearTimeout(timer);
-  }, [statsVisible, mapDone]);
-
-  useEffect(() => {
-    if (!mapDone || !statsVisible) return;
+  /* 애니메이션 완료 알림 */
+  const handleAnimationComplete = () => {
     if (notifiedRef.current) return;
     notifiedRef.current = true;
     onAnimationComplete?.();
-  }, [mapDone, statsVisible]);
+  };
 
   const fadeUp = (delay: number): CSSProperties => ({
     opacity:    statsVisible ? 1 : 0,
@@ -102,60 +84,57 @@ export const WashswatSection = ({
     >
       {/* ── 좌측 텍스트 영역 ── */}
       <div
-        className="px-14 py-12 w-[620px] shrink-0 relative z-10 select-text"
+        className="px-14 py-12 w-[580px] shrink-0 relative z-10 select-text"
         onPointerDown={(e) => e.stopPropagation()}
       >
-
         {/* title */}
         <h1 className="text-[54px] font-extrabold leading-tight tracking-tight min-h-[1em]" style={{ marginBottom: "14px" }}>
           {titleText}
           {phase === "title" && <Cursor visible={cursorVisible} />}
         </h1>
 
-        {/* description */}
+        {/* subtitle */}
         <p className="text-[15px] leading-relaxed text-zinc-400" style={fadeUp(0)}>
           {SUBTITLE}
         </p>
 
-        {/* role list */}
-        <ul className="flex flex-col gap-2.5" style={{ ...fadeUp(80), marginTop: "20px" }}>
-          {[
-            <>Designed and implemented customer, driver, and admin platforms for Web, iOS, and Android using <K>React Native Expo</K>.</>,
-            <>Architected scalable cloud infrastructure on <K>AWS ECS</K>, <K>Redis</K>, <K>RDS</K>, <K>SQS</K>, <K>Lambda</K> and <K>S3</K>.</>,
-            <>Built a <K>location-based matching system</K> using <K>Redis GEO</K> to connect drivers with nearby shipments in real time.</>,
-            <>Designed and implemented <K>a Docker-based CI/CD pipeline</K> using <K>GitHub Actions</K>, standardizing build, testing, and deployment processes across environments.</>
-          ].map((item, i) => (
-            <li key={i} className="flex items-start gap-2.5 leading-relaxed text-zinc-400" style={{ fontSize: "15px" }}>
-              <span style={{ marginTop: "9px", width: "4px", height: "4px", borderRadius: "50%", background: "#52525b", flexShrink: 0, display: "inline-block" }} />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* stats */}
-        <div className="flex items-center gap-6" style={{ ...fadeUp(200), marginTop: "32px", flexWrap: "nowrap" }}>
-          {[
-            { value: "Redis GEO", label: "Based Matching" },
-            { value: "Real-time", label: "Message Processing" },
-            { value: "3,000+",    label: "Concurrent Users" },
-          ].map(({ value, label }, i) => (
-            <>
-              {i > 0 && (
-                <span key={`sep-${i}`} style={{ color: "rgba(255,255,255,0.1)", fontSize: "30px", userSelect: "none", flexShrink: 0 }}>|</span>
-              )}
-              <div key={label} className="flex flex-col gap-1" style={{ flexShrink: 0 }}>
-                <span className="font-black text-blue-400" style={{ fontSize: "33px", whiteSpace: "nowrap" }}>{value}</span>
-                <span className="text-white" style={{ fontSize: "19px", whiteSpace: "nowrap" }}>{label}</span>
-              </div>
-            </>
-          ))}
+        {/* description */}
+        <div style={{ ...fadeUp(80), marginTop: "24px" }}>
+          <p className="text-[15px] leading-relaxed text-zinc-400" style={{ marginBottom: "16px" }}>
+            기존 결제 시스템은 각 PG사마다 개별 비즈니스 로직이 산재해 있어 코드 중복과 유지보수 비용이 급증했습니다.
+          </p>
+          <p className="text-[15px] leading-relaxed text-zinc-400">
+            IoC 기반의 <span className="text-white font-semibold">PaymentGateway 인터페이스</span>를 설계해 의존성 주입으로
+            각 PG사 구현체를 교체 가능하게 만들고, 비즈니스 로직을 단일 위치에 통합했습니다.
+          </p>
         </div>
 
+        {/* stats */}
+        <div className="flex items-center gap-6" style={{ ...fadeUp(160), marginTop: "36px", flexWrap: "nowrap" }}>
+          {[
+            { value: "35%",  label: "Code Reduction",      color: "rgba(52,211,153,0.9)" },
+            { value: "80%",  label: "Faster PG Integration", color: "rgba(96,165,250,0.9)" },
+          ].map(({ value, label, color }, i) => (
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: "24px", flexShrink: 0 }}>
+              {i > 0 && (
+                <span style={{ color: "rgba(255,255,255,0.1)", fontSize: "30px", userSelect: "none" }}>|</span>
+              )}
+              <div className="flex flex-col gap-1">
+                <span className="font-black" style={{ fontSize: "33px", whiteSpace: "nowrap", color }}>{value}</span>
+                <span className="text-white" style={{ fontSize: "15px", whiteSpace: "nowrap" }}>{label}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* ── 우측 지도 영역 ── */}
-      <div className="flex-1 relative">
-        <MapBackground active={statsVisible} skipAnimation={skipAnimation} onComplete={() => setMapDone(true)} />
+      {/* ── 우측 다이어그램 영역 ── */}
+      <div className="flex-1 relative" style={{ padding: "16px 12px 16px 0" }}>
+        <WashswatAnimation
+          active={statsVisible}
+          skipAnimation={skipAnimation}
+          onComplete={handleAnimationComplete}
+        />
       </div>
 
       {/* ── 프로필로 돌아가기 버튼 ── */}
