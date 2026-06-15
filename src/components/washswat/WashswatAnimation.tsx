@@ -14,11 +14,11 @@ const BEFORE_SERVICES = [
 
 const IMPL = [
   { x: 448, name: "KakaoPay" },
-  { x: 581, name: "TossPay"  },
-  { x: 714, name: "NaverPay" },
+  { x: 568, name: "TossPay"  },
+  { x: 688, name: "NaverPay" },
 ];
 
-const IW = 110; // impl box width
+const IW = 100; // impl box width
 const IH = 72;
 const IMPL_Y = 310;
 
