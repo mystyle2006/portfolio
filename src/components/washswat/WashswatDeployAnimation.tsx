@@ -4,8 +4,21 @@ import { CSSProperties, useEffect, useState } from "react";
 
 const VW = 820;
 const VH = 460;
-const MAX_PHASE = 7;
-const PHASE_MS  = 540;
+const MAX_PHASE = 9;
+
+// 각 phase가 시작되는 ms (deploying → stable 사이를 넉넉히)
+const PHASE_DELAYS = [
+     0,  // 0: 구분선 + 헤더
+   450,  // 1: NaverPay 사용량 바
+   900,  // 2: TossPay 사용량 바
+  1350,  // 3: KakaoPay 사용량 바 + 우측 헤더
+  1850,  // 4: NaverPay DEPLOYING
+  3350,  // 5: NaverPay STABLE     (1500ms 소요)
+  3850,  // 6: TossPay  DEPLOYING
+  5350,  // 7: TossPay  STABLE     (1500ms 소요)
+  5850,  // 8: KakaoPay DEPLOYING
+  7350,  // 9: KakaoPay STABLE     (1500ms 소요)
+];
 
 const PGS = [
   { name: "NaverPay",  pct: 15, color: "#34D399" },
@@ -18,9 +31,10 @@ const DEPLOY_BAR = 195; // 우측 deploy progress bar 최대폭
 const ROW_GAP    = 115;
 const COVERAGE   = ["0%", "15%", "47%", "100%"];
 
+// deploy: phase 4/6/8, stable: phase 5/7/9
 function pgStatus(i: number, phase: number): "pending" | "deploying" | "stable" {
-  if (phase >= 5 + i) return "stable";
-  if (phase >= 4 + i) return "deploying";
+  if (phase >= 5 + i * 2) return "stable";
+  if (phase >= 4 + i * 2) return "deploying";
   return "pending";
 }
 
@@ -38,10 +52,10 @@ export const WashswatDeployAnimation = ({
   useEffect(() => {
     if (!active) return;
     const timers: ReturnType<typeof setTimeout>[] = [];
-    for (let p = 0; p <= MAX_PHASE; p++) {
-      timers.push(setTimeout(() => setPhase(p), p * PHASE_MS));
-    }
-    timers.push(setTimeout(onComplete, MAX_PHASE * PHASE_MS + 600));
+    PHASE_DELAYS.forEach((ms, p) => {
+      timers.push(setTimeout(() => setPhase(p), ms));
+    });
+    timers.push(setTimeout(onComplete, PHASE_DELAYS[MAX_PHASE] + 800));
     return () => timers.forEach(clearTimeout);
   }, [active]);
 
@@ -50,7 +64,9 @@ export const WashswatDeployAnimation = ({
     transition: "opacity 0.5s ease",
   });
 
-  const coverage = COVERAGE[Math.max(0, Math.min(3, phase - 4))];
+  // stable phase: 5, 7, 9 → coverage 1, 2, 3
+  const stableCount = [5, 7, 9].filter((p) => phase >= p).length;
+  const coverage = COVERAGE[stableCount];
 
   return (
     <div style={{
@@ -93,7 +109,7 @@ export const WashswatDeployAnimation = ({
           );
         })}
 
-        <text x={200} y={400} fontSize={11} fill="rgba(255,255,255,0.18)"
+        <text x={200} y={400} fontSize={14} fontWeight={600} fill="rgba(255,255,255,0.45)"
           textAnchor="middle" style={f(3)}>
           deploy in ascending order ↑
         </text>
