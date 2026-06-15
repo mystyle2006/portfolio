@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, CSSProperties } from "react";
 import { MapBackground } from "../jelpala/MapBackground";
 import { useCanvas } from "../InfiniteCanvas";
 
-const TITLE    = "Unified Payment at Washswat";
+const TITLE    = "Multi-Payment Gateway Integration at Washswat";
 const SUBTITLE = "Consolidating Multiple Payment Gateways into a Scalable Architecture";
 
 const K = ({ children }: { children: React.ReactNode }) => (
@@ -32,8 +32,7 @@ export const WashswatSection = ({
   const { panTo } = useCanvas();
 
   const [titleText,     setTitleText]     = useState(skipAnimation ? TITLE    : "");
-  const [subtitleText,  setSubtitleText]  = useState(skipAnimation ? SUBTITLE : "");
-  const [phase,         setPhase]         = useState<"title" | "subtitle" | "done">(skipAnimation ? "done" : "title");
+  const [phase,         setPhase]         = useState<"title" | "done">(skipAnimation ? "done" : "title");
   const [cursorVisible, setCursorVisible] = useState(true);
   const [statsVisible,  setStatsVisible]  = useState(skipAnimation);
   const [mapDone,       setMapDone]       = useState(skipAnimation);
@@ -45,7 +44,7 @@ export const WashswatSection = ({
     return () => clearInterval(timer);
   }, []);
 
-  /* typewriter: title → subtitle → done */
+  /* typewriter: title → done */
   useEffect(() => {
     if (skipAnimation) return;
     let index = 0;
@@ -56,24 +55,12 @@ export const WashswatSection = ({
         setTitleText(TITLE.slice(0, index));
         if (index >= TITLE.length) {
           clearInterval(timer);
-          setTimeout(() => setPhase("subtitle"), 280);
-        }
-      }, 80);
-      return () => clearInterval(timer);
-    }
-
-    if (phase === "subtitle") {
-      const timer = setInterval(() => {
-        index++;
-        setSubtitleText(SUBTITLE.slice(0, index));
-        if (index >= SUBTITLE.length) {
-          clearInterval(timer);
           setTimeout(() => {
             setPhase("done");
             setTimeout(() => setStatsVisible(true), 100);
-          }, 200);
+          }, 280);
         }
-      }, 35);
+      }, 60);
       return () => clearInterval(timer);
     }
   }, [phase, skipAnimation]);
@@ -125,15 +112,9 @@ export const WashswatSection = ({
           {phase === "title" && <Cursor visible={cursorVisible} />}
         </h1>
 
-        {/* subtitle */}
-        <p className="text-[22px] font-medium text-zinc-400 min-h-[1.5em] mb-12">
-          {subtitleText}
-          {phase === "subtitle" && <Cursor visible={cursorVisible} />}
-        </p>
-
         {/* description */}
         <p className="text-[15px] leading-relaxed text-zinc-400" style={fadeUp(0)}>
-          North America&apos;s First Semi-Truck Sharing Platform.
+          {SUBTITLE}
         </p>
 
         {/* role list */}
