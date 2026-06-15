@@ -222,6 +222,11 @@ export const PortfolioCanvas = () => {
         />
       </CanvasNode>
 
+      {/* ── Washswat 상단 중앙 네비게이션 ───────────────────────── */}
+      <CanvasNode x={1776} y={-1248}>
+        <CanvasNavButton label="View Safely Deploying a Unified Payment System" destination={{ x: 1816, y: -2000 }} arrow="up" labelSide="right" visible={washswatNavReady} />
+      </CanvasNode>
+
       {/* ── Washswat 좌측 하단 네비게이션 ───────────────────────── */}
       <CanvasNode x={1036} y={-528}>
         <CanvasNavButton label="" destination={{ x: 80, y: 10 }} arrow="down-left" labelSide="right" visible={washswatNavReady} />
