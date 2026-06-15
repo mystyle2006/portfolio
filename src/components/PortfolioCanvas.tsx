@@ -11,6 +11,7 @@ import { JelpalaMatchingSection } from "./jelpala/JelpalaMatchingSection";
 import { HighAvailabilityMessagingSection } from "./lawform/HighAvailabilityMessagingSection";
 import { LawformSection } from "./lawform/LawformSection";
 import { WashswatSection } from "./washswat/WashswatSection";
+import { WashswatDeploySection } from "./washswat/WashswatDeploySection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -119,6 +120,7 @@ export const PortfolioCanvas = () => {
   const [matchingReady, setMatchingReady]           = useState(false);
   const [washswatReady, setWashswatReady]       = useState(false);
   const [washswatNavReady, setWashswatNavReady] = useState(false);
+  const [deployReady, setDeployReady]           = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
   const [lawformReady, setLawformReady]             = useState(false);
   const [lawformNavReady, setLawformNavReady]       = useState(false);
@@ -225,6 +227,14 @@ export const PortfolioCanvas = () => {
       {/* ── Washswat 상단 중앙 네비게이션 ───────────────────────── */}
       <CanvasNode x={1776} y={-1248}>
         <CanvasNavButton label="View Safely Deploying a Unified Payment System" destination={{ x: 1816, y: -2000 }} arrow="up" labelSide="right" visible={washswatNavReady} />
+      </CanvasNode>
+
+      {/* ── Washswat Deploy Section ──────────────────────────────── */}
+      <CanvasNode x={1096} y={-2300} width={1440} height={600}>
+        <WashswatDeploySection
+          skipAnimation={deployReady}
+          onAnimationComplete={() => setDeployReady(true)}
+        />
       </CanvasNode>
 
       {/* ── Washswat 좌측 하단 네비게이션 ───────────────────────── */}
