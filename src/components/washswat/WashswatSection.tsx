@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, CSSProperties } from "react";
 import { MapBackground } from "../jelpala/MapBackground";
 import { useCanvas } from "../InfiniteCanvas";
 
-const TITLE    = "Jelpala";
+const TITLE    = "Unified Payment Platform at Washswat";
 const SUBTITLE = "Real-Time Freight Matching Platform";
 
 const K = ({ children }: { children: React.ReactNode }) => (
