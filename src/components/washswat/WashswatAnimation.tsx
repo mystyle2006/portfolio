@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const VW = 820;
 const VH = 460;
-const MAX_PHASE = 4;
+const MAX_PHASE = 3;
 
 const BEFORE_SERVICES = [
   { y: 68,  name: "KakaoPayService" },
@@ -148,29 +148,6 @@ export const WashswatAnimation = ({
           </g>
         ))}
 
-        {/* ── Stats ── */}
-        <g style={f(4)}>
-          <line x1={28} y1={408} x2={790} y2={408}
-            stroke="rgba(255,255,255,0.07)" strokeWidth={1} />
-
-          {/* 35% */}
-          <text x={230} y={438} fontSize={28} fontWeight={900}
-            fill="rgba(52,211,153,0.9)" textAnchor="middle">35%</text>
-          <text x={230} y={456} fontSize={11} fill="rgba(255,255,255,0.4)" textAnchor="middle">
-            Duplicate Code Removed
-          </text>
-
-          {/* 구분 */}
-          <line x1={410} y1={420} x2={410} y2={455}
-            stroke="rgba(255,255,255,0.1)" strokeWidth={1} />
-
-          {/* 80% */}
-          <text x={590} y={438} fontSize={28} fontWeight={900}
-            fill="rgba(96,165,250,0.9)" textAnchor="middle">80%</text>
-          <text x={590} y={456} fontSize={11} fill="rgba(255,255,255,0.4)" textAnchor="middle">
-            Faster PG Integration
-          </text>
-        </g>
 
       </svg>
     </div>
