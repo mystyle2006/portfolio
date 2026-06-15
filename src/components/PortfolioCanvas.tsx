@@ -118,6 +118,7 @@ export const PortfolioCanvas = () => {
   const [messagingReady, setMessagingReady]         = useState(false);
   const [matchingReady, setMatchingReady]           = useState(false);
   const [washswatReady, setWashswatReady]       = useState(false);
+  const [washswatNavReady, setWashswatNavReady] = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
   const [lawformReady, setLawformReady]             = useState(false);
   const [lawformNavReady, setLawformNavReady]       = useState(false);
@@ -217,7 +218,13 @@ export const PortfolioCanvas = () => {
         <WashswatSection
           skipAnimation={washswatReady}
           onAnimationComplete={() => setWashswatReady(true)}
+          onNavReady={() => setWashswatNavReady(true)}
         />
+      </CanvasNode>
+
+      {/* ── Washswat 좌측 하단 네비게이션 ───────────────────────── */}
+      <CanvasNode x={1036} y={-528}>
+        <CanvasNavButton label="Back to Profile" destination={{ x: 80, y: 10 }} arrow="down-left" labelSide="right" visible={washswatNavReady} />
       </CanvasNode>
 
       {/* ── Lawform Section ──────────────────────────────────────── */}

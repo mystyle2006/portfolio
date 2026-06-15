@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
-import { useCanvas } from "../InfiniteCanvas";
 import { WashswatAnimation } from "./WashswatAnimation";
 
 const TITLE    = "Multi-Payment Gateway Integration at Washswat";
@@ -23,8 +22,6 @@ export const WashswatSection = ({
   onNavReady?: () => void;
   skipAnimation?: boolean;
 }) => {
-  const { panTo } = useCanvas();
-
   const [titleText,     setTitleText]     = useState(skipAnimation ? TITLE : "");
   const [phase,         setPhase]         = useState<"title" | "done">(skipAnimation ? "done" : "title");
   const [cursorVisible, setCursorVisible] = useState(true);
@@ -136,23 +133,6 @@ export const WashswatSection = ({
         />
       </div>
 
-      {/* ── 프로필로 돌아가기 버튼 ── */}
-      <button
-        onClick={() => panTo(80, 10)}
-        onPointerDown={(e) => e.stopPropagation()}
-        className="absolute bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-20"
-        style={{
-          background: "#ffffff",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-          transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-      >
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M4 4L14 14M14 14V6M14 14H6" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
     </div>
   );
 };
