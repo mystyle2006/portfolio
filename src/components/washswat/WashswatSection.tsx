@@ -101,11 +101,10 @@ export const WashswatSection = ({
         {/* description */}
         <div style={{ ...fadeUp(80), marginTop: "24px" }}>
           <p className="text-[15px] leading-relaxed text-zinc-400" style={{ marginBottom: "16px" }}>
-            기존 결제 시스템은 각 PG사마다 개별 비즈니스 로직이 산재해 있어 코드 중복과 유지보수 비용이 급증했습니다.
+            The legacy payment system had separate business logic scattered across each provider, causing severe code duplication and skyrocketing maintenance costs.
           </p>
           <p className="text-[15px] leading-relaxed text-zinc-400">
-            IoC 기반의 <span className="text-white font-semibold">PaymentGateway 인터페이스</span>를 설계해 의존성 주입으로
-            각 PG사 구현체를 교체 가능하게 만들고, 비즈니스 로직을 단일 위치에 통합했습니다.
+            Designed an IoC-based <span className="text-white font-semibold">PaymentGateway interface</span> to make each provider implementation swappable via dependency injection, consolidating all business logic into a single location.
           </p>
         </div>
 

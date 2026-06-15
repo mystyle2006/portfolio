@@ -102,7 +102,7 @@ export const WashswatAnimation = ({
           <text x={BL_BOX.x + BL_BOX.w / 2} y={BL_BOX.y + 28} fontSize={13} fontWeight={700}
             fill="rgba(255,255,255,0.88)" textAnchor="middle">Business Logic</text>
           <text x={BL_BOX.x + BL_BOX.w / 2} y={BL_BOX.y + 48} fontSize={10.5}
-            fill="rgba(52,211,153,0.65)" textAnchor="middle">단일 관리 · 중복 제거</text>
+            fill="rgba(52,211,153,0.65)" textAnchor="middle">Single Source · Zero Duplication</text>
         </g>
 
         {/* BL → Gateway 화살표 */}
