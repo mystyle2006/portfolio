@@ -237,6 +237,11 @@ export const PortfolioCanvas = () => {
         />
       </CanvasNode>
 
+      {/* ── Washswat Deploy 하단 중앙 네비게이션 ────────────────── */}
+      <CanvasNode x={1796} y={-1660}>
+        <CanvasNavButton label="" destination={{ x: 1816, y: -878 }} arrow="down" labelSide="right" visible={deployReady} />
+      </CanvasNode>
+
       {/* ── Washswat 좌측 하단 네비게이션 ───────────────────────── */}
       <CanvasNode x={1036} y={-528}>
         <CanvasNavButton label="" destination={{ x: 80, y: 10 }} arrow="down-left" labelSide="right" visible={washswatNavReady} />
