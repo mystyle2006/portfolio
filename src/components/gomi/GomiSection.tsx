@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState, CSSProperties } from "react";
 import { WashswatAnimation } from "../washswat/WashswatAnimation";
 
-const TITLE    = "Multi-Payment Gateway Integration at Washswat";
-const SUBTITLE = "Consolidating Multiple Payment Gateways into a Scalable Architecture";
+const TITLE    = "Reducing Settlement Processing Time by Over 80%";
+const SUBTITLE = "Built in close collaboration with finance and operations teams to automate reconciliation and settlement workflows across multiple marketplaces.";
 
 const Cursor = ({ visible }: { visible: boolean }) => (
   <span
