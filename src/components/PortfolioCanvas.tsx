@@ -12,6 +12,7 @@ import { HighAvailabilityMessagingSection } from "./lawform/HighAvailabilityMess
 import { LawformSection } from "./lawform/LawformSection";
 import { WashswatSection } from "./washswat/WashswatSection";
 import { WashswatDeploySection } from "./washswat/WashswatDeploySection";
+import { GomiSection } from "./gomi/GomiSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -121,6 +122,7 @@ export const PortfolioCanvas = () => {
   const [washswatReady, setWashswatReady]       = useState(false);
   const [washswatNavReady, setWashswatNavReady] = useState(false);
   const [deployReady, setDeployReady]           = useState(false);
+  const [gomiReady,   setGomiReady]             = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
   const [lawformReady, setLawformReady]             = useState(false);
   const [lawformNavReady, setLawformNavReady]       = useState(false);
@@ -245,6 +247,14 @@ export const PortfolioCanvas = () => {
       {/* ── Washswat 좌측 하단 네비게이션 ───────────────────────── */}
       <CanvasNode x={1036} y={-528}>
         <CanvasNavButton label="" destination={{ x: 80, y: 10 }} arrow="down-left" labelSide="right" visible={washswatNavReady} />
+      </CanvasNode>
+
+      {/* ── Gomi Section ─────────────────────────────────────────── */}
+      <CanvasNode x={876} y={461} width={1440} height={600}>
+        <GomiSection
+          skipAnimation={gomiReady}
+          onAnimationComplete={() => setGomiReady(true)}
+        />
       </CanvasNode>
 
       {/* ── Lawform Section ──────────────────────────────────────── */}
