@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
-import { GomiAnimation } from "./GomiAnimation";
 
 const TITLE    = "Reducing Settlement Processing Time by Over 80%";
 const SUBTITLE = "Built in close collaboration with finance and operations teams to automate reconciliation and settlement workflows across multiple marketplaces.";
@@ -55,13 +54,11 @@ export const GomiSection = ({
   useEffect(() => {
     if (!contentVisible) return;
     onNavReady?.();
+    if (!notifiedRef.current) {
+      notifiedRef.current = true;
+      onAnimationComplete?.();
+    }
   }, [contentVisible]);
-
-  const handleAnimationComplete = () => {
-    if (notifiedRef.current) return;
-    notifiedRef.current = true;
-    onAnimationComplete?.();
-  };
 
   const fadeUp = (delay: number): CSSProperties => ({
     opacity:    contentVisible ? 1 : 0,
@@ -71,12 +68,11 @@ export const GomiSection = ({
 
   return (
     <div
-      className="w-[1440px] rounded-2xl overflow-hidden relative text-white flex"
+      className="w-[1440px] rounded-2xl overflow-hidden relative text-white"
       style={{ minHeight: "600px" }}
     >
-      {/* ── 좌측 텍스트 영역 ── */}
       <div
-        className="px-14 py-12 w-[580px] shrink-0 relative z-10 select-text"
+        className="px-14 py-12 w-[580px] relative z-10 select-text"
         onPointerDown={(e) => e.stopPropagation()}
       >
         <h1 className="text-[48px] font-extrabold leading-tight tracking-tight min-h-[1em]"
@@ -89,7 +85,6 @@ export const GomiSection = ({
           {SUBTITLE}
         </p>
 
-        {/* stats */}
         <div className="flex items-center gap-6" style={{ ...fadeUp(120), marginTop: "36px", flexWrap: "nowrap" }}>
           {[
             { value: "50,000+", label: "Monthly Orders Processed", color: "rgba(52,211,153,0.9)" },
@@ -100,15 +95,6 @@ export const GomiSection = ({
             </div>
           ))}
         </div>
-      </div>
-
-      {/* ── 우측 애니메이션 영역 ── */}
-      <div className="flex-1 relative" style={{ padding: "16px 12px 16px 0" }}>
-        <GomiAnimation
-          active={contentVisible}
-          skipAnimation={skipAnimation}
-          onComplete={handleAnimationComplete}
-        />
       </div>
     </div>
   );
