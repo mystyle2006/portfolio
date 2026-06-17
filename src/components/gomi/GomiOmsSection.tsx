@@ -37,12 +37,12 @@ type ArrowDef = {
 
 const ARROWS: ArrowDef[] = [
   // Sources → NestJS
-  { x1: 120, y1: 195, x2: 288, y2: 353, phase: 1 },
-  { x1: 120, y1: 315, x2: 288, y2: 364, phase: 1 },
-  { x1: 120, y1: 435, x2: 288, y2: 376, phase: 1 },
-  { x1: 120, y1: 555, x2: 288, y2: 387, phase: 1 },
+  { x1: 120, y1: 195, x2: 294, y2: 305, phase: 1 },
+  { x1: 120, y1: 315, x2: 294, y2: 355, phase: 1 },
+  { x1: 120, y1: 435, x2: 294, y2: 405, phase: 1 },
+  { x1: 120, y1: 555, x2: 294, y2: 437, phase: 1 },
   // NestJS → SQS
-  { x1: 366, y1: 325, x2: 548, y2: 260, phase: 2 },
+  { x1: 350, y1: 371, x2: 548, y2: 260, phase: 2 },
   // SQS → Lambda
   { x1: 612, y1: 260, x2: 768, y2: 260, phase: 3 },
   // Lambda → SNS
@@ -174,19 +174,15 @@ export const GomiOmsSection = ({
         </span>
       </div>
 
-      {/* NestJS 3-pod (K8s replicas) */}
-      <div style={{ position: "absolute", left: 276, top: 283, width: 90, ...fade(1) }}>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 6 }}>
-          <Image src="/icons/nest_icon.png" width={42} height={42} alt="NestJS Pod" style={{ objectFit: "contain" }} />
-        </div>
-        <div style={{ display: "flex", gap: 6 }}>
-          <Image src="/icons/nest_icon.png" width={42} height={42} alt="NestJS Pod" style={{ objectFit: "contain" }} />
-          <Image src="/icons/nest_icon.png" width={42} height={42} alt="NestJS Pod" style={{ objectFit: "contain" }} />
-        </div>
-        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", display: "block", textAlign: "center", marginTop: 6 }}>
+      {/* NestJS 3-pod 수직 배열 (K8s replicas) */}
+      <div style={{ position: "absolute", left: 294, top: 277, width: 56, display: "flex", flexDirection: "column", alignItems: "center", gap: 10, ...fade(1) }}>
+        <Image src="/icons/nest_icon.png" width={56} height={56} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+        <Image src="/icons/nest_icon.png" width={56} height={56} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+        <Image src="/icons/nest_icon.png" width={56} height={56} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", marginTop: 2 }}>
           NestJS
         </span>
-        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", whiteSpace: "nowrap", display: "block", textAlign: "center", marginTop: 2 }}>
+        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", whiteSpace: "nowrap", marginTop: -6 }}>
           Webhook Server
         </span>
       </div>
