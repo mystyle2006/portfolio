@@ -88,6 +88,12 @@ export const GomiSection = ({
         <p className="text-[15px] leading-relaxed text-zinc-400" style={fadeUp(0)}>
           {SUBTITLE}
         </p>
+
+        {/* stats */}
+        <div style={{ ...fadeUp(120), marginTop: "36px" }}>
+          <span className="font-black" style={{ fontSize: "33px", color: "rgba(52,211,153,0.9)" }}>5,000+</span>
+          <span className="text-white" style={{ fontSize: "15px", marginLeft: "10px" }}>Monthly Orders Processed</span>
+        </div>
       </div>
 
       {/* ── 우측 애니메이션 영역 ── */}
