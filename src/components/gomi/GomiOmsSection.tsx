@@ -21,7 +21,6 @@ const NODES: Record<string, NodeDef> = {
   lazada:   { cx: 88,   cy: 315, icon: "/icons/lazada_icon.png",            label: "Lazada",       sub: "Webhook",       phase: 0 },
   shopee:   { cx: 88,   cy: 435, icon: "/icons/shopee_icon.png",            label: "Shopee",       sub: "Webhook",       phase: 0 },
   gomimall: { cx: 88,   cy: 555, icon: "/icons/gomimall_icon.png",          label: "GomiMall",     sub: "Webhook",       phase: 0 },
-  nestjs:   { cx: 320,  cy: 375, icon: "/icons/nest_icon.png",              label: "NestJS",       sub: "Webhook Server", phase: 1 },
   sqs:      { cx: 580,  cy: 260, icon: "/icons/aws_sqs_icon.webp",          label: "AWS SQS",      sub: "Event Queue",   phase: 2 },
   lambda:   { cx: 800,  cy: 260, icon: "/icons/aws_lambda_icon.png",        label: "AWS Lambda",   sub: "Consumer",      phase: 3 },
   sns:      { cx: 1020, cy: 260, icon: "/icons/aws_icon.png",               label: "AWS SNS",      sub: "Fan-out Topic", phase: 4 },
@@ -43,7 +42,7 @@ const ARROWS: ArrowDef[] = [
   { x1: 120, y1: 435, x2: 288, y2: 376, phase: 1 },
   { x1: 120, y1: 555, x2: 288, y2: 387, phase: 1 },
   // NestJS → SQS
-  { x1: 352, y1: 375, x2: 548, y2: 260, phase: 2 },
+  { x1: 366, y1: 325, x2: 548, y2: 260, phase: 2 },
   // SQS → Lambda
   { x1: 612, y1: 260, x2: 768, y2: 260, phase: 3 },
   // Lambda → SNS
@@ -102,12 +101,13 @@ export const GomiOmsSection = ({
       onPointerDown={(e) => e.stopPropagation()}
     >
       {/* 제목 */}
-      <div style={{ position: "absolute", left: 40, top: 28, ...fade(0) }}>
-        <h2 style={{ fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>
+      <div style={{ position: "absolute", left: 40, top: 0, ...fade(0) }}>
+        <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>
           Multi-Platform Order Event Pipeline
         </h2>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", marginTop: 6 }}>
-          Tiki · Lazada · Shopee · GomiMall webhooks → NestJS (K8s) → SQS → Lambda → SNS
+        <p style={{ fontSize: 16, color: "rgba(255,255,255,0.38)", marginTop: 6 }}>
+          Incoming orders from Tiki, Lazada, Shopee, and Gomi are received via webhooks on a Kubernetes-backed NestJS server. <br />
+          Processed events are published to SQS and consumed by AWS Lambda, which orchestrates downstream delivery through SNS fan-out to OMS, WMS, and notification services.
         </p>
       </div>
 
@@ -171,6 +171,23 @@ export const GomiOmsSection = ({
           fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.3)",
         }}>
           Downstream Services
+        </span>
+      </div>
+
+      {/* NestJS 3-pod (K8s replicas) */}
+      <div style={{ position: "absolute", left: 276, top: 283, width: 90, ...fade(1) }}>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 6 }}>
+          <Image src="/icons/nest_icon.png" width={42} height={42} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+        </div>
+        <div style={{ display: "flex", gap: 6 }}>
+          <Image src="/icons/nest_icon.png" width={42} height={42} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+          <Image src="/icons/nest_icon.png" width={42} height={42} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+        </div>
+        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", display: "block", textAlign: "center", marginTop: 6 }}>
+          NestJS
+        </span>
+        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", whiteSpace: "nowrap", display: "block", textAlign: "center", marginTop: 2 }}>
+          Webhook Server
         </span>
       </div>
 
