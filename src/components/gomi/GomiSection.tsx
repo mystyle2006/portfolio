@@ -145,9 +145,33 @@ export const GomiSection = ({
                 color: "rgba(255,255,255,0.88)",
                 letterSpacing: "-0.01em",
                 lineHeight: 1.3,
+                flex: 1,
               }}>
                 {text}
               </span>
+              <button
+                onPointerDown={(e) => e.stopPropagation()}
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  background: "#ffffff",
+                  border: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+                  transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+              >
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
             </div>
           );
         })}
