@@ -5,6 +5,13 @@ import { useEffect, useRef, useState, CSSProperties } from "react";
 const TITLE    = "Reducing Settlement Processing Time by Over 80%";
 const SUBTITLE = "Built in close collaboration with finance and operations teams to automate reconciliation and settlement workflows across multiple marketplaces.";
 
+const KEYWORDS = [
+  { text: "Real-Time Multi-Channel Order Integration", color: "#60A5FA" },
+  { text: "Batch Processing Scalability",              color: "#34D399" },
+  { text: "Duplicate Settlement Prevention",           color: "#FBBF24" },
+  { text: "OMS/WMS Data Consistency",                  color: "#A78BFA" },
+];
+
 const Cursor = ({ visible }: { visible: boolean }) => (
   <span
     className="inline-block w-[3px] h-[0.85em] bg-white align-middle ml-[3px] translate-y-[-2px]"
@@ -25,6 +32,7 @@ export const GomiSection = ({
   const [phase,          setPhase]          = useState<"title" | "done">(skipAnimation ? "done" : "title");
   const [cursorVisible,  setCursorVisible]  = useState(true);
   const [contentVisible, setContentVisible] = useState(skipAnimation);
+  const [kwPhase,        setKwPhase]        = useState(skipAnimation ? KEYWORDS.length - 1 : -1);
   const notifiedRef = useRef(false);
 
   useEffect(() => {
@@ -54,10 +62,17 @@ export const GomiSection = ({
   useEffect(() => {
     if (!contentVisible) return;
     onNavReady?.();
-    if (!notifiedRef.current) {
-      notifiedRef.current = true;
-      onAnimationComplete?.();
-    }
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    KEYWORDS.forEach((_, i) =>
+      timers.push(setTimeout(() => setKwPhase(i), i * 220))
+    );
+    timers.push(setTimeout(() => {
+      if (!notifiedRef.current) {
+        notifiedRef.current = true;
+        onAnimationComplete?.();
+      }
+    }, KEYWORDS.length * 220 + 300));
+    return () => timers.forEach(clearTimeout);
   }, [contentVisible]);
 
   const fadeUp = (delay: number): CSSProperties => ({
@@ -68,11 +83,12 @@ export const GomiSection = ({
 
   return (
     <div
-      className="w-[1440px] rounded-2xl overflow-hidden relative text-white"
+      className="w-[1440px] rounded-2xl overflow-hidden relative text-white flex"
       style={{ minHeight: "600px" }}
     >
+      {/* ── 좌측 텍스트 영역 ── */}
       <div
-        className="px-14 py-12 w-[580px] relative z-10 select-text"
+        className="px-14 py-12 w-[580px] shrink-0 relative z-10 select-text"
         onPointerDown={(e) => e.stopPropagation()}
       >
         <h1 className="text-[48px] font-extrabold leading-tight tracking-tight min-h-[1em]"
@@ -95,6 +111,46 @@ export const GomiSection = ({
             </div>
           ))}
         </div>
+      </div>
+
+      {/* ── 우측 키워드 영역 ── */}
+      <div
+        className="flex-1 flex flex-col justify-center"
+        style={{ padding: "48px 48px 48px 24px", gap: "20px" }}
+      >
+        {KEYWORDS.map(({ text, color }, i) => {
+          const visible = kwPhase >= i;
+          return (
+            <div
+              key={text}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateX(0)" : "translateX(20px)",
+                transition: "opacity 0.5s ease, transform 0.5s ease",
+              }}
+            >
+              <div style={{
+                width: "3px",
+                height: "36px",
+                borderRadius: "2px",
+                background: color,
+                flexShrink: 0,
+              }} />
+              <span style={{
+                fontSize: "18px",
+                fontWeight: 700,
+                color: "rgba(255,255,255,0.88)",
+                letterSpacing: "-0.01em",
+                lineHeight: 1.3,
+              }}>
+                {text}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
