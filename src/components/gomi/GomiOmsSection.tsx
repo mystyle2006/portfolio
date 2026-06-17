@@ -36,13 +36,13 @@ type ArrowDef = {
 };
 
 const ARROWS: ArrowDef[] = [
-  // Sources → NestJS (left edge of pod group: x=248)
-  { x1: 120, y1: 195, x2: 248, y2: 220, phase: 1 },
-  { x1: 120, y1: 315, x2: 248, y2: 325, phase: 1 },
-  { x1: 120, y1: 435, x2: 248, y2: 435, phase: 1 },
-  { x1: 120, y1: 555, x2: 248, y2: 540, phase: 1 },
-  // NestJS → SQS (right edge of pod group: x=392, pod2 center: y=380)
-  { x1: 392, y1: 380, x2: 548, y2: 380, phase: 2 },
+  // Sources → NestJS (left edge of pod group: x=271)
+  { x1: 120, y1: 195, x2: 271, y2: 202, phase: 1 },
+  { x1: 120, y1: 315, x2: 271, y2: 310, phase: 1 },
+  { x1: 120, y1: 435, x2: 271, y2: 420, phase: 1 },
+  { x1: 120, y1: 555, x2: 271, y2: 504, phase: 1 },
+  // NestJS → SQS (right edge of pod group: x=379, pod2 center: y=380)
+  { x1: 379, y1: 380, x2: 548, y2: 380, phase: 2 },
   // SQS → Lambda
   { x1: 612, y1: 380, x2: 768, y2: 380, phase: 3 },
   // Lambda → SNS
@@ -128,7 +128,7 @@ export const GomiOmsSection = ({
 
       {/* Kubernetes Cluster 박스 */}
       <div style={{
-        position: "absolute", left: 214, top: 120, width: 222, height: 530,
+        position: "absolute", left: 214, top: 120, width: 222, height: 440,
         border: "1.5px dashed rgba(50,108,229,0.4)", borderRadius: 12,
         pointerEvents: "none", ...fade(1),
       }}>
@@ -175,16 +175,16 @@ export const GomiOmsSection = ({
       </div>
 
       {/* NestJS 3-pod 원형 배지 수직 배열 */}
-      <div style={{ position: "absolute", left: 248, top: 148, width: 144, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, ...fade(1) }}>
+      <div style={{ position: "absolute", left: 271, top: 148, width: 108, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, ...fade(1) }}>
         {[0, 1, 2].map((i) => (
           <div key={i} style={{
-            width: 144, height: 144, borderRadius: "50%",
+            width: 108, height: 108, borderRadius: "50%",
             background: "rgba(224,35,78,0.1)",
             border: "1.5px solid rgba(224,35,78,0.55)",
             display: "flex", alignItems: "center", justifyContent: "center",
             flexShrink: 0,
           }}>
-            <Image src="/icons/nest_icon.png" width={104} height={104} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+            <Image src="/icons/nest_icon.png" width={78} height={78} alt="NestJS Pod" style={{ objectFit: "contain" }} />
           </div>
         ))}
         <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", marginTop: 2 }}>
