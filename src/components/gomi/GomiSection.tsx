@@ -90,9 +90,15 @@ export const GomiSection = ({
         </p>
 
         {/* stats */}
-        <div style={{ ...fadeUp(120), marginTop: "36px" }}>
-          <span className="font-black" style={{ fontSize: "33px", color: "rgba(52,211,153,0.9)" }}>5,000+</span>
-          <span className="text-white" style={{ fontSize: "15px", marginLeft: "10px" }}>Monthly Orders Processed</span>
+        <div className="flex items-center gap-6" style={{ ...fadeUp(120), marginTop: "36px", flexWrap: "nowrap" }}>
+          {[
+            { value: "5,000+", label: "Monthly Orders Processed", color: "rgba(52,211,153,0.9)" },
+          ].map(({ value, label, color }) => (
+            <div key={label} className="flex flex-col gap-1" style={{ flexShrink: 0 }}>
+              <span className="font-black" style={{ fontSize: "33px", whiteSpace: "nowrap", color }}>{value}</span>
+              <span className="text-white" style={{ fontSize: "15px", whiteSpace: "nowrap" }}>{label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
