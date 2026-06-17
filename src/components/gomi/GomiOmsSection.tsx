@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useCanvas } from "../InfiniteCanvas";
 
 const W = 1440;
-const H = 680;
+const H = 720;
 const ICON = 64;
 const R    = ICON / 2;
 const MAX_PHASE = 5;
@@ -21,12 +21,12 @@ const NODES: Record<string, NodeDef> = {
   lazada:   { cx: 88,   cy: 315, icon: "/icons/lazada_icon.png",            label: "Lazada",       sub: "Webhook",       phase: 0 },
   shopee:   { cx: 88,   cy: 435, icon: "/icons/shopee_icon.png",            label: "Shopee",       sub: "Webhook",       phase: 0 },
   gomimall: { cx: 88,   cy: 555, icon: "/icons/gomimall_icon.png",          label: "GomiMall",     sub: "Webhook",       phase: 0 },
-  sqs:      { cx: 580,  cy: 260, icon: "/icons/aws_sqs_icon.webp",          label: "AWS SQS",      sub: "Event Queue",   phase: 2 },
-  lambda:   { cx: 800,  cy: 260, icon: "/icons/aws_lambda_icon.png",        label: "AWS Lambda",   sub: "Consumer",      phase: 3 },
-  sns:      { cx: 1020, cy: 260, icon: "/icons/aws_icon.png",               label: "AWS SNS",      sub: "Fan-out Topic", phase: 4 },
-  oms:      { cx: 1300, cy: 200, icon: "/icons/client_icon.png",            label: "OMS",          sub: "Order Mgmt",    phase: 5 },
-  wms:      { cx: 1300, cy: 340, icon: "/icons/truck.png",                  label: "WMS",          sub: "Warehouse",     phase: 5 },
-  notify:   { cx: 1300, cy: 480, icon: "/icons/push_notification_icon.png", label: "Notification", sub: "FCM / APNs",    phase: 5 },
+  sqs:      { cx: 580,  cy: 380, icon: "/icons/aws_sqs_icon.webp",          label: "AWS SQS",      sub: "Event Queue",   phase: 2 },
+  lambda:   { cx: 800,  cy: 380, icon: "/icons/aws_lambda_icon.png",        label: "AWS Lambda",   sub: "Consumer",      phase: 3 },
+  sns:      { cx: 1020, cy: 380, icon: "/icons/aws_icon.png",               label: "AWS SNS",      sub: "Fan-out Topic", phase: 4 },
+  oms:      { cx: 1300, cy: 265, icon: "/icons/client_icon.png",            label: "OMS",          sub: "Order Mgmt",    phase: 5 },
+  wms:      { cx: 1300, cy: 380, icon: "/icons/truck.png",                  label: "WMS",          sub: "Warehouse",     phase: 5 },
+  notify:   { cx: 1300, cy: 510, icon: "/icons/push_notification_icon.png", label: "Notification", sub: "FCM / APNs",    phase: 5 },
 };
 
 type ArrowDef = {
@@ -36,21 +36,21 @@ type ArrowDef = {
 };
 
 const ARROWS: ArrowDef[] = [
-  // Sources → NestJS
-  { x1: 120, y1: 195, x2: 286, y2: 296, phase: 1 },
-  { x1: 120, y1: 315, x2: 286, y2: 343, phase: 1 },
-  { x1: 120, y1: 435, x2: 286, y2: 419, phase: 1 },
-  { x1: 120, y1: 555, x2: 286, y2: 464, phase: 1 },
-  // NestJS → SQS
-  { x1: 358, y1: 380, x2: 548, y2: 260, phase: 2 },
+  // Sources → NestJS (left edge of pod group: x=248)
+  { x1: 120, y1: 195, x2: 248, y2: 220, phase: 1 },
+  { x1: 120, y1: 315, x2: 248, y2: 325, phase: 1 },
+  { x1: 120, y1: 435, x2: 248, y2: 435, phase: 1 },
+  { x1: 120, y1: 555, x2: 248, y2: 540, phase: 1 },
+  // NestJS → SQS (right edge of pod group: x=392, pod2 center: y=380)
+  { x1: 392, y1: 380, x2: 548, y2: 380, phase: 2 },
   // SQS → Lambda
-  { x1: 612, y1: 260, x2: 768, y2: 260, phase: 3 },
+  { x1: 612, y1: 380, x2: 768, y2: 380, phase: 3 },
   // Lambda → SNS
-  { x1: 832, y1: 260, x2: 988, y2: 260, phase: 4 },
+  { x1: 832, y1: 380, x2: 988, y2: 380, phase: 4 },
   // SNS → Services
-  { x1: 1052, y1: 248, x2: 1268, y2: 200, phase: 5 },
-  { x1: 1052, y1: 260, x2: 1268, y2: 340, phase: 5 },
-  { x1: 1052, y1: 272, x2: 1268, y2: 480, phase: 5 },
+  { x1: 1052, y1: 368, x2: 1268, y2: 265, phase: 5 },
+  { x1: 1052, y1: 380, x2: 1268, y2: 380, phase: 5 },
+  { x1: 1052, y1: 392, x2: 1268, y2: 510, phase: 5 },
 ];
 
 function bezier(a: ArrowDef): string {
@@ -113,7 +113,7 @@ export const GomiOmsSection = ({
 
       {/* Webhook Sources 그룹 박스 */}
       <div style={{
-        position: "absolute", left: 24, top: 130, width: 132, height: 470,
+        position: "absolute", left: 24, top: 130, width: 132, height: 490,
         border: "1px dashed rgba(255,255,255,0.12)", borderRadius: 12,
         pointerEvents: "none", ...fade(0),
       }}>
@@ -128,7 +128,7 @@ export const GomiOmsSection = ({
 
       {/* Kubernetes Cluster 박스 */}
       <div style={{
-        position: "absolute", left: 224, top: 245, width: 195, height: 310,
+        position: "absolute", left: 214, top: 120, width: 222, height: 530,
         border: "1.5px dashed rgba(50,108,229,0.4)", borderRadius: 12,
         pointerEvents: "none", ...fade(1),
       }}>
@@ -144,7 +144,7 @@ export const GomiOmsSection = ({
 
       {/* AWS Cloud 박스 */}
       <div style={{
-        position: "absolute", left: 446, top: 148, width: 748, height: 270,
+        position: "absolute", left: 446, top: 318, width: 748, height: 218,
         border: "1.5px dashed rgba(255,153,0,0.3)", borderRadius: 14,
         pointerEvents: "none", ...fade(2),
       }}>
@@ -161,7 +161,7 @@ export const GomiOmsSection = ({
 
       {/* Downstream 박스 */}
       <div style={{
-        position: "absolute", left: 1204, top: 138, width: 216, height: 404,
+        position: "absolute", left: 1204, top: 200, width: 216, height: 380,
         border: "1px dashed rgba(255,255,255,0.1)", borderRadius: 12,
         pointerEvents: "none", ...fade(5),
       }}>
@@ -175,16 +175,16 @@ export const GomiOmsSection = ({
       </div>
 
       {/* NestJS 3-pod 원형 배지 수직 배열 */}
-      <div style={{ position: "absolute", left: 286, top: 260, width: 72, display: "flex", flexDirection: "column", alignItems: "center", gap: 12, ...fade(1) }}>
+      <div style={{ position: "absolute", left: 248, top: 148, width: 144, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, ...fade(1) }}>
         {[0, 1, 2].map((i) => (
           <div key={i} style={{
-            width: 72, height: 72, borderRadius: "50%",
+            width: 144, height: 144, borderRadius: "50%",
             background: "rgba(224,35,78,0.1)",
             border: "1.5px solid rgba(224,35,78,0.55)",
             display: "flex", alignItems: "center", justifyContent: "center",
             flexShrink: 0,
           }}>
-            <Image src="/icons/nest_icon.png" width={52} height={52} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+            <Image src="/icons/nest_icon.png" width={104} height={104} alt="NestJS Pod" style={{ objectFit: "contain" }} />
           </div>
         ))}
         <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", marginTop: 2 }}>
@@ -252,7 +252,7 @@ export const GomiOmsSection = ({
       <div style={{
         position: "absolute",
         left: 580 - 110,
-        top: 260 + R + 40,
+        top: 380 + R + 40,
         display: "flex", flexDirection: "column", gap: 4,
         ...fade(2),
       }}>

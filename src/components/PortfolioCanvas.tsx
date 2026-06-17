@@ -260,7 +260,7 @@ export const PortfolioCanvas = () => {
       </CanvasNode>
 
       {/* ── Gomi OMS Section ─────────────────────────────────────── */}
-      <CanvasNode x={2628} y={-427} width={1440} height={680}>
+      <CanvasNode x={2628} y={-447} width={1440} height={720}>
         <GomiOmsSection
           skipAnimation={gomiOmsReady}
           onAnimationComplete={() => setGomiOmsReady(true)}
