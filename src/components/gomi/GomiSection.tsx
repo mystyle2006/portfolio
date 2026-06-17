@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, CSSProperties } from "react";
+import { GomiAnimation } from "./GomiAnimation";
 
 const TITLE    = "Reducing Settlement Processing Time by Over 80%";
 const SUBTITLE = "Built in close collaboration with finance and operations teams to automate reconciliation and settlement workflows across multiple marketplaces.";
@@ -54,37 +55,48 @@ export const GomiSection = ({
   useEffect(() => {
     if (!contentVisible) return;
     onNavReady?.();
-    if (!notifiedRef.current) {
-      notifiedRef.current = true;
-      onAnimationComplete?.();
-    }
   }, [contentVisible]);
+
+  const handleAnimationComplete = () => {
+    if (notifiedRef.current) return;
+    notifiedRef.current = true;
+    onAnimationComplete?.();
+  };
+
+  const fadeUp = (delay: number): CSSProperties => ({
+    opacity:    contentVisible ? 1 : 0,
+    transform:  contentVisible ? "translateY(0)" : "translateY(16px)",
+    transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+  });
 
   return (
     <div
       className="w-[1440px] rounded-2xl overflow-hidden relative text-white flex"
       style={{ minHeight: "600px" }}
     >
+      {/* ── 좌측 텍스트 영역 ── */}
       <div
-        className="px-14 py-12 w-[860px] shrink-0 relative z-10 select-text"
+        className="px-14 py-12 w-[580px] shrink-0 relative z-10 select-text"
         onPointerDown={(e) => e.stopPropagation()}
       >
-        {/* title */}
-        <h1 className="text-[54px] font-extrabold leading-tight tracking-tight min-h-[1em]"
+        <h1 className="text-[48px] font-extrabold leading-tight tracking-tight min-h-[1em]"
           style={{ marginBottom: "20px" }}>
           {titleText}
           {phase === "title" && <Cursor visible={cursorVisible} />}
         </h1>
 
-        {/* subtitle */}
-        <p className="text-[15px] leading-relaxed text-zinc-400"
-          style={{
-            opacity:    contentVisible ? 1 : 0,
-            transform:  contentVisible ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 0.6s ease, transform 0.6s ease",
-          }}>
+        <p className="text-[15px] leading-relaxed text-zinc-400" style={fadeUp(0)}>
           {SUBTITLE}
         </p>
+      </div>
+
+      {/* ── 우측 애니메이션 영역 ── */}
+      <div className="flex-1 relative" style={{ padding: "16px 12px 16px 0" }}>
+        <GomiAnimation
+          active={contentVisible}
+          skipAnimation={skipAnimation}
+          onComplete={handleAnimationComplete}
+        />
       </div>
     </div>
   );
