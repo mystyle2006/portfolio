@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState, CSSProperties } from "react";
+import { useCanvas } from "../InfiniteCanvas";
 
 const TITLE    = "Reducing Settlement Processing Time by Over 80%";
 const SUBTITLE = "Built in close collaboration with finance and operations teams to automate reconciliation and settlement workflows across multiple marketplaces.";
 
-const KEYWORDS = [
-  { text: "Real-Time Multi-Channel Order Integration", color: "#60A5FA" },
+const KEYWORDS: { text: string; color: string; destination?: { x: number; y: number } }[] = [
+  { text: "Real-Time Multi-Channel Order Integration", color: "#60A5FA", destination: { x: 3348, y: -87 } },
   { text: "Batch Processing Scalability",              color: "#34D399" },
   { text: "Duplicate Settlement Prevention",           color: "#FBBF24" },
   { text: "OMS/WMS Data Consistency",                  color: "#A78BFA" },
@@ -34,6 +35,7 @@ export const GomiSection = ({
   const [contentVisible, setContentVisible] = useState(skipAnimation);
   const [kwPhase,        setKwPhase]        = useState(skipAnimation ? KEYWORDS.length - 1 : -1);
   const notifiedRef = useRef(false);
+  const { panTo } = useCanvas();
 
   useEffect(() => {
     const timer = setInterval(() => setCursorVisible((prev) => !prev), 530);
@@ -118,7 +120,7 @@ export const GomiSection = ({
         className="flex-1 flex flex-col justify-center"
         style={{ padding: "48px 48px 48px 24px", gap: "20px" }}
       >
-        {KEYWORDS.map(({ text, color }, i) => {
+        {KEYWORDS.map(({ text, color, destination }, i) => {
           const visible = kwPhase >= i;
           return (
             <div
@@ -150,6 +152,7 @@ export const GomiSection = ({
               </span>
               <button
                 onPointerDown={(e) => e.stopPropagation()}
+                onClick={() => destination && panTo(destination.x, destination.y)}
                 style={{
                   width: "32px",
                   height: "32px",
