@@ -37,12 +37,12 @@ type ArrowDef = {
 
 const ARROWS: ArrowDef[] = [
   // Sources → NestJS
-  { x1: 120, y1: 195, x2: 290, y2: 286, phase: 1 },
-  { x1: 120, y1: 315, x2: 290, y2: 338, phase: 1 },
-  { x1: 120, y1: 435, x2: 290, y2: 390, phase: 1 },
-  { x1: 120, y1: 555, x2: 290, y2: 438, phase: 1 },
+  { x1: 120, y1: 195, x2: 286, y2: 296, phase: 1 },
+  { x1: 120, y1: 315, x2: 286, y2: 343, phase: 1 },
+  { x1: 120, y1: 435, x2: 286, y2: 419, phase: 1 },
+  { x1: 120, y1: 555, x2: 286, y2: 464, phase: 1 },
   // NestJS → SQS
-  { x1: 354, y1: 362, x2: 548, y2: 260, phase: 2 },
+  { x1: 358, y1: 380, x2: 548, y2: 260, phase: 2 },
   // SQS → Lambda
   { x1: 612, y1: 260, x2: 768, y2: 260, phase: 3 },
   // Lambda → SNS
@@ -128,7 +128,7 @@ export const GomiOmsSection = ({
 
       {/* Kubernetes Cluster 박스 */}
       <div style={{
-        position: "absolute", left: 224, top: 245, width: 195, height: 264,
+        position: "absolute", left: 224, top: 245, width: 195, height: 310,
         border: "1.5px dashed rgba(50,108,229,0.4)", borderRadius: 12,
         pointerEvents: "none", ...fade(1),
       }}>
@@ -175,16 +175,16 @@ export const GomiOmsSection = ({
       </div>
 
       {/* NestJS 3-pod 원형 배지 수직 배열 */}
-      <div style={{ position: "absolute", left: 290, top: 254, width: 64, display: "flex", flexDirection: "column", alignItems: "center", gap: 12, ...fade(1) }}>
+      <div style={{ position: "absolute", left: 286, top: 260, width: 72, display: "flex", flexDirection: "column", alignItems: "center", gap: 12, ...fade(1) }}>
         {[0, 1, 2].map((i) => (
           <div key={i} style={{
-            width: 64, height: 64, borderRadius: "50%",
+            width: 72, height: 72, borderRadius: "50%",
             background: "rgba(224,35,78,0.1)",
             border: "1.5px solid rgba(224,35,78,0.55)",
             display: "flex", alignItems: "center", justifyContent: "center",
             flexShrink: 0,
           }}>
-            <Image src="/icons/nest_icon.png" width={40} height={40} alt="NestJS Pod" style={{ objectFit: "contain" }} />
+            <Image src="/icons/nest_icon.png" width={52} height={52} alt="NestJS Pod" style={{ objectFit: "contain" }} />
           </div>
         ))}
         <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", marginTop: 2 }}>
