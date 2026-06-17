@@ -145,7 +145,6 @@ export const GomiSection = ({
                 color: "rgba(255,255,255,0.88)",
                 letterSpacing: "-0.01em",
                 lineHeight: 1.3,
-                flex: 1,
               }}>
                 {text}
               </span>
