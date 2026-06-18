@@ -15,6 +15,7 @@ import { WashswatDeploySection } from "./washswat/WashswatDeploySection";
 import { GomiSection } from "./gomi/GomiSection";
 import { GomiOmsSection } from "./gomi/GomiOmsSection";
 import { GomiWorkerSection } from "./gomi/GomiWorkerSection";
+import { GomiDuplicateSection } from "./gomi/GomiDuplicateSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -126,7 +127,8 @@ export const PortfolioCanvas = () => {
   const [deployReady, setDeployReady]           = useState(false);
   const [gomiReady,   setGomiReady]             = useState(false);
   const [gomiOmsReady, setGomiOmsReady]         = useState(false);
-  const [gomiWorkerReady, setGomiWorkerReady]   = useState(false);
+  const [gomiWorkerReady,    setGomiWorkerReady]    = useState(false);
+  const [gomiDuplicateReady, setGomiDuplicateReady] = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
   const [lawformReady, setLawformReady]             = useState(false);
   const [lawformNavReady, setLawformNavReady]       = useState(false);
@@ -280,6 +282,14 @@ export const PortfolioCanvas = () => {
       {/* ── Gomi Worker 좌측 네비게이션 ──────────────────────────── */}
       <CanvasNode x={2713} y={941}>
         <CanvasNavButton label="" destination={{ x: 1596, y: 761 }} arrow="left" labelSide="right" visible={gomiWorkerReady} />
+      </CanvasNode>
+
+      {/* ── Gomi Duplicate Section ───────────────────────────────── */}
+      <CanvasNode x={2664} y={1831} width={1440} height={680}>
+        <GomiDuplicateSection
+          skipAnimation={gomiDuplicateReady}
+          onAnimationComplete={() => setGomiDuplicateReady(true)}
+        />
       </CanvasNode>
 
       {/* ── Gomi 좌측 상단 네비게이션 ────────────────────────────── */}
