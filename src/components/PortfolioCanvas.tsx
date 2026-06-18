@@ -277,6 +277,11 @@ export const PortfolioCanvas = () => {
         />
       </CanvasNode>
 
+      {/* ── Gomi Worker 좌측 네비게이션 ──────────────────────────── */}
+      <CanvasNode x={2713} y={941}>
+        <CanvasNavButton label="" destination={{ x: 1596, y: 761 }} arrow="left" labelSide="right" visible={gomiWorkerReady} />
+      </CanvasNode>
+
       {/* ── Gomi 좌측 상단 네비게이션 ────────────────────────────── */}
       <CanvasNode x={766} y={381}>
         <CanvasNavButton label="" destination={{ x: 80, y: 10 }} arrow="up-left" labelSide="right" visible={gomiReady} />
