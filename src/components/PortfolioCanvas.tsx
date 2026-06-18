@@ -14,6 +14,7 @@ import { WashswatSection } from "./washswat/WashswatSection";
 import { WashswatDeploySection } from "./washswat/WashswatDeploySection";
 import { GomiSection } from "./gomi/GomiSection";
 import { GomiOmsSection } from "./gomi/GomiOmsSection";
+import { GomiWorkerSection } from "./gomi/GomiWorkerSection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -125,6 +126,7 @@ export const PortfolioCanvas = () => {
   const [deployReady, setDeployReady]           = useState(false);
   const [gomiReady,   setGomiReady]             = useState(false);
   const [gomiOmsReady, setGomiOmsReady]         = useState(false);
+  const [gomiWorkerReady, setGomiWorkerReady]   = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
   const [lawformReady, setLawformReady]             = useState(false);
   const [lawformNavReady, setLawformNavReady]       = useState(false);
@@ -264,6 +266,14 @@ export const PortfolioCanvas = () => {
         <GomiOmsSection
           skipAnimation={gomiOmsReady}
           onAnimationComplete={() => setGomiOmsReady(true)}
+        />
+      </CanvasNode>
+
+      {/* ── Gomi Worker Section ──────────────────────────────────── */}
+      <CanvasNode x={2783} y={623} width={1440} height={680}>
+        <GomiWorkerSection
+          skipAnimation={gomiWorkerReady}
+          onAnimationComplete={() => setGomiWorkerReady(true)}
         />
       </CanvasNode>
 
