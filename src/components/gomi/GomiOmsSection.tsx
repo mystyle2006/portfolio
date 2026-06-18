@@ -252,7 +252,7 @@ export const GomiOmsSection = ({
       <div style={{
         position: "absolute",
         left: 580 - 110,
-        top: 380 + R + 40,
+        top: 120 + 500 - 20 - (3 * 11 + 2 * 4),
         display: "flex", flexDirection: "column", gap: 4,
         ...fade(2),
       }}>
