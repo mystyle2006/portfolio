@@ -113,7 +113,7 @@ export const GomiOmsSection = ({
 
       {/* Webhook Sources 그룹 박스 */}
       <div style={{
-        position: "absolute", left: 24, top: 130, width: 132, height: 490,
+        position: "absolute", left: 24, top: 120, width: 132, height: 500,
         border: "1px dashed rgba(255,255,255,0.12)", borderRadius: 12,
         pointerEvents: "none", ...fade(0),
       }}>
@@ -128,7 +128,7 @@ export const GomiOmsSection = ({
 
       {/* Kubernetes Cluster 박스 */}
       <div style={{
-        position: "absolute", left: 214, top: 120, width: 222, height: 440,
+        position: "absolute", left: 214, top: 120, width: 222, height: 500,
         border: "1.5px dashed rgba(50,108,229,0.4)", borderRadius: 12,
         pointerEvents: "none", ...fade(1),
       }}>
@@ -144,7 +144,7 @@ export const GomiOmsSection = ({
 
       {/* AWS Cloud 박스 */}
       <div style={{
-        position: "absolute", left: 446, top: 318, width: 748, height: 218,
+        position: "absolute", left: 446, top: 120, width: 748, height: 500,
         border: "1.5px dashed rgba(255,153,0,0.3)", borderRadius: 14,
         pointerEvents: "none", ...fade(2),
       }}>
@@ -161,7 +161,7 @@ export const GomiOmsSection = ({
 
       {/* Downstream 박스 */}
       <div style={{
-        position: "absolute", left: 1204, top: 200, width: 216, height: 380,
+        position: "absolute", left: 1204, top: 120, width: 216, height: 500,
         border: "1px dashed rgba(255,255,255,0.1)", borderRadius: 12,
         pointerEvents: "none", ...fade(5),
       }}>
