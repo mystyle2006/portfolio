@@ -16,6 +16,7 @@ import { GomiSection } from "./gomi/GomiSection";
 import { GomiOmsSection } from "./gomi/GomiOmsSection";
 import { GomiWorkerSection } from "./gomi/GomiWorkerSection";
 import { GomiDuplicateSection } from "./gomi/GomiDuplicateSection";
+import { GomiConsistencySection } from "./gomi/GomiConsistencySection";
 
 /* ── CanvasNavButton ─────────────────────────────────────────────────── */
 
@@ -127,8 +128,9 @@ export const PortfolioCanvas = () => {
   const [deployReady, setDeployReady]           = useState(false);
   const [gomiReady,   setGomiReady]             = useState(false);
   const [gomiOmsReady, setGomiOmsReady]         = useState(false);
-  const [gomiWorkerReady,    setGomiWorkerReady]    = useState(false);
-  const [gomiDuplicateReady, setGomiDuplicateReady] = useState(false);
+  const [gomiWorkerReady,      setGomiWorkerReady]      = useState(false);
+  const [gomiDuplicateReady,   setGomiDuplicateReady]   = useState(false);
+  const [gomiConsistencyReady, setGomiConsistencyReady] = useState(false);
   const [hamReady, setHamReady]                     = useState(false);
   const [lawformReady, setLawformReady]             = useState(false);
   const [lawformNavReady, setLawformNavReady]       = useState(false);
@@ -295,6 +297,19 @@ export const PortfolioCanvas = () => {
       {/* ── Gomi Duplicate 좌측 상단 네비게이션 ─────────────────── */}
       <CanvasNode x={2594} y={1761}>
         <CanvasNavButton label="" destination={{ x: 1596, y: 761 }} arrow="up-left" labelSide="right" visible={gomiDuplicateReady} />
+      </CanvasNode>
+
+      {/* ── Gomi Consistency Section ─────────────────────────────── */}
+      <CanvasNode x={2622} y={3003} width={1440} height={680}>
+        <GomiConsistencySection
+          skipAnimation={gomiConsistencyReady}
+          onAnimationComplete={() => setGomiConsistencyReady(true)}
+        />
+      </CanvasNode>
+
+      {/* ── Gomi Consistency 좌측 상단 네비게이션 ────────────────── */}
+      <CanvasNode x={2552} y={2943}>
+        <CanvasNavButton label="" destination={{ x: 1596, y: 761 }} arrow="up-left" labelSide="right" visible={gomiConsistencyReady} />
       </CanvasNode>
 
       {/* ── Gomi 좌측 상단 네비게이션 ────────────────────────────── */}

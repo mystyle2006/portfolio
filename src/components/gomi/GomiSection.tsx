@@ -10,7 +10,7 @@ const KEYWORDS: { text: string; color: string; destination?: { x: number; y: num
   { text: "Real-Time Multi-Channel Order Integration", color: "#60A5FA", destination: { x: 3348, y: -87 } },
   { text: "Order Processing Scalability",              color: "#34D399", destination: { x: 3503, y: 963 } },
   { text: "Duplicate Settlement Prevention",           color: "#FBBF24", destination: { x: 3384, y: 2171 } },
-  { text: "OMS/WMS Data Consistency",                  color: "#A78BFA" },
+  { text: "OMS/WMS Data Consistency",                  color: "#A78BFA", destination: { x: 3342, y: 3343 } },
 ];
 
 const Cursor = ({ visible }: { visible: boolean }) => (
