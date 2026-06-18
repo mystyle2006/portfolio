@@ -2,7 +2,6 @@
 
 import { useEffect, useState, CSSProperties } from "react";
 import Image from "next/image";
-import { useCanvas } from "../InfiniteCanvas";
 
 const W = 1440;
 const H = 680;
@@ -46,7 +45,6 @@ export const GomiWorkerSection = ({
   onAnimationComplete?: () => void;
   skipAnimation?: boolean;
 }) => {
-  const { panTo } = useCanvas();
   const [phase, setPhase] = useState(skipAnimation ? MAX_PHASE : -1);
 
   useEffect(() => {
@@ -269,25 +267,6 @@ export const GomiWorkerSection = ({
         </div>
       ))}
 
-      {/* 뒤로가기 버튼 */}
-      <button
-        onClick={() => panTo(3348, -87)}
-        onPointerDown={(e) => e.stopPropagation()}
-        style={{
-          position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
-          width: 44, height: 44, borderRadius: "50%",
-          background: "#ffffff", border: "none", cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-          transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = "translateX(-50%) scale(1.1)")}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = "translateX(-50%) scale(1)")}
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M13 3L3 13M3 13H9M3 13V7" stroke="#09090b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
     </div>
   );
 };
