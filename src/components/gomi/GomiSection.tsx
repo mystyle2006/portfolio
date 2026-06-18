@@ -8,7 +8,6 @@ const SUBTITLE = "Built in close collaboration with finance and operations teams
 
 const KEYWORDS: { text: string; color: string; destination?: { x: number; y: number } }[] = [
   { text: "Real-Time Multi-Channel Order Integration", color: "#60A5FA", destination: { x: 3348, y: -87 } },
-  { text: "Batch Processing Scalability",              color: "#34D399" },
   { text: "Duplicate Settlement Prevention",           color: "#FBBF24" },
   { text: "OMS/WMS Data Consistency",                  color: "#A78BFA" },
 ];
