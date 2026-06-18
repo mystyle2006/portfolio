@@ -187,12 +187,6 @@ export const GomiOmsSection = ({
             <Image src="/icons/nest_icon.png" width={78} height={78} alt="NestJS Pod" style={{ objectFit: "contain" }} />
           </div>
         ))}
-        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", marginTop: 2 }}>
-          NestJS
-        </span>
-        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", whiteSpace: "nowrap", marginTop: -6 }}>
-          Webhook Server
-        </span>
       </div>
 
       {/* SVG 화살표 */}
