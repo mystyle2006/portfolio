@@ -150,7 +150,7 @@ export const GomiConsistencySection = ({
           </div>
         </div>
         <p style={{ fontSize: 15, color: "rgba(255,255,255,0.38)", marginTop: 7, lineHeight: 1.6 }}>
-          OMS와 WMS의 주문 상태를 비교하여 불일치가 발견되면, Marketplace 원본 데이터를 기준으로 내부 시스템을 동기화하고 필요 시 알림을 발송합니다.
+          When a mismatch is detected between OMS and WMS order states, the Marketplace is used as the source of truth to reconcile both systems — and an internal alert is triggered when needed.
         </p>
       </div>
 
@@ -171,10 +171,10 @@ export const GomiConsistencySection = ({
             STEP 1
           </div>
           <div style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.85)", marginBottom: 3 }}>
-            OMS vs WMS 비교
+            OMS vs WMS Comparison
           </div>
           <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>
-            두 시스템의 주문 상태가 동일한지 확인
+            Verify that both internal systems have consistent order states
           </div>
         </div>
 
@@ -211,10 +211,10 @@ export const GomiConsistencySection = ({
                 <Image key={i} src={src} width={14} height={14} alt="" style={{ objectFit: "contain" }} />
               ))}
             </div>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Marketplace 원본 조회</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Fetch Marketplace Source</span>
           </div>
           <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>
-            각 플랫폼의 원본 상태를 Source of Truth로 사용
+            Pull the original order state from each platform as the source of truth
           </div>
         </div>
 
@@ -237,10 +237,10 @@ export const GomiConsistencySection = ({
             STEP 3
           </div>
           <div style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.85)", marginBottom: 3 }}>
-            Reconcile &amp; 알림 발송
+            Reconcile &amp; Notify
           </div>
           <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>
-            OMS/WMS 상태 보정 · 필요 시 내부 알림 전송
+            Correct the out-of-sync system · send an internal alert if needed
           </div>
         </div>
       </div>
@@ -352,7 +352,7 @@ export const GomiConsistencySection = ({
                   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                     <Chip status={mkt} />
                     <span style={{ fontSize: 10, color: "rgba(251,191,36,0.55)", fontWeight: 500 }}>
-                      원본 기준으로 보정
+                      used as correction reference
                     </span>
                   </div>
                 ) : (
