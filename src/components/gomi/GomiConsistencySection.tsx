@@ -7,8 +7,19 @@ const W = 1440;
 const H = 680;
 const MAX_PHASE = 3;
 
-const ICON = 56;
-const R    = ICON / 2;
+const STATUS_COLOR: Record<string, string> = {
+  SHIPPED:   "#34D399",
+  DELIVERED: "#60A5FA",
+  CANCELLED: "#9CA3AF",
+  PENDING:   "#FBBF24",
+};
+
+const ROWS = [
+  { id: "TK-28391", oms: "SHIPPED",   mkt: "SHIPPED",   wms: "SHIPPED",   ok: true  },
+  { id: "LA-90234", oms: "CANCELLED", mkt: "CANCELLED", wms: "CANCELLED", ok: true  },
+  { id: "SH-47821", oms: "SHIPPED",   mkt: "PENDING",   wms: "SHIPPED",   ok: false },
+  { id: "GM-12009", oms: "DELIVERED", mkt: "DELIVERED", wms: "DELIVERED", ok: true  },
+];
 
 const PLATFORM_ICONS = [
   "/icons/tiki_icon.png",
@@ -17,26 +28,19 @@ const PLATFORM_ICONS = [
   "/icons/gomimall_icon.png",
 ];
 
-const RECON_STEPS = [
-  { step: "01", text: "Fetch latest order records from OMS",                      color: "#60A5FA" },
-  { step: "02", text: "Fetch current inventory state from WMS",                   color: "#34D399" },
-  { step: "03", text: "Pull order statuses from each Marketplace API",            color: "#FBBF24" },
-  { step: "04", text: "3-way comparison  ·  OMS ↔ WMS ↔ Marketplace",            color: "#A78BFA" },
-  { step: "05", text: "Detect discrepancies and apply corrections automatically", color: "#F87171" },
-];
-
-const OUTCOMES = [
-  { icon: "✓", label: "All Match",          sub: "No action required",              color: "#34D399" },
-  { icon: "↻", label: "OMS / WMS Mismatch", sub: "Re-sync from authoritative source", color: "#FBBF24" },
-  { icon: "⚠", label: "Marketplace Gap",    sub: "Update status + trigger alert",   color: "#F87171" },
-];
-
-// Source node centers
-const SRC_CX = 40 + 140; // 180
-const SRC_NODES = [
-  { icon: "/icons/client_icon.png", label: "OMS",         sub: "Order Mgmt",   cy: 220 },
-  { icon: "/icons/truck.png",       label: "WMS",         sub: "Warehouse",    cy: 370 },
-];
+const StatusChip = ({ status, highlight = false }: { status: string; highlight?: boolean }) => (
+  <span style={{
+    display: "inline-block",
+    padding: "4px 10px", borderRadius: 6,
+    background: `${STATUS_COLOR[status]}${highlight ? "28" : "18"}`,
+    border: `1px solid ${STATUS_COLOR[status]}${highlight ? "70" : "40"}`,
+    color: STATUS_COLOR[status],
+    fontSize: 12, fontWeight: 700, letterSpacing: "0.04em",
+    boxShadow: highlight ? `0 0 10px ${STATUS_COLOR[status]}30` : "none",
+  }}>
+    {status}
+  </span>
+);
 
 export const GomiConsistencySection = ({
   onAnimationComplete,
@@ -52,10 +56,10 @@ export const GomiConsistencySection = ({
     const t = [
       setTimeout(() => setPhase(0),  200),
       setTimeout(() => setPhase(1),  700),
-      setTimeout(() => setPhase(2), 1300),
+      setTimeout(() => setPhase(2), 1200),
       setTimeout(() => setPhase(3), 1900),
     ];
-    t.push(setTimeout(() => onAnimationComplete?.(), 2600));
+    t.push(setTimeout(() => onAnimationComplete?.(), 2700));
     return () => t.forEach(clearTimeout);
   }, [skipAnimation]);
 
@@ -66,8 +70,8 @@ export const GomiConsistencySection = ({
 
   const slideUp = (p: number, delay = 0): CSSProperties => ({
     opacity: phase >= p ? 1 : 0,
-    transform: phase >= p ? "translateY(0)" : "translateY(12px)",
-    transition: `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms`,
+    transform: phase >= p ? "translateY(0)" : "translateY(10px)",
+    transition: `opacity 0.45s ease ${delay}ms, transform 0.45s ease ${delay}ms`,
   });
 
   return (
@@ -75,202 +79,218 @@ export const GomiConsistencySection = ({
       style={{ width: W, height: H, position: "relative", color: "#fff", borderRadius: 20 }}
       onPointerDown={(e) => e.stopPropagation()}
     >
-      {/* 제목 */}
-      <div style={{ position: "absolute", left: 40, top: 0, ...fade(0) }}>
-        <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>
-          OMS / WMS Data Consistency
-        </h2>
-        <p style={{ fontSize: 16, color: "rgba(255,255,255,0.38)", marginTop: 6 }}>
-          Order data flows across multiple marketplaces, OMS, and WMS — each maintaining its own state. <br />
-          A nightly reconciliation job runs at 03:00 AM to detect and correct any discrepancies automatically.
+      {/* ─ 제목 ─ */}
+      <div style={{ position: "absolute", left: 40, top: 0, right: 40, ...fade(0) }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <h2 style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>
+            OMS / WMS Data Consistency
+          </h2>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 6, flexShrink: 0,
+            background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.3)",
+            borderRadius: 8, padding: "5px 12px",
+          }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="#A78BFA" strokeWidth="1.8" />
+              <path d="M12 7v5l3 3" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(167,139,250,0.9)", letterSpacing: "0.05em" }}>
+              Daily · 03:00 AM
+            </span>
+          </div>
+        </div>
+        <p style={{ fontSize: 15, color: "rgba(255,255,255,0.38)", marginTop: 7, lineHeight: 1.6 }}>
+          Each marketplace, OMS, and WMS maintains its own order state. A nightly Reconciliation job
+          performs a 3-way comparison to detect and auto-correct any discrepancies.
         </p>
       </div>
 
-      {/* ── Data Sources 박스 ── */}
+      {/* ─ 비교 테이블 ─ */}
       <div style={{
-        position: "absolute", left: 40, top: 120, width: 280, height: 500,
-        border: "1px dashed rgba(255,255,255,0.12)", borderRadius: 14,
-        pointerEvents: "none", ...fade(0),
+        position: "absolute", left: 40, top: 120, width: W - 80,
+        border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14,
+        overflow: "hidden",
+        ...fade(0),
       }}>
-        <span style={{
-          position: "absolute", top: -11, left: 10,
-          background: "#0f1117", padding: "0 6px",
-          fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.3)",
-        }}>
-          Data Sources
-        </span>
-      </div>
 
-      {/* OMS / WMS 노드 */}
-      {SRC_NODES.map((node) => (
-        <div key={node.label} style={{
-          position: "absolute",
-          left: SRC_CX - R,
-          top: node.cy - R,
-          width: ICON,
-          display: "flex", flexDirection: "column", alignItems: "center",
+        {/* 시스템 헤더 */}
+        <div style={{
+          display: "flex",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          background: "rgba(255,255,255,0.025)",
           ...fade(1),
         }}>
-          <Image src={node.icon} width={ICON} height={ICON} alt={node.label} style={{ objectFit: "contain" }} />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)", marginTop: 5, whiteSpace: "nowrap" }}>{node.label}</span>
-          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", marginTop: 2, whiteSpace: "nowrap" }}>{node.sub}</span>
-        </div>
-      ))}
+          {/* Order ID 컬럼 */}
+          <div style={{ flex: "0 0 170px", padding: "16px 20px 16px 24px", display: "flex", alignItems: "flex-end" }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.22)", letterSpacing: "0.08em" }}>
+              ORDER ID
+            </span>
+          </div>
 
-      {/* Marketplace 플랫폼 아이콘들 */}
-      <div style={{
-        position: "absolute", left: 56, top: 478,
-        width: 248,
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-        ...fade(1),
-      }}>
-        <div style={{ display: "flex", gap: 10 }}>
-          {PLATFORM_ICONS.map((icon, i) => (
-            <Image key={i} src={icon} width={36} height={36} alt="Platform" style={{ objectFit: "contain" }} />
-          ))}
-        </div>
-        <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.82)" }}>Marketplace</span>
-        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.38)" }}>Tiki · Lazada · Shopee · GomiMall</span>
-      </div>
-
-      {/* ── SVG 화살표 ── */}
-      <svg
-        style={{ position: "absolute", inset: 0, width: W, height: H, pointerEvents: "none" }}
-        viewBox={`0 0 ${W} ${H}`}
-      >
-        <defs>
-          <marker id="gcon-ah" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L7,3 z" fill="rgba(255,255,255,0.28)" />
-          </marker>
-        </defs>
-
-        {/* Sources → Reconciliation */}
-        {[220, 370, 508].map((cy) => (
-          <path
-            key={cy}
-            d={`M 320 ${cy} C 348 ${cy}, 352 370, 380 370`}
-            stroke="rgba(255,255,255,0.15)" strokeWidth={1.5}
-            fill="none" markerEnd="url(#gcon-ah)"
-            style={{ opacity: phase >= 2 ? 1 : 0, transition: "opacity 0.5s ease" }}
-          />
-        ))}
-
-        {/* Reconciliation → Outcomes */}
-        {[230, 370, 510].map((cy) => (
-          <path
-            key={cy}
-            d={`M 940 370 C 968 370, 972 ${cy}, 1000 ${cy}`}
-            stroke="rgba(255,255,255,0.15)" strokeWidth={1.5}
-            fill="none" markerEnd="url(#gcon-ah)"
-            style={{ opacity: phase >= 3 ? 1 : 0, transition: "opacity 0.5s ease" }}
-          />
-        ))}
-      </svg>
-
-      {/* ── Reconciliation Engine 박스 ── */}
-      <div style={{
-        position: "absolute", left: 380, top: 120, width: 560, height: 500,
-        border: "1.5px dashed rgba(167,139,250,0.35)", borderRadius: 14,
-        pointerEvents: "none", ...fade(0),
-      }}>
-        <div style={{
-          position: "absolute", top: -12, left: 14,
-          background: "#0f1117", padding: "0 8px",
-          fontSize: 11, fontWeight: 600, color: "rgba(167,139,250,0.75)",
-        }}>
-          Reconciliation Engine
-        </div>
-      </div>
-
-      {/* Reconciliation 내용 */}
-      <div style={{ position: "absolute", left: 408, top: 148, width: 504 }}>
-        {/* 스케줄 뱃지 */}
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 24,
-          background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.3)",
-          borderRadius: 8, padding: "6px 14px",
-          ...fade(2),
-        }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="#A78BFA" strokeWidth="1.8" />
-            <path d="M12 7v5l3 3" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-          <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(167,139,250,0.9)", letterSpacing: "0.04em" }}>
-            Daily · 03:00 AM
-          </span>
-          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.32)" }}>Scheduled Batch Job</span>
-        </div>
-
-        {/* 단계 목록 */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {RECON_STEPS.map(({ step, text, color }, i) => (
-            <div key={step} style={{
-              display: "flex", alignItems: "flex-start", gap: 12,
-              opacity: phase >= 2 ? 1 : 0,
-              transform: phase >= 2 ? "translateY(0)" : "translateY(10px)",
-              transition: `opacity 0.4s ease ${i * 90}ms, transform 0.4s ease ${i * 90}ms`,
-            }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: 7, flexShrink: 0,
-                background: `${color}18`, border: `1px solid ${color}40`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 10, fontWeight: 700, color,
-              }}>
-                {step}
-              </div>
-              <span style={{ fontSize: 14, color: "rgba(255,255,255,0.68)", lineHeight: 1.5, paddingTop: 4 }}>
-                {text}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Resolution 박스 ── */}
-      <div style={{
-        position: "absolute", left: 1000, top: 120, width: 400, height: 500,
-        border: "1px dashed rgba(255,255,255,0.1)", borderRadius: 14,
-        pointerEvents: "none", ...fade(0),
-      }}>
-        <span style={{
-          position: "absolute", top: -11, left: 10,
-          background: "#0f1117", padding: "0 6px",
-          fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.3)",
-        }}>
-          Resolution
-        </span>
-      </div>
-
-      {/* Outcome 항목들 */}
-      {OUTCOMES.map(({ icon, label, sub, color }, i) => {
-        const cy = [230, 370, 510][i];
-        return (
-          <div key={label} style={{
-            position: "absolute",
-            left: 1020, top: cy - 22,
-            width: 360,
-            display: "flex", alignItems: "center", gap: 14,
-            ...slideUp(3, i * 100),
+          {/* OMS 컬럼 헤더 */}
+          <div style={{
+            flex: "1 1 0", padding: "14px 20px",
+            borderLeft: "1px solid rgba(255,255,255,0.06)",
+            borderTop: "2px solid rgba(96,165,250,0.7)",
           }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: 11, flexShrink: 0,
-              background: `${color}12`, border: `1px solid ${color}35`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 18, color,
-            }}>
-              {icon}
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
+              <Image src="/icons/client_icon.png" width={22} height={22} alt="OMS" style={{ objectFit: "contain" }} />
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#60A5FA" }}>OMS</span>
             </div>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.85)", marginBottom: 3 }}>
-                {label}
-              </div>
-              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", lineHeight: 1.4 }}>
-                {sub}
-              </div>
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.28)" }}>Order Management System</span>
+          </div>
+
+          {/* Marketplace 컬럼 헤더 */}
+          <div style={{
+            flex: "1 1 0", padding: "14px 20px",
+            borderLeft: "1px solid rgba(255,255,255,0.06)",
+            borderTop: "2px solid rgba(251,191,36,0.7)",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 3 }}>
+              {PLATFORM_ICONS.map((src, i) => (
+                <Image key={i} src={src} width={18} height={18} alt="Platform" style={{ objectFit: "contain" }} />
+              ))}
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#FBBF24", marginLeft: 4 }}>Marketplace</span>
+            </div>
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.28)" }}>Tiki · Lazada · Shopee · GomiMall</span>
+          </div>
+
+          {/* WMS 컬럼 헤더 */}
+          <div style={{
+            flex: "1 1 0", padding: "14px 20px",
+            borderLeft: "1px solid rgba(255,255,255,0.06)",
+            borderTop: "2px solid rgba(52,211,153,0.7)",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
+              <Image src="/icons/truck.png" width={22} height={22} alt="WMS" style={{ objectFit: "contain" }} />
+              <span style={{ fontSize: 13, fontWeight: 700, color: "#34D399" }}>WMS</span>
+            </div>
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.28)" }}>Warehouse Management System</span>
+          </div>
+
+          {/* Match 컬럼 헤더 */}
+          <div style={{
+            flex: "0 0 120px", padding: "16px 20px",
+            borderLeft: "1px solid rgba(255,255,255,0.06)",
+            display: "flex", alignItems: "flex-end",
+          }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.22)", letterSpacing: "0.08em" }}>
+              MATCH
+            </span>
+          </div>
+        </div>
+
+        {/* 데이터 행 */}
+        {ROWS.map(({ id, oms, mkt, wms, ok }, i) => (
+          <div key={id} style={{
+            display: "flex", alignItems: "stretch",
+            borderBottom: i < ROWS.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+            background: !ok ? "rgba(248,113,113,0.05)" : "transparent",
+            borderLeft: !ok ? "3px solid rgba(248,113,113,0.5)" : "3px solid transparent",
+            ...slideUp(2, i * 70),
+          }}>
+            {/* Order ID */}
+            <div style={{ flex: "0 0 167px", padding: "20px 20px 20px 21px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <span style={{
+                fontSize: 12, fontFamily: "ui-monospace, monospace",
+                color: !ok ? "#F87171" : "rgba(255,255,255,0.48)",
+                fontWeight: !ok ? 600 : 400,
+              }}>
+                {id}
+              </span>
+              {!ok && (
+                <span style={{ fontSize: 10, color: "rgba(248,113,113,0.65)", marginTop: 4 }}>
+                  ⚠ discrepancy
+                </span>
+              )}
+            </div>
+
+            {/* OMS */}
+            <div style={{
+              flex: "1 1 0", padding: "20px",
+              borderLeft: "1px solid rgba(255,255,255,0.04)",
+              display: "flex", alignItems: "center",
+            }}>
+              <StatusChip status={oms} />
+            </div>
+
+            {/* Marketplace */}
+            <div style={{
+              flex: "1 1 0", padding: "20px",
+              borderLeft: "1px solid rgba(255,255,255,0.04)",
+              display: "flex", flexDirection: "column", justifyContent: "center",
+            }}>
+              <StatusChip status={mkt} highlight={!ok} />
+              {!ok && (
+                <span style={{ fontSize: 10, color: "#FBBF24", marginTop: 6, fontWeight: 500 }}>
+                  ← differs from OMS &amp; WMS
+                </span>
+              )}
+            </div>
+
+            {/* WMS */}
+            <div style={{
+              flex: "1 1 0", padding: "20px",
+              borderLeft: "1px solid rgba(255,255,255,0.04)",
+              display: "flex", alignItems: "center",
+            }}>
+              <StatusChip status={wms} />
+            </div>
+
+            {/* Match */}
+            <div style={{
+              flex: "0 0 120px", padding: "20px",
+              borderLeft: "1px solid rgba(255,255,255,0.04)",
+              display: "flex", alignItems: "center",
+            }}>
+              {ok
+                ? <span style={{ fontSize: 16, color: "#34D399" }}>✓</span>
+                : <span style={{ fontSize: 12, fontWeight: 700, color: "#F87171" }}>✗</span>
+              }
             </div>
           </div>
-        );
-      })}
+        ))}
+
+        {/* 결과 / 수정 바 */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: 14,
+          padding: "15px 24px",
+          background: "rgba(167,139,250,0.05)",
+          borderTop: "1px solid rgba(167,139,250,0.12)",
+          ...slideUp(3),
+        }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 5, flexShrink: 0,
+            background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.28)",
+            borderRadius: 7, padding: "4px 10px",
+          }}>
+            <span style={{ fontSize: 11, color: "#F87171", fontWeight: 700 }}>1 discrepancy detected</span>
+          </div>
+
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+
+          <span style={{ fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
+            <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 12 }}>SH-47821</span>
+            {" "}Marketplace status auto-synced:{" "}
+            <span style={{ color: "#FBBF24", fontWeight: 600 }}>PENDING</span>
+            {" → "}
+            <span style={{ color: "#34D399", fontWeight: 600 }}>SHIPPED</span>
+          </span>
+
+          <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 5,
+              background: "rgba(52,211,153,0.08)", border: "1px solid rgba(52,211,153,0.2)",
+              borderRadius: 7, padding: "4px 10px",
+            }}>
+              <span style={{ fontSize: 11, color: "#34D399", fontWeight: 600 }}>✓ sync complete</span>
+            </div>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>03:02 AM · 0 errors</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
