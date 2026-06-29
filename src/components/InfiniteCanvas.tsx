@@ -20,7 +20,7 @@ interface CanvasContextValue {
   subscribeViewport: (listener: (vp: Viewport) => void) => () => void;
 }
 
-const CanvasContext = createContext<CanvasContextValue | null>(null);
+export const CanvasContext = createContext<CanvasContextValue | null>(null);
 
 export const useCanvas = (): CanvasContextValue => {
   const ctx = useContext(CanvasContext);
@@ -192,6 +192,25 @@ export const InfiniteCanvas = ({ children }: { children?: React.ReactNode }) => 
 
     requestAnimationFrame(animate);
   }, [applyCamera]);
+
+  /* 캔버스 활성 시 body/html 스크롤 차단, 언마운트 시 복원 */
+  useEffect(() => {
+    const html = document.documentElement;
+    const prevHtml  = html.style.overflow;
+    const prevBody  = document.body.style.overflow;
+    const prevHtmlH = html.style.height;
+    const prevBodyH = document.body.style.height;
+    html.style.overflow  = "hidden";
+    html.style.height    = "100%";
+    document.body.style.overflow = "hidden";
+    document.body.style.height   = "100%";
+    return () => {
+      html.style.overflow  = prevHtml;
+      html.style.height    = prevHtmlH;
+      document.body.style.overflow = prevBody;
+      document.body.style.height   = prevBodyH;
+    };
+  }, []);
 
   /* init */
   useEffect(() => {
