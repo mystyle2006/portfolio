@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Inho Lee — Portfolio",
-  description: "Full-Stack Engineer",
+  description: "Backend Engineer",
 };
 
 export default function RootLayout({

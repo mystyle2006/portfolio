@@ -43,7 +43,7 @@ export const ProfileCard = () => (
           <h2 className="text-[16px] font-semibold tracking-tight leading-snug">
             Inho Lee
           </h2>
-          <p className="text-[13px] text-zinc-400 mt-0.5">Full-Stack Engineer</p>
+          <p className="text-[13px] text-zinc-400 mt-0.5">Backend Engineer</p>
           <p className="text-[11px] text-zinc-600 mt-1">
             Toronto, ON · 7 yrs exp
           </p>
@@ -52,7 +52,7 @@ export const ProfileCard = () => (
 
       {/* ── Bio ── */}
       <p className="text-[13px] text-zinc-500 leading-[1.7]">
-        <Keyword>Full-stack engineer</Keyword> with <Keyword>7 years</Keyword> building
+        <Keyword>Backend engineer</Keyword> with <Keyword>7 years</Keyword> building
         scalable services across e-commerce, SaaS, and consumer apps.
         Focused on <Keyword>system performance</Keyword>,{" "}
         <Keyword>cloud-native AWS</Keyword> architectures, and{" "}

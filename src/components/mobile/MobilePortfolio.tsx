@@ -263,7 +263,7 @@ const MobileProfileSection = () => (
       />
       <div>
         <h1 className="text-xl font-bold tracking-tight text-white">INHO LEE</h1>
-        <p className="text-xs text-zinc-400 mt-0.5">Full-Stack Engineer · Toronto, ON</p>
+        <p className="text-xs text-zinc-400 mt-0.5">Backend Engineer · Toronto, ON</p>
       </div>
     </div>
 

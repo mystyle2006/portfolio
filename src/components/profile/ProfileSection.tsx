@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const NAME     = "INHO LEE";
-const SUBTITLE = "Full-Stack Engineer  ·  Toronto, ON";
+const SUBTITLE = "Backend Engineer  ·  Toronto, ON";
 
 const SOCIAL_LINKS = [
   {
